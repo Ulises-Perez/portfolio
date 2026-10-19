@@ -49,7 +49,7 @@ check(
   "found an asset path without the base path",
 );
 
-for (const section of ["developer", "works", "repositories", "stack", "contact"]) {
+for (const section of ["developer", "works", "services", "stack", "contact"]) {
   check(
     `section #${section} is rendered`,
     html.includes(`id="${section}"`),
@@ -106,6 +106,22 @@ check(
   "featured repositories are not empty",
   snapshot.repos.some((repo) => repo.featured),
   "no repository is marked as featured",
+);
+
+// The contact channels live in the site configuration, so the smoke test reads
+// them from there instead of keeping a second copy of the values.
+const configSource = readFileSync(resolve(root, "src/data/site.config.ts"), "utf8");
+const email = configSource.match(/email:\s*"([^"]+)"/)?.[1] ?? "";
+const discord = configSource.match(/discord:\s*"([^"]+)"/)?.[1] ?? "";
+
+check("the contact email is published", email.length > 0 && html.includes(email));
+check(
+  "the discord handle is published",
+  discord.length > 0 && html.includes(discord),
+);
+check(
+  "the mail link is published",
+  html.includes(`mailto:${email}`),
 );
 check(
   "the snapshot holds every public repository",
