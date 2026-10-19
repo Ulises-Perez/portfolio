@@ -32,14 +32,17 @@ export function Works() {
                       key={item.name}
                       type="button"
                       aria-label={`Show ${item.name}`}
-                      aria-current={index === active}
+                      aria-pressed={index === active}
                       onClick={() => setActive(index)}
-                      className={[
-                        "relative min-h-[72px] w-full flex-1 cursor-pointer overflow-hidden border-b border-rule-strong transition-opacity last:border-b-0",
-                        index === active ? "opacity-100" : "opacity-40 hover:opacity-80",
-                      ].join(" ")}
+                      className="relative min-h-[72px] w-full flex-1 cursor-pointer overflow-hidden border-b border-rule-strong last:border-b-0"
                     >
-                      <span className="absolute inset-0 text-ink">
+                      <span
+                        aria-hidden="true"
+                        className={[
+                          "absolute inset-0 text-ink transition-opacity",
+                          index === active ? "opacity-100" : "opacity-60",
+                        ].join(" ")}
+                      >
                         <RepoCover name={item.name} />
                       </span>
                       <span className="absolute inset-x-0 bottom-0 bg-ink px-1.5 py-0.5 text-left text-[0.6rem] font-bold tracking-[0.08em] text-surface uppercase">
@@ -52,24 +55,24 @@ export function Works() {
                 <div className="flex min-w-0 flex-1 flex-col justify-between p-3 md:p-4">
                   <div>
                     <p className="eyebrow">repository {String(active + 1).padStart(2, "0")}</p>
-                    <p className="display mt-2 text-3xl break-words md:text-5xl">
+                    <h3
+                      aria-live="polite"
+                      className="display mt-2 text-3xl break-words md:text-5xl"
+                    >
                       {repo.name}
-                    </p>
-                    <p className="mt-3 max-w-[48ch] text-base leading-relaxed opacity-80 md:text-lg">
+                    </h3>
+                    <p className="mt-3 max-w-[48ch] text-base leading-relaxed text-muted md:text-lg">
                       {repo.description || "No description on this repository yet."}
                     </p>
                   </div>
-                  <p className="mt-6 text-[0.65rem] tracking-[0.18em] uppercase opacity-60">
+                  <p className="mt-6 text-[0.65rem] tracking-[0.18em] uppercase text-muted">
                     {repo.language || "mixed"} · {formatMonth(repo.pushedAt)}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div
-              className="col-span-4 flex flex-col border-t border-rule-strong md:col-span-5 md:border-t-0"
-              aria-live="polite"
-            >
+            <div className="col-span-4 flex flex-col border-t border-rule-strong md:col-span-5 md:border-t-0">
               <div className="relative aspect-[4/3] overflow-hidden border-b border-rule-strong text-ink md:aspect-[16/9]">
                 <RepoCover name={repo.name} variant="panel" />
                 <span className="absolute bottom-3 left-3 bg-ink px-2 py-1 text-[0.65rem] font-bold tracking-[0.18em] text-surface uppercase">
@@ -92,7 +95,7 @@ export function Works() {
                 </ul>
 
                 {repo.readme ? (
-                  <p className="max-w-[60ch] text-sm leading-relaxed opacity-70 md:text-base">
+                  <p className="max-w-[60ch] text-sm leading-relaxed text-muted md:text-base">
                     {repo.readme}
                   </p>
                 ) : null}

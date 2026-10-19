@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { site } from "@/data/site.config";
 import { Marquee } from "@/components/marquee";
@@ -17,6 +17,8 @@ const links = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -26,19 +28,33 @@ export function SiteHeader() {
     };
   }, [open]);
 
+  // Opening the menu moves the focus inside it, so keyboard users land on the
+  // first entry instead of walking the whole page behind the overlay.
+  useEffect(() => {
+    if (!open) return;
+
+    menuRef.current?.querySelector<HTMLElement>("a, button")?.focus();
+  }, [open]);
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key !== "Escape" || !open) return;
+
+      setOpen(false);
+      toggleRef.current?.focus();
     };
 
     window.addEventListener("keydown", onKeyDown);
 
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [open]);
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-30 grid h-14 grid-cols-4 border-b border-rule-strong bg-surface md:h-16 md:grid-cols-12">
+      <header
+        inert={open}
+        className="fixed inset-x-0 top-0 z-30 grid h-14 grid-cols-4 border-b border-rule-strong bg-surface md:h-16 md:grid-cols-12"
+      >
         <Link
           href="/"
           className="col-span-2 flex items-center border-r border-rule-strong px-3 text-2xl font-bold tracking-[-0.06em] md:col-span-3 md:px-4 md:text-3xl"
@@ -61,6 +77,7 @@ export function SiteHeader() {
       </header>
 
       <button
+        ref={toggleRef}
         type="button"
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
@@ -92,6 +109,7 @@ export function SiteHeader() {
 
       <div
         id="site-menu"
+        ref={menuRef}
         hidden={!open}
         className="fixed inset-0 z-[50] overflow-y-auto bg-surface"
       >
@@ -107,7 +125,7 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className="group flex items-baseline gap-4 px-3 py-4 transition-colors hover:bg-ink hover:text-surface md:px-4 md:py-6"
                 >
-                  <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase opacity-60">
+                  <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-muted group-hover:text-surface">
                     0{index + 1}
                   </span>
                   <span className="display text-4xl md:text-6xl">{link.label}</span>
@@ -121,14 +139,14 @@ export function SiteHeader() {
               href={site.contact.github}
               target="_blank"
               rel="noreferrer"
-              className="text-sm underline underline-offset-4 hover:opacity-60"
+              className="text-sm underline underline-offset-4 hover:text-muted"
             >
               github.com/{site.owner}
             </a>
             {site.contact.email ? (
               <a
                 href={`mailto:${site.contact.email}`}
-                className="text-sm underline underline-offset-4 hover:opacity-60"
+                className="text-sm underline underline-offset-4 hover:text-muted"
               >
                 {site.contact.email}
               </a>

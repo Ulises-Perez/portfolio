@@ -9,7 +9,7 @@ export function Footer() {
           <p className="font-bold tracking-[-0.06em] md:text-3xl">
             {site.displayName.toLowerCase()}.
           </p>
-          <p className="text-sm opacity-70">
+          <p className="text-sm text-muted">
             Built with Next.js, Tailwind and the GitHub API.
           </p>
         </div>
@@ -20,7 +20,7 @@ export function Footer() {
             href={site.contact.github}
             target="_blank"
             rel="noreferrer"
-            className="mt-1 block text-sm underline underline-offset-4 hover:opacity-60"
+            className="mt-1 block text-sm underline underline-offset-4 hover:text-muted"
           >
             github.com/{site.owner}
           </a>

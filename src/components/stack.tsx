@@ -36,7 +36,7 @@ export function Stack() {
                         <span className="font-bold tracking-[-0.02em]">
                           {language.name}
                         </span>
-                        <span className="text-[0.65rem] tracking-[0.12em] uppercase opacity-60 tabular-nums">
+                        <span className="text-[0.65rem] tracking-[0.12em] uppercase text-muted tabular-nums">
                           {language.repos} repo{language.repos === 1 ? "" : "s"}
                         </span>
                       </div>
@@ -46,7 +46,7 @@ export function Stack() {
                           style={{ width: `${Math.max(share, 1.5)}%` }}
                         />
                       </div>
-                      <p className="mt-1 text-[0.65rem] tracking-[0.12em] uppercase opacity-60 tabular-nums">
+                      <p className="mt-1 text-[0.65rem] tracking-[0.12em] uppercase text-muted tabular-nums">
                         {formatBytes(language.bytes)}
                       </p>
                     </li>
@@ -62,12 +62,12 @@ export function Stack() {
                   className="border-b border-rule-strong p-3 last:border-b-0 md:p-4"
                 >
                   <div className="flex items-baseline gap-4">
-                    <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase opacity-60">
+                    <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-muted">
                       {service.index}
                     </span>
                     <h3 className="display text-2xl md:text-3xl">{service.title}</h3>
                   </div>
-                  <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm opacity-75">
+                  <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
                     {service.items.map((item) => (
                       <li key={item}>— {item}</li>
                     ))}
@@ -90,11 +90,11 @@ export function Stack() {
                         <p className="text-sm font-bold tracking-[-0.02em]">
                           {group.label}
                         </p>
-                        <ul className="mt-1 space-y-0.5 text-sm opacity-70">
+                        <ul className="mt-1 space-y-0.5 text-sm text-muted">
                           {present.map((language) => (
                             <li key={language.name} className="flex justify-between gap-2">
                               <span>{language.name}</span>
-                              <span className="tabular-nums opacity-60">
+                              <span className="tabular-nums text-muted">
                                 {language.repos}
                               </span>
                             </li>

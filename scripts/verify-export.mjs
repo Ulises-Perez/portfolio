@@ -56,6 +56,37 @@ for (const section of ["developer", "works", "repositories", "stack", "contact"]
   );
 }
 
+check(
+  "the page offers a skip link to the main content",
+  html.includes('href="#main"') && html.includes('id="main"'),
+);
+
+const canonical = html.match(/<link[^>]*rel="canonical"[^>]*href="([^"]+)"/)?.[1] ?? "";
+check(
+  "the page declares a canonical URL",
+  canonical.length > 0,
+  "no canonical link in the document head",
+);
+
+const siteRoot = canonical.replace(/\/$/, "");
+
+for (const file of ["robots.txt", "sitemap.xml"]) {
+  let content = "";
+
+  try {
+    content = readFileSync(resolve(exportDir, file), "utf8");
+  } catch {
+    content = "";
+  }
+
+  check(`${file} is exported`, content.length > 0, `${file} is missing from the export`);
+  check(
+    `${file} points at the published site`,
+    siteRoot.length > 0 && content.includes(siteRoot),
+    `${file} does not reference ${siteRoot}`,
+  );
+}
+
 for (const repo of snapshot.repos) {
   check(
     `repository ${repo.name} is listed`,

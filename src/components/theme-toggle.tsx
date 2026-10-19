@@ -31,7 +31,6 @@ export function ThemeToggle() {
     <button
       type="button"
       aria-pressed={theme === "dark"}
-      aria-label={`Switch to ${next} mode`}
       onClick={() => setTheme(next)}
       className="group/roll flex h-full cursor-pointer items-center gap-2.5 px-4 transition-colors hover:bg-ink hover:text-surface disabled:cursor-default mr-14 md:mr-16"
     >
@@ -45,6 +44,7 @@ export function ThemeToggle() {
         >
           {next}
         </span>
+        <span className="sr-only">theme</span>
       </span>
       <span
         aria-hidden="true"

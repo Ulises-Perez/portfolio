@@ -5,6 +5,10 @@
 :root {
   --surface: #b2c7ab;
   --ink: #6a0c06;
+  /* Muted text. Mixed in sRGB so it behaves like the reference palette:
+     5.1:1 against the surface on the light theme, 4.8:1 on the dark one,
+     which keeps the smallest labels (0.6rem) above the WCAG AA threshold. */
+  --muted: color-mix(in srgb, var(--ink) 80%, var(--surface));
   --rule: color-mix(in oklab, var(--ink) 25%, transparent);
   --rule-strong: color-mix(in oklab, var(--ink) 50%, transparent);
 }
@@ -17,6 +21,7 @@
 @theme inline {
   --color-surface: var(--surface);
   --color-ink: var(--ink);
+  --color-muted: var(--muted);
   --color-rule: var(--rule);
   --color-rule-strong: var(--rule-strong);
   --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
@@ -30,6 +35,18 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+}
+
+/* The header is fixed, so anchored sections must clear it. */
+section[id] {
+  scroll-margin-top: 4rem;
+}
+
+/* A visible focus ring on every interactive element, in the current color so
+   it stays legible on both the surface and the inverted hover background. */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -53,7 +70,7 @@ body {
 
 @layer components {
   .eyebrow {
-    @apply text-[0.7rem] font-bold tracking-[0.18em] uppercase opacity-75;
+    @apply text-[0.7rem] font-bold tracking-[0.18em] uppercase text-muted;
   }
 
   .display {

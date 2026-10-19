@@ -22,6 +22,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(`https://${site.domain}/${site.repo}`),
   title,
   description,
+  alternates: { canonical: "/" },
   authors: [{ name: site.displayName, url: site.contact.github }],
   creator: site.owner,
   openGraph: {
@@ -58,9 +59,17 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:border focus:border-rule-strong focus:bg-surface focus:px-3 focus:py-2 focus:text-sm"
+        >
+          Skip to content
+        </a>
         <GridOverlay />
         <SiteHeader />
-        <main className="pt-14 md:pt-16">{children}</main>
+        <main id="main" className="pt-14 md:pt-16">
+          {children}
+        </main>
       </body>
     </html>
   );

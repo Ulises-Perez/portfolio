@@ -59,7 +59,7 @@ export function Repositories() {
                 {option}
               </button>
             ))}
-            <span className="ml-auto self-center text-[0.65rem] tracking-[0.18em] uppercase opacity-60">
+            <span className="ml-auto self-center text-[0.65rem] tracking-[0.18em] uppercase text-muted">
               {visible.length} of {repos.length}
             </span>
           </div>
@@ -73,27 +73,27 @@ export function Repositories() {
                   rel="noreferrer"
                   className="group grid grid-cols-4 items-baseline gap-x-3 gap-y-1 p-3 transition-colors hover:bg-ink hover:text-surface md:grid-cols-10 md:p-4"
                 >
-                  <span className="col-span-1 text-[0.65rem] tracking-[0.18em] uppercase opacity-50 tabular-nums md:col-span-1">
+                  <span className="col-span-1 text-[0.65rem] tracking-[0.18em] uppercase text-muted tabular-nums group-hover:text-surface md:col-span-1">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="col-span-3 font-bold tracking-[-0.02em] md:col-span-3">
                     {repo.name}
                     {repo.fork ? (
-                      <span className="ml-2 text-[0.6rem] tracking-[0.12em] uppercase opacity-60">
+                      <span className="ml-2 text-[0.6rem] tracking-[0.12em] uppercase text-muted group-hover:text-surface">
                         fork
                       </span>
                     ) : null}
                   </span>
-                  <span className="col-span-4 text-sm leading-relaxed opacity-70 md:col-span-4">
+                  <span className="col-span-4 text-sm leading-relaxed text-muted group-hover:text-surface md:col-span-4">
                     {repo.description || "—"}
                   </span>
-                  <span className="col-span-1 text-[0.65rem] tracking-[0.12em] uppercase opacity-70 md:col-span-1">
+                  <span className="col-span-1 text-[0.65rem] tracking-[0.12em] uppercase text-muted group-hover:text-surface md:col-span-1">
                     {repo.language || "mixed"}
                   </span>
-                  <span className="col-span-1 text-[0.65rem] tracking-[0.12em] uppercase opacity-70 md:col-span-1">
+                  <span className="col-span-1 text-[0.65rem] tracking-[0.12em] uppercase text-muted group-hover:text-surface md:col-span-1">
                     ★ {repo.stars}
                   </span>
-                  <span className="col-span-2 text-[0.65rem] tracking-[0.12em] uppercase opacity-70 md:col-span-1">
+                  <span className="col-span-2 text-[0.65rem] tracking-[0.12em] uppercase text-muted group-hover:text-surface md:col-span-1">
                     {formatMonth(repo.pushedAt)}
                   </span>
                 </a>
