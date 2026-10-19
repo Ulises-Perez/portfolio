@@ -143,3 +143,43 @@ tecnologias uasdas, quiero un portafolio con un diseño inspirado en este mijobe
 - `npm run build`: `out/` now carries `robots.txt` and `sitemap.xml`.
 - `npm run verify`: 37 export checks pass, including the skip link, the
   canonical URL and the two new SEO files.
+
+### L7 — Review status (not closed by a native review)
+- `gentle_review assess` (range `d6c1421..HEAD`, escalated with item 5) returned
+  `risk: high`, `reviewDue: true` and a plan that asks for an independent
+  verifier.
+- The independent verifier was refused by the runtime gate, which requires the
+  delegated task to declare a named `Risk: item N`. It was not retried.
+- Native START could not be started. Every attempt returned
+  `lineage_created: false` and `mutation_performed: false`, so no review
+  authority exists for this target and nothing is burned.
+  - The facade input validation rejected the documented lens selection
+    (`lenses-invalid`) and the committed-range acknowledgement
+    (`committed-only-required`) while the very same JSON string was accepted by
+    `assess`. The difference is how the harness delivers the tool argument:
+    a compact JSON string loses its booleans and arrays on the way in, and a
+    spaced JSON string keeps them. Worked around with a spaced string.
+  - With the input accepted, the native START fails with `schema-incompatible`:
+    the installed native binary (4.2.0) advertises the
+    `gentle-ai.review-integration/v1` contract and the
+    `gentle-ai.review-integration.start/v2` schema, while the facade drives the
+    `v2` contract. Updating the managed native binary is a maintenance action
+    on the maintainer's machine, outside this task.
+
+### L8 — Verification that was performed instead
+- `npm test` (7 unit tests for the sync helpers), `npm run typecheck`,
+  `npm run build` (static export) and `npm run verify` (37 export checks).
+- The two workflows were read line by line: artifact path `out/`, npm script
+  names, `PORTFOLIO_REPO_NAME` reaching `next.config.ts`, token permissions
+  (`pages: write`, `id-token: write`, `contents: write`), the snapshot commit
+  touching only `src/data/github.json`.
+- The first deploy itself is still unproven until the repository has a remote
+  and the workflow runs on GitHub.
+
+### L9 — Risk
+- T7: `Risk: item 5 (delivery and environment)` — new GitHub Actions workflows
+  that publish the site and push a refreshed snapshot to the default branch.
+- T8: `Risk: item 3 (contracts others consume)` — the theme toggle and the
+  works rail change their accessible name and state, and the shared
+  `.eyebrow`/muted color tokens change every section. Both are covered by the
+  checks listed in L8.
