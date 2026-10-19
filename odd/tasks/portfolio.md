@@ -87,8 +87,8 @@ Resolved: GitHub Actions workflow building the static export and publishing it t
 | T4  | S4      | Hero: display type, role rail, visual block, intro overlay        | inline | —      |
 | T5  | S2, S4  | "the developer." bio and "selected works." project rail          | inline | —      |
 | T6  | S3, S4  | "my stack." technologies, "want to chat?" CTA, footer             | inline | —      |
-| T7  | S8      | GitHub Pages workflow, base path, build verification              | inline | —      |
-| T8  | S4      | SEO metadata, responsive and accessibility polish, README         | inline | —      |
+| T7  | S8      | GitHub Pages workflow, base path, build verification              | inline | 2c98e91 |
+| T8  | S4      | SEO metadata, responsive and accessibility polish, README         | inline | 6787b47 |
 
 Work-unit commits are cut per task group (~400 authored changed lines max per commit)
 on the feature branch `feature/portfolio`.
@@ -114,3 +114,32 @@ tecnologias uasdas, quiero un portafolio con un diseño inspirado en este mijobe
   `--color-brand-cream:#b2c7ab`, `--color-brand-primary:#6a0c06`,
   `--color-brand-dark:#1a1512`, `:root[data-theme=dark]` inverts cream/primary,
   `Space Grotesk` as the only family, global `border-radius:0!important`.
+
+### L4 — T7 evidence
+- `npm test`: 7 unit tests pass (`scripts/sync-github.test.mjs`).
+- `npm run typecheck`: clean.
+- `npm run build` (Next.js 15.5.28, static export): 5 static pages, `out/`.
+- `npm run verify`: 31 export checks pass (base path, sections, every repo and
+  language from the snapshot present in the HTML).
+- Commit `2c98e91` adds `.github/workflows/deploy.yml` and
+  `.github/workflows/sync-github.yml`. The repository has no remote yet, so the
+  first deploy needs one.
+
+### L5 — T8 decisions
+- Muted text stopped using `opacity-*` utilities. A 0.6rem label at 50% opacity
+  measured 2.2:1 against the surface; the new `--muted` color mix
+  (`color-mix(in srgb, var(--ink) 80%, var(--surface))`) measures 5.1:1 on the
+  light theme and 4.8:1 on the dark one. Opacity is kept only for decorative
+  art.
+- The theme toggle exposes a single `aria-pressed` state; the visible word is
+  the accessible name, so the label no longer contradicts the pressed state.
+- The works rail uses `aria-pressed` instead of `aria-current`, which described
+  a navigation state that never applies to a toggle.
+- The menu overlay takes the focus when it opens, the header turns `inert` while
+  it is open, and `Escape` returns the focus to the toggle.
+
+### L6 — T8 evidence
+- `npm test`: 7 pass. `npm run typecheck`: clean.
+- `npm run build`: `out/` now carries `robots.txt` and `sitemap.xml`.
+- `npm run verify`: 37 export checks pass, including the skip link, the
+  canonical URL and the two new SEO files.
