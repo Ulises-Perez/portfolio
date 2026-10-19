@@ -10,7 +10,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 const links = [
   { href: "/#developer", label: "the developer" },
   { href: "/#works", label: "selected works" },
-  { href: "/#repositories", label: "all repositories" },
+  { href: "/#services", label: "my services" },
   { href: "/#stack", label: "my stack" },
   { href: "/#contact", label: "contact" },
 ];
@@ -150,6 +150,14 @@ export function SiteHeader() {
               >
                 {site.contact.email}
               </a>
+            ) : null}
+            {site.contact.discord ? (
+              <p className="text-sm">
+                discord:{" "}
+                <span className="underline underline-offset-4">
+                  {site.contact.discord}
+                </span>
+              </p>
             ) : null}
           </div>
         </nav>

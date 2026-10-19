@@ -1,5 +1,4 @@
 import { languages, totalBytes } from "@/lib/github";
-import { site } from "@/data/site.config";
 import { formatBytes } from "@/lib/utils";
 
 /** Editorial grouping of the measured languages by the role they play. */
@@ -56,25 +55,6 @@ export function Stack() {
             </div>
 
             <div className="col-span-4 md:col-span-5">
-              {site.services.map((service) => (
-                <div
-                  key={service.index}
-                  className="border-b border-rule-strong p-3 last:border-b-0 md:p-4"
-                >
-                  <div className="flex items-baseline gap-4">
-                    <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-muted">
-                      {service.index}
-                    </span>
-                    <h3 className="display text-2xl md:text-3xl">{service.title}</h3>
-                  </div>
-                  <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
-                    {service.items.map((item) => (
-                      <li key={item}>— {item}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-
               <div className="border-b border-rule-strong p-3 md:p-4">
                 <p className="eyebrow">toolbox</p>
                 <div className="mt-3 grid gap-4 sm:grid-cols-3">
