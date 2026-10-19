@@ -1,0 +1,16 @@
+{
+  "owner": "Ulises-Perez",
+  "includeForks": true,
+  "exclude": [],
+  "ignoredLanguages": ["Procfile"],
+  "featured": [
+    "nexo",
+    "vumies",
+    "ritup2",
+    "LaraMovies",
+    "Autonomies",
+    "Barberweb",
+    "villanapoles",
+    "Portafolio"
+  ]
+}
