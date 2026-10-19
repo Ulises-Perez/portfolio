@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#b2c7ab" />
+  <rect x="4" y="4" width="56" height="56" fill="none" stroke="#6a0c06" stroke-width="2" />
+  <text
+    x="32"
+    y="44"
+    font-family="Space Grotesk, Arial, sans-serif"
+    font-size="36"
+    font-weight="700"
+    text-anchor="middle"
+    fill="#6a0c06"
+  >d.</text>
+</svg>

@@ -1,0 +1,432 @@
+{
+  "generatedAt": "2026-10-19T20:03:23.815Z",
+  "profile": {
+    "login": "Ulises-Perez",
+    "name": "Deus",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/46013325?v=4",
+    "bio": "",
+    "url": "https://github.com/Ulises-Perez",
+    "location": "",
+    "blog": "",
+    "company": "",
+    "followers": 1,
+    "publicRepos": 15,
+    "createdAt": "2018-12-20T02:50:02Z"
+  },
+  "languages": [
+    {
+      "name": "TypeScript",
+      "bytes": 699593,
+      "repos": 4
+    },
+    {
+      "name": "Vue",
+      "bytes": 697715,
+      "repos": 3
+    },
+    {
+      "name": "PHP",
+      "bytes": 453875,
+      "repos": 5
+    },
+    {
+      "name": "Lua",
+      "bytes": 382406,
+      "repos": 2
+    },
+    {
+      "name": "Blade",
+      "bytes": 233797,
+      "repos": 3
+    },
+    {
+      "name": "HTML",
+      "bytes": 94918,
+      "repos": 8
+    },
+    {
+      "name": "Hack",
+      "bytes": 90462,
+      "repos": 2
+    },
+    {
+      "name": "Python",
+      "bytes": 65847,
+      "repos": 2
+    },
+    {
+      "name": "CSS",
+      "bytes": 44870,
+      "repos": 6
+    },
+    {
+      "name": "JavaScript",
+      "bytes": 43522,
+      "repos": 8
+    },
+    {
+      "name": "Rust",
+      "bytes": 30864,
+      "repos": 2
+    },
+    {
+      "name": "Shell",
+      "bytes": 13296,
+      "repos": 5
+    },
+    {
+      "name": "SCSS",
+      "bytes": 10774,
+      "repos": 1
+    }
+  ],
+  "repos": [
+    {
+      "name": "nexo",
+      "description": "",
+      "url": "https://github.com/Ulises-Perez/nexo",
+      "homepage": "",
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 420753,
+        "Vue": 270677,
+        "Rust": 4346,
+        "CSS": 3288,
+        "HTML": 396,
+        "JavaScript": 266
+      },
+      "bytes": 699726,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "NOASSERTION",
+      "createdAt": "2026-06-14T17:30:03Z",
+      "pushedAt": "2026-09-17T15:15:48Z",
+      "featured": true,
+      "readme": "Nexo Nexo is a personal project built as a monorepo with three independent parts: a REST + WebSocket API, a cross-platform desktop client, and a Cloudflare Worker that handles file uploads to object storage. [!IMPORTANT] Proprietary software — All Rights Reserved. This repository is published for portfolio/reference purposes only. You may not use, copy, modify, or distribute any part of it. See LICENSE. --- Features Communities (servers) with owners, members, and roles Categories & channels to organize conversations inside a community Direct messages and one-to-one conversations between friends Friends system — friend requests (pending / accepted / rejected) and friendships Real-time messagi"
+    },
+    {
+      "name": "vumies",
+      "description": "",
+      "url": "https://github.com/Ulises-Perez/vumies",
+      "homepage": "",
+      "language": "Lua",
+      "languages": {
+        "Lua": 360464,
+        "Vue": 218658,
+        "TypeScript": 111559,
+        "Python": 56314,
+        "HTML": 33427,
+        "Rust": 26518,
+        "CSS": 7178,
+        "Shell": 6445,
+        "JavaScript": 3695
+      },
+      "bytes": 824258,
+      "stars": 1,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "",
+      "createdAt": "2026-02-12T11:06:07Z",
+      "pushedAt": "2026-07-02T00:49:50Z",
+      "featured": true,
+      "readme": "Vumies - Plataforma de Streaming Vumies es una plataforma moderna de streaming construida con Vue 3, TypeScript, Vite y Tailwind CSS. Integra las APIs de TMDB y Vimeus para proporcionar una experiencia completa de visualización de películas, series y anime. 🚀 Características ✨ Interfaz Moderna: Diseño limpio con Tailwind CSS y efectos glassmorphism 🎬 Películas y Series: Catálogo completo con TMDB 📺 Reproductor Integrado: Streaming mediante Vimeus 🔍 Búsqueda Avanzada: Busca contenido en tiempo real ❤️ Favoritos: Guarda tu contenido preferido (localStorage) 📱 Responsive: Optimizado para móviles, tablets y desktop ⚡ Rápido: Construido con Vite para máximo rendimiento 🎯 TypeScript: Totalme"
+    },
+    {
+      "name": "ritup2",
+      "description": "ritup in vuejs",
+      "url": "https://github.com/Ulises-Perez/ritup2",
+      "homepage": "",
+      "language": "Vue",
+      "languages": {
+        "Vue": 208380,
+        "TypeScript": 138052,
+        "Python": 9533,
+        "JavaScript": 7019,
+        "CSS": 6142,
+        "Shell": 4072,
+        "HTML": 718
+      },
+      "bytes": 373916,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "",
+      "createdAt": "2025-05-19T00:31:29Z",
+      "pushedAt": "2026-06-12T21:43:41Z",
+      "featured": true,
+      "readme": "RitupVuejs — Reproductor de Música Aplicación de música construida con Vue.js 3, TypeScript y Tailwind CSS. Usa la API pública de Deezer para catálogo y metadatos, y yt-dlp (vía un backend Node.js) para extraer el stream de audio real de YouTube, evitando el bloqueo de incrustación. No requiere cuenta ni credenciales de ningún servicio de música. --- Requisitos Este proyecto se gestiona exclusivamente con pnpm. npm y yarn están bloqueados por el script preinstall. --- Instalación Variables de entorno Crea un archivo .env en la raíz del proyecto: La API key de YouTube se obtiene en Google Cloud Console habilitando YouTube Data API v3. --- Ejecutar el proyecto La app queda disponible en http:/"
+    },
+    {
+      "name": "Barberweb",
+      "description": "",
+      "url": "https://github.com/Ulises-Perez/Barberweb",
+      "homepage": "",
+      "language": "JavaScript",
+      "languages": {
+        "JavaScript": 20331,
+        "HTML": 17282
+      },
+      "bytes": 37613,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "",
+      "createdAt": "2026-05-30T18:34:48Z",
+      "pushedAt": "2026-05-30T18:57:26Z",
+      "featured": true,
+      "readme": ""
+    },
+    {
+      "name": "LaraMovies",
+      "description": "Page LaraMovies",
+      "url": "https://github.com/Ulises-Perez/LaraMovies",
+      "homepage": "",
+      "language": "Blade",
+      "languages": {
+        "Blade": 187079,
+        "PHP": 98908,
+        "Shell": 811
+      },
+      "bytes": 286840,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "",
+      "createdAt": "2021-03-21T22:37:34Z",
+      "pushedAt": "2025-03-21T15:58:45Z",
+      "featured": true,
+      "readme": "About Laravel Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as: Simple, fast routing engine. Powerful dependency injection container. Multiple back-ends for session and cache storage. Expressive, intuitive database ORM. Database agnostic schema migrations. Robust background job processing. Real-time event broadcasting. Laravel is accessible, powerful, and provides tools required for large, robust applications. Learning Laravel Laravel has the most extensive and thorough documentat"
+    },
+    {
+      "name": "villanapoles",
+      "description": "",
+      "url": "https://github.com/Ulises-Perez/villanapoles",
+      "homepage": "",
+      "language": "PHP",
+      "languages": {
+        "PHP": 86381,
+        "Blade": 22676,
+        "CSS": 13793,
+        "JavaScript": 3281,
+        "Shell": 1069
+      },
+      "bytes": 127200,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "",
+      "createdAt": "2022-09-29T20:26:58Z",
+      "pushedAt": "2023-03-13T23:06:27Z",
+      "featured": true,
+      "readme": "About Laravel Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as: Simple, fast routing engine. Powerful dependency injection container. Multiple back-ends for session and cache storage. Expressive, intuitive database ORM. Database agnostic schema migrations. Robust background job processing. Real-time event broadcasting. Laravel is accessible, powerful, and provides tools required for large, robust applications. Learning Laravel Laravel has the most extensive and thorough documentat"
+    },
+    {
+      "name": "Autonomies",
+      "description": "Page of movies and series, totally autonomous with API de TMDB and Scrapping of Cuevana3.io",
+      "url": "https://github.com/Ulises-Perez/Autonomies",
+      "homepage": "",
+      "language": "PHP",
+      "languages": {
+        "PHP": 91942,
+        "Hack": 45231,
+        "CSS": 6918,
+        "HTML": 6391,
+        "JavaScript": 4098
+      },
+      "bytes": 154580,
+      "stars": 1,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "NOASSERTION",
+      "createdAt": "2021-01-27T17:59:07Z",
+      "pushedAt": "2021-02-03T01:44:48Z",
+      "featured": true,
+      "readme": "Autonomies Página de películas y series, totalmente autónoma con API de TMDB y Scrapping de Cuevana3.io Page of movies and series, totally autonomous with API de TMDB and Scrapping of Cuevana3.io Declaración de Uso El \"SOFTWARE\" y los documentos de el mismo, \"SOLO PUEDEN SER UTILIZADOS PARA FINES PROPIOS\", no se permite Publicar, Modificar, Vender, Comercializar o Mal utilizar el \"SOFTWARE\". The \"SOFTWARE\" and its documents, \"MAY ONLY BE USED FOR OWN PURPOSES\", it is not allowed to Publish, Modify, Sell, Trade or Misuse the \"SOFTWARE\". DMCA – Nosotros no reproducimos, plagiamos, distribuimos ni comunicamos públicamente películas, series o documentales que puedan tener derechos de autor. – We"
+    },
+    {
+      "name": "Portafolio",
+      "description": "Portafolio, Hostal donde ",
+      "url": "https://github.com/Ulises-Perez/Portafolio",
+      "homepage": "",
+      "language": "HTML",
+      "languages": {
+        "HTML": 10423
+      },
+      "bytes": 10423,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "",
+      "createdAt": "2020-03-31T19:44:04Z",
+      "pushedAt": "2020-03-31T19:53:21Z",
+      "featured": true,
+      "readme": ""
+    },
+    {
+      "name": "tm1_pausemenu",
+      "description": "",
+      "url": "https://github.com/Ulises-Perez/tm1_pausemenu",
+      "homepage": "",
+      "language": "",
+      "languages": {
+        "TypeScript": 29229,
+        "Lua": 21942,
+        "SCSS": 10774,
+        "HTML": 1873,
+        "JavaScript": 734
+      },
+      "bytes": 64552,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": true,
+      "archived": false,
+      "license": "",
+      "createdAt": "2025-06-25T00:31:42Z",
+      "pushedAt": "2025-06-25T00:36:10Z",
+      "featured": false,
+      "readme": "Pause Menu TM1 Pause Menu is a menu accessible by pressing the escape key, allowing quick shortcuts to actions frequently used on the server. Among these actions are: Map: Allows quick access to the map. Settings: Refers to the main game settings. Keybindings: Quick access to configure the keybindings for our game. Exit: Allows us to quickly leave the server. In addition to these options, it also provides access to websites and social media, including: Discord Instagram X Own Website All these options can be disabled simply by setting the value of the variable to null in the config. It also displays the main job as if we have a dual job system; all of this is configurable since the code is a"
+    },
+    {
+      "name": "marketcl",
+      "description": "market page",
+      "url": "https://github.com/Ulises-Perez/marketcl",
+      "homepage": "",
+      "language": "",
+      "languages": {},
+      "bytes": 0,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "",
+      "createdAt": "2023-03-25T22:40:11Z",
+      "pushedAt": "2023-03-25T23:36:47Z",
+      "featured": false,
+      "readme": "marketcl market page"
+    },
+    {
+      "name": "testgit",
+      "description": "",
+      "url": "https://github.com/Ulises-Perez/testgit",
+      "homepage": "",
+      "language": "PHP",
+      "languages": {
+        "PHP": 84688,
+        "Blade": 24042,
+        "Shell": 899
+      },
+      "bytes": 109629,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "",
+      "createdAt": "2023-03-14T01:04:18Z",
+      "pushedAt": "2023-03-14T01:05:06Z",
+      "featured": false,
+      "readme": "About Laravel Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as: Simple, fast routing engine. Powerful dependency injection container. Multiple back-ends for session and cache storage. Expressive, intuitive database ORM. Database agnostic schema migrations. Robust background job processing. Real-time event broadcasting. Laravel is accessible, powerful, and provides tools required for large, robust applications. Learning Laravel Laravel has the most extensive and thorough documentat"
+    },
+    {
+      "name": "DayZWeb",
+      "description": "",
+      "url": "https://github.com/Ulises-Perez/DayZWeb",
+      "homepage": "",
+      "language": "",
+      "languages": {},
+      "bytes": 0,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "",
+      "createdAt": "2023-03-13T22:47:16Z",
+      "pushedAt": "2023-03-14T00:39:48Z",
+      "featured": false,
+      "readme": "DayZWeb"
+    },
+    {
+      "name": "DayZ",
+      "description": "Files, Configs, XML's, you name it. Whatever I've built, I've posted here.",
+      "url": "https://github.com/Ulises-Perez/DayZ",
+      "homepage": "",
+      "language": "",
+      "languages": {},
+      "bytes": 0,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": true,
+      "archived": false,
+      "license": "",
+      "createdAt": "2023-02-06T17:41:20Z",
+      "pushedAt": "2023-02-06T06:31:32Z",
+      "featured": false,
+      "readme": "DayZ Files, Configs, XML's, you name it. Whatever I've built, I've posted here."
+    },
+    {
+      "name": "Blackouts-Scorpion-Wiki",
+      "description": "This is a repository dedicated to the Blackouts Scorpion Mod, created by ฿Ⱡ₳₵₭ØɄ₮₴, this repository includes the types.xml files, TraderConfig.txt, for Dr.Jones's Trader, as well as instructions on how to install the mod.",
+      "url": "https://github.com/Ulises-Perez/Blackouts-Scorpion-Wiki",
+      "homepage": "",
+      "language": "",
+      "languages": {},
+      "bytes": 0,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "",
+      "createdAt": "2023-02-06T00:01:02Z",
+      "pushedAt": "2023-02-06T00:37:50Z",
+      "featured": false,
+      "readme": "Blackouts-Scorpion-Wiki This is a repository dedicated to the Blackouts Scorpion Mod, created by ฿Ⱡ₳₵₭ØɄ₮₴, this repository includes the types.xml files, TraderConfig.txt, for Dr.Jones's Trader, as well as instructions on how to install the mod. -- English Installation -- Blackouts Scorpion Mod Installation by ฿Ⱡ₳₵₭ØɄ₮₴. Go to the following link to subscribe to the Mod: https://steamcommunity.com/sharedfiles/filedetails/?id=2909935986 Once in the Link, you subscribe to the mod: image Once subscribed to the Mod: image You open your DayZ Launcher, go to Mods: image Click \"load MOD\" or you can just press the Mod box to activate it: image You right click on the Mod and press open folder: image S"
+    },
+    {
+      "name": "proyecto-git",
+      "description": "Proyecto Prueba Git",
+      "url": "https://github.com/Ulises-Perez/proyecto-git",
+      "homepage": "",
+      "language": "PHP",
+      "languages": {
+        "PHP": 91956,
+        "Hack": 45231,
+        "HTML": 24408,
+        "CSS": 7551,
+        "JavaScript": 4098
+      },
+      "bytes": 173244,
+      "stars": 0,
+      "forks": 0,
+      "topics": [],
+      "fork": false,
+      "archived": false,
+      "license": "NOASSERTION",
+      "createdAt": "2021-02-20T02:12:06Z",
+      "pushedAt": "2021-02-20T02:21:02Z",
+      "featured": false,
+      "readme": ""
+    }
+  ]
+}
