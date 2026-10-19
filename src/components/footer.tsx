@@ -15,7 +15,7 @@ export function Footer() {
         </div>
 
         <div className="col-span-2 border-l border-rule-strong p-3 md:col-span-2 md:p-4">
-          <p className="eyebrow">profile</p>
+          <p className="eyebrow">contact</p>
           <a
             href={site.contact.github}
             target="_blank"
@@ -24,6 +24,17 @@ export function Footer() {
           >
             github.com/{site.owner}
           </a>
+          {site.contact.email ? (
+            <a
+              href={`mailto:${site.contact.email}`}
+              className="mt-1 block text-sm underline underline-offset-4 hover:text-muted"
+            >
+              {site.contact.email}
+            </a>
+          ) : null}
+          {site.contact.discord ? (
+            <p className="mt-1 text-sm">discord: {site.contact.discord}</p>
+          ) : null}
         </div>
 
         <div className="col-span-2 border-l border-rule-strong p-3 md:col-span-2 md:p-4">

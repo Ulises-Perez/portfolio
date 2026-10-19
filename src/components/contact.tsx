@@ -1,57 +1,142 @@
+"use client";
+
+import { useState } from "react";
+
+import { Cta, RollingLabel } from "@/components/cta";
 import { site } from "@/data/site.config";
 import { profile } from "@/lib/github";
 
+type Channel = {
+  key: string;
+  label: string;
+  value: string;
+  action: string;
+  href?: string;
+  external?: boolean;
+  copyable?: boolean;
+};
+
+/**
+ * Every way to start a conversation: GitHub, email and Discord. A Discord
+ * username has no resolvable link on its own, so the handle is shown with a
+ * copy action unless an invite URL is configured.
+ */
 export function Contact() {
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const channels: Channel[] = [
+    {
+      key: "github",
+      label: "github",
+      value: `github.com/${site.owner}`,
+      action: "open profile",
+      href: site.contact.github,
+      external: true,
+    },
+    {
+      key: "email",
+      label: "email",
+      value: site.contact.email,
+      action: "write me",
+      href: `mailto:${site.contact.email}`,
+    },
+    {
+      key: "discord",
+      label: "discord",
+      value: site.contact.discord,
+      action: "copy handle",
+      copyable: true,
+      ...(site.contact.discordUrl
+        ? { href: site.contact.discordUrl, external: true }
+        : {}),
+    },
+  ];
+
+  const copy = async (channel: Channel) => {
+    try {
+      await navigator.clipboard.writeText(channel.value);
+      setCopied(channel.key);
+      window.setTimeout(
+        () =>
+          setCopied((current) => (current === channel.key ? null : current)),
+        1800,
+      );
+    } catch {
+      setCopied(null);
+    }
+  };
+
   return (
     <section id="contact" className="border-b border-rule-strong">
       <div className="grid grid-cols-4 md:grid-cols-12">
-        <div className="col-span-4 border-x border-rule-strong md:col-span-10 md:col-start-2 md:pt-40 md:pb-40">
+        <div className="col-span-4 border-x border-rule-strong pb-0 md:col-span-10 md:col-start-2 md:pt-40 md:pb-40">
           <div className="grid grid-cols-4 border-b border-rule-strong md:grid-cols-10">
             <div className="col-span-4 p-3 md:col-span-10 md:p-4">
               <p className="eyebrow mb-2 md:mb-3">got something in mind</p>
-              <h2 className="display text-5xl md:text-7xl lg:text-8xl">want to chat?</h2>
+              <h2 className="display text-5xl md:text-7xl lg:text-8xl">
+                want to chat?
+              </h2>
             </div>
           </div>
 
-          <div className="grid grid-cols-4 md:grid-cols-10">
-            <div className="col-span-4 flex flex-col items-start gap-6 p-3 py-14 md:col-span-5 md:p-4 md:py-20">
+          <div className="grid grid-cols-4 border-b border-rule-strong md:grid-cols-10">
+            <div className="col-span-4 p-3 py-10 md:col-span-5 md:p-4 md:py-16">
               <p className="max-w-[42ch] text-lg leading-relaxed md:text-xl">
                 {profile.publicRepos} public repositories, {site.roles.length}{" "}
                 disciplines, one inbox. Tell me what you are building and I will
                 tell you honestly whether I am the right person for it.
               </p>
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href={site.contact.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="cta"
-                >
-                  <span className="cta-label">github</span>
-                </a>
-                {site.contact.email ? (
-                  <a href={`mailto:${site.contact.email}`} className="cta">
-                    <span className="cta-label">email me</span>
-                  </a>
-                ) : null}
-              </div>
             </div>
+            <div className="col-span-4 border-l border-rule-strong p-3 md:col-span-5 md:p-4">
+              <p className="eyebrow">currently</p>
+              <p className="mt-2 max-w-[40ch] text-lg leading-relaxed">
+                Open to remote work, freelance projects and anything with a real
+                problem to solve.
+              </p>
+              <p className="eyebrow mt-8">based in</p>
+              <p className="mt-2 text-lg">
+                {profile.location || "Remote · worldwide"}
+              </p>
+            </div>
+          </div>
 
-            <div className="col-span-4 border-l border-rule-strong md:col-span-5">
-              <div className="flex h-full flex-col justify-between">
-                <div className="p-3 md:p-4">
-                  <p className="eyebrow">currently</p>
-                  <p className="mt-2 max-w-[40ch] text-lg leading-relaxed">
-                    Open to remote work, freelance projects and anything with a
-                    real problem to solve.
+          <div className="grid grid-cols-1 sm:grid-cols-3">
+            {channels.map((channel) => (
+              <div
+                key={channel.key}
+                className="flex flex-col justify-between gap-6 border-b border-rule-strong p-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0 md:p-4"
+              >
+                <p className="eyebrow">{channel.label}</p>
+                <div>
+                  <p className="display text-xl break-words md:text-3xl">
+                    {channel.value}
                   </p>
-                </div>
-                <div className="border-t border-rule-strong p-3 md:p-4">
-                  <p className="eyebrow">based in</p>
-                  <p className="mt-2 text-lg">{profile.location || "Remote · worldwide"}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {channel.href ? (
+                      <Cta
+                        href={channel.href}
+                        label={
+                          channel.key === "discord" ? "open discord" : channel.action
+                        }
+                        external={channel.external}
+                        className="text-base"
+                      />
+                    ) : null}
+                    {channel.copyable ? (
+                      <button
+                        type="button"
+                        onClick={() => copy(channel)}
+                        className="cta text-base"
+                      >
+                        <RollingLabel
+                          label={copied === channel.key ? "copied" : channel.action}
+                        />
+                      </button>
+                    ) : null}
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
