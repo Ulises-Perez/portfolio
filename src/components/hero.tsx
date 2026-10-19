@@ -53,16 +53,20 @@ export function Hero() {
             className="text-[clamp(3.5rem,22vw,17rem)] leading-[0.8] font-bold tracking-[-0.13em]"
             aria-label={`${site.displayName}.`}
           >
-            {letters.map((letter, index) => (
-              <span
-                key={`${letter}-${index}`}
-                aria-hidden="true"
-                className="rise inline-block"
-                style={{ animationDelay: `${index * 70}ms` }}
-              >
-                {letter}
-              </span>
-            ))}
+            {/* The word carries its own field, so the column rules stop at the
+                letters instead of running through them. */}
+            <span className="relative inline-block bg-surface px-2 pb-[0.06em]">
+              {letters.map((letter, index) => (
+                <span
+                  key={`${letter}-${index}`}
+                  aria-hidden="true"
+                  className="rise inline-block"
+                  style={{ animationDelay: `${index * 70}ms` }}
+                >
+                  {letter}
+                </span>
+              ))}
+            </span>
           </h1>
         </div>
 
@@ -78,7 +82,7 @@ export function Hero() {
           ))}
         </ul>
 
-        <div className="col-span-1 flex items-center justify-center border-l border-rule-strong p-3 md:col-span-2 md:p-4">
+        <div className="col-span-1 flex items-center justify-center p-3 md:col-span-2 md:p-4">
           <svg
             viewBox="0 0 120 120"
             className="h-20 w-auto md:h-36"

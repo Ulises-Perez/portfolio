@@ -1,3 +1,4 @@
+import { Cta } from "@/components/cta";
 import {
   featuredRepos,
   languages,
@@ -68,9 +69,7 @@ export function Developer() {
                 maintained end to end. Every repository, every language and every
                 byte of it comes straight from my GitHub account.
               </p>
-              <a className="cta" href="#works">
-                <span className="cta-label">see the work</span>
-              </a>
+              <Cta href="#works" label="see the work" />
             </div>
             <div className="col-span-4 border-rule-strong md:col-span-6">
               <div className="m-3 border border-rule-strong md:m-4">

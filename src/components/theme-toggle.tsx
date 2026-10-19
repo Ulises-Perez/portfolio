@@ -21,8 +21,19 @@ export function ThemeToggle() {
   useEffect(() => {
     if (!mounted) return;
 
-    document.documentElement.dataset.theme = theme;
+    const root = document.documentElement;
+
+    // The class goes on before the values change, so the page travels to the
+    // new theme instead of jumping, and it comes off once the travel is over.
+    root.classList.add("theme-flip");
+    root.dataset.theme = theme;
     window.localStorage.setItem(STORAGE_KEY, theme);
+
+    const timer = window.setTimeout(() => {
+      root.classList.remove("theme-flip");
+    }, 460);
+
+    return () => window.clearTimeout(timer);
   }, [theme, mounted]);
 
   const next = theme === "dark" ? "light" : "dark";
