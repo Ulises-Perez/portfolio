@@ -215,7 +215,7 @@ to the page, which carries on into the next section.
 | T14 | S2, S4  | Export smoke test follows the new section ids, full re-verification | inline | a0f5034 |
 | T15 | S15, S16 | Hero like the reference with only the dividing lines, and a button label that keeps its contrast | inline | c9da266 |
 | T16 | S17     | Remove the background column rules from the whole site            | inline | efeb3e1 |
-| T17 | S18     | One scroll swaps one project, full screen, anchored              | inline | a244011 |
+| T17 | S18     | One scroll swaps one project, full screen, anchored              | inline | 4361e9c |
 
 Work-unit commits are cut per task group (~400 authored changed lines max per commit)
 on the feature branch `feature/portfolio`.
