@@ -43,19 +43,18 @@ export function Works() {
   const panelAt = (index: number) =>
     trackRef.current?.querySelector<HTMLElement>(`[data-index="${index}"]`) ?? null;
 
-  const goTo = (index: number, smooth = true) => {
+  const goTo = (index: number) => {
     const track = trackRef.current;
     const panel = panelAt(index);
 
     if (!track || !panel) return;
 
-    track.scrollTo({
-      top: panel.offsetTop - BAR_HEIGHT,
-      behavior: smooth ? "smooth" : "instant",
-    });
+    // The swap is instant: a project never travels across the screen, so the
+    // visitor never catches one half cut.
+    track.scrollTo({ top: panel.offsetTop - BAR_HEIGHT, behavior: "instant" });
   };
 
-  // The project in view is the last one whose top has passed the index bar.
+  // The project in view is the one that holds the middle of the track.
   useEffect(() => {
     const track = trackRef.current;
 
@@ -63,7 +62,6 @@ export function Works() {
 
     const onScroll = () => {
       const trackRect = track.getBoundingClientRect();
-      // The project in view is the one that holds the middle of the track.
       const line = trackRect.top + BAR_HEIGHT + (trackRect.height - BAR_HEIGHT) / 2;
       let current = 0;
 
@@ -71,14 +69,21 @@ export function Works() {
         if (panel.getBoundingClientRect().top <= line) current = index;
       });
 
+      if (current === active) return;
+
       setActive(current);
+
+      // The new project fades in instead of sliding across the screen.
+      track.classList.remove("is-swapping");
+      void track.offsetWidth;
+      track.classList.add("is-swapping");
     };
 
     onScroll();
     track.addEventListener("scroll", onScroll, { passive: true });
 
     return () => track.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [active]);
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     const keys: Record<string, number> = {
@@ -98,30 +103,30 @@ export function Works() {
     goTo(Math.min(Math.max(target, 0), featuredRepos.length - 1));
   };
 
-  // One wheel gesture moves exactly one project, and the ends of the track
-  // are left to the page so the section can be left downwards.
+  // While the works are on screen they own the wheel: one gesture moves one
+  // project, and the page keeps still so the track never comes unstuck with
+  // a project cut in half. Before the track is anchored the wheel moves the
+  // page, and at the first or the last project the page takes it back.
   useEffect(() => {
-    const track = trackRef.current;
-
-    if (!track) return;
-
     const onWheel = (event: WheelEvent) => {
       if (event.deltaY === 0) return;
 
       const track = trackRef.current;
       const anchor = anchorRef.current;
 
-      // Until the track reaches its anchored position the page still has to
-      // move, so the wheel moves the page and the works take over only once
-      // the first project fills the screen.
-      if (track && anchor) {
-        const stickyTop = Number.parseFloat(getComputedStyle(anchor).top) || 0;
+      if (!track || !anchor) return;
 
-        if (track.getBoundingClientRect().top > stickyTop + 1) {
-          event.preventDefault();
-          window.scrollBy({ top: event.deltaY });
-          return;
-        }
+      const trackRect = track.getBoundingClientRect();
+
+      // The track is not on screen: the page scrolls as usual.
+      if (trackRect.bottom <= 0 || trackRect.top >= window.innerHeight) return;
+
+      const stickyTop = Number.parseFloat(getComputedStyle(anchor).top) || 0;
+
+      if (trackRect.top > stickyTop + 1) {
+        event.preventDefault();
+        window.scrollBy({ top: event.deltaY });
+        return;
       }
 
       const next = active + (event.deltaY > 0 ? 1 : -1);
@@ -132,9 +137,9 @@ export function Works() {
       goTo(next);
     };
 
-    track.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("wheel", onWheel, { passive: false });
 
-    return () => track.removeEventListener("wheel", onWheel);
+    return () => window.removeEventListener("wheel", onWheel);
   }, [active]);
 
   if (featuredRepos.length === 0) return null;

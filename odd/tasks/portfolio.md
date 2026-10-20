@@ -454,12 +454,31 @@ correctamente."
 - The project in view is the one that holds the middle of the track, not the
   last one that passed the top edge, which was one project behind.
 
-### L22 — Verification of the fifth request
+### L22 — What was still wrong with the scroll
+The visitor reported that the work was not shown correctly while scrolling, and
+the capture showed a project cut in half with the index bar missing.
+
+- The page could still scroll while the works were on screen, and the sticky
+  track was released after a short distance, so the track left its anchored
+  position with a project half out of the screen. The wheel handler moved to
+  the window: while the track is on screen it owns the wheel, and the page
+  keeps still, so the track cannot come unstuck.
+- The swap itself was a smooth scroll, so there was a whole second where a
+  project was travelling across the screen and was cut by the top edge. The
+  swap is now instant and the project that arrives fades in over 240ms, so
+  there is no intermediate state to catch.
+- The page takes the wheel back at the first and the last project, so the
+  section can be entered and left downwards.
+
+### L23 — Verification of the fifth request
 - `npm run typecheck` clean, `npm run build` and `npm run verify`: 40 export
   checks pass.
 - Through the DevTools protocol: one wheel tick of a hundred and twenty
   pixels moved the track from project 01 to project 02, and the index bar
   followed.
+- A wheel over the page margin, with project 02 on screen, left the page
+  exactly where it was. The same wheel with the last project on screen moved
+  the page by one tick.
 - Captured at 1440x900 and 390x844 with the track anchored: the project
   fills the screen under the header, the index bar sits on its top edge with
   the right number and the right name, and nothing is cut.
