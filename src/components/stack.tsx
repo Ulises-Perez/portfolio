@@ -1,13 +1,10 @@
 import { languages, totalBytes } from "@/lib/github";
 import { formatBytes } from "@/lib/utils";
 
-/** Editorial grouping of the measured languages by the role they play. */
-const toolbox = [
-  { label: "front end", items: ["Vue", "TypeScript", "HTML", "CSS", "SCSS"] },
-  { label: "back end", items: ["PHP", "Blade"] },
-  { label: "systems", items: ["Rust", "Lua", "Python", "Shell", "Hack"] },
-];
-
+/**
+ * The stack, measured. The grouping of the languages by role lives in the
+ * services section, where it is a promise; here it is only the real usage.
+ */
 export function Stack() {
   return (
     <section id="stack" className="border-b border-rule-strong">
@@ -20,73 +17,36 @@ export function Stack() {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 border-b border-rule-strong md:grid-cols-10">
-            <div className="col-span-4 border-r border-rule-strong md:col-span-5">
-              <ul>
-                {languages.map((language) => {
-                  const share = (language.bytes / totalBytes) * 100;
+          <ul className="grid grid-cols-1 border-b border-rule-strong md:grid-cols-2">
+            {languages.map((language) => {
+              const share = (language.bytes / totalBytes) * 100;
 
-                  return (
-                    <li
-                      key={language.name}
-                      className="border-b border-rule-strong p-3 last:border-b-0 md:p-4"
-                    >
-                      <div className="flex items-baseline justify-between gap-3">
-                        <span className="font-bold tracking-[-0.02em]">
-                          {language.name}
-                        </span>
-                        <span className="text-[0.65rem] tracking-[0.12em] uppercase text-muted tabular-nums">
-                          {language.repos} repo{language.repos === 1 ? "" : "s"}
-                        </span>
-                      </div>
-                      <div className="mt-2 h-1.5 w-full bg-ink/10">
-                        <div
-                          className="h-full bg-ink"
-                          style={{ width: `${Math.max(share, 1.5)}%` }}
-                        />
-                      </div>
-                      <p className="mt-1 text-[0.65rem] tracking-[0.12em] uppercase text-muted tabular-nums">
-                        {formatBytes(language.bytes)}
-                      </p>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            <div className="col-span-4 md:col-span-5">
-              <div className="border-b border-rule-strong p-3 md:p-4">
-                <p className="eyebrow">toolbox</p>
-                <div className="mt-3 grid gap-4 sm:grid-cols-3">
-                  {toolbox.map((group) => {
-                    const present = group.items
-                      .map((item) => languages.find((language) => language.name === item))
-                      .filter((language): language is (typeof languages)[number] => Boolean(language));
-
-                    if (present.length === 0) return null;
-
-                    return (
-                      <div key={group.label}>
-                        <p className="text-sm font-bold tracking-[-0.02em]">
-                          {group.label}
-                        </p>
-                        <ul className="mt-1 space-y-0.5 text-sm text-muted">
-                          {present.map((language) => (
-                            <li key={language.name} className="flex justify-between gap-2">
-                              <span>{language.name}</span>
-                              <span className="tabular-nums text-muted">
-                                {language.repos}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
+              return (
+                <li
+                  key={language.name}
+                  className="border-b border-rule-strong p-3 last:border-b-0 md:[&:nth-last-child(-n+2)]:border-b-0 md:p-4"
+                >
+                  <div className="flex items-baseline justify-between gap-3">
+                    <span className="font-bold tracking-[-0.02em]">
+                      {language.name}
+                    </span>
+                    <span className="text-[0.65rem] tracking-[0.12em] uppercase text-muted tabular-nums">
+                      {language.repos} repo{language.repos === 1 ? "" : "s"}
+                    </span>
+                  </div>
+                  <div className="mt-2 h-1.5 w-full bg-ink/10">
+                    <div
+                      className="h-full bg-ink"
+                      style={{ width: `${Math.max(share, 1.5)}%` }}
+                    />
+                  </div>
+                  <p className="mt-1 text-[0.65rem] tracking-[0.12em] uppercase text-muted tabular-nums">
+                    {formatBytes(language.bytes)}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </section>

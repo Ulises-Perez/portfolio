@@ -1,5 +1,13 @@
-import { generatedAt, profile } from "@/lib/github";
+import { generatedAt } from "@/lib/github";
 import { site } from "@/data/site.config";
+
+const links = [
+  { href: "/#developer", label: "the developer" },
+  { href: "/#works", label: "selected works" },
+  { href: "/#services", label: "my services" },
+  { href: "/#stack", label: "my stack" },
+  { href: "/#contact", label: "contact" },
+];
 
 export function Footer() {
   return (
@@ -10,39 +18,31 @@ export function Footer() {
             {site.displayName.toLowerCase()}.
           </p>
           <p className="text-sm text-muted">
-            Built with Next.js, Tailwind and the GitHub API.
+            Built with Next.js and Tailwind. The data is a snapshot of my
+            GitHub, refreshed by a script.
           </p>
         </div>
 
-        <div className="col-span-2 border-l border-rule-strong p-3 md:col-span-2 md:p-4">
-          <p className="eyebrow">contact</p>
-          <a
-            href={site.contact.github}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-1 block text-sm underline underline-offset-4 hover:text-muted"
-          >
-            github.com/{site.owner}
-          </a>
-          {site.contact.email ? (
-            <a
-              href={`mailto:${site.contact.email}`}
-              className="mt-1 block text-sm underline underline-offset-4 hover:text-muted"
-            >
-              {site.contact.email}
-            </a>
-          ) : null}
-          {site.contact.discord ? (
-            <p className="mt-1 text-sm">discord: {site.contact.discord}</p>
-          ) : null}
-        </div>
+        <nav
+          aria-label="sections"
+          className="col-span-4 border-l border-rule-strong p-3 md:col-span-5 md:p-4"
+        >
+          <p className="eyebrow">sections</p>
+          <ul className="mt-1 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+            {links.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className="underline underline-offset-4 hover:text-muted"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-        <div className="col-span-2 border-l border-rule-strong p-3 md:col-span-2 md:p-4">
-          <p className="eyebrow">repos</p>
-          <p className="mt-1 text-sm tabular-nums">{profile.publicRepos} public</p>
-        </div>
-
-        <div className="col-span-4 border-l border-rule-strong p-3 md:col-span-4 md:p-4">
+        <div className="col-span-4 border-l border-rule-strong p-3 md:col-span-3 md:p-4">
           <p className="eyebrow">data snapshot</p>
           <p className="mt-1 text-sm tabular-nums">
             {new Date(generatedAt).toISOString().slice(0, 10)}

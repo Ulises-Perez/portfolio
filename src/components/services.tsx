@@ -1,17 +1,9 @@
-import { repos } from "@/lib/github";
 import { site } from "@/data/site.config";
-
-/** How many public repositories run on the stack a service is built with. */
-function countFor(stack: string[]): number {
-  return repos.filter((repo) =>
-    Object.keys(repo.languages).some((language) => stack.includes(language)),
-  ).length;
-}
 
 /**
  * What the visitor can hire, stated as services. The repositories are not
  * repeated here: the featured ones live in the works section, one at a time,
- * and the whole inventory sits in the archive below.
+ * and the whole inventory sits in the archive at the end of it.
  */
 export function Services() {
   return (
@@ -66,43 +58,9 @@ export function Services() {
                 <p className="mt-6 max-w-[34ch] text-sm leading-relaxed text-muted">
                   {service.note}
                 </p>
-                <p className="mt-4 text-[0.65rem] tracking-[0.12em] uppercase text-muted">
-                  {countFor(service.stack)} public repositories on this stack
-                </p>
               </div>
             </div>
           ))}
-
-          <div className="border-b border-rule-strong">
-            <div className="flex items-baseline justify-between gap-4 p-3 md:p-4">
-              <p className="eyebrow">the archive</p>
-              <p className="text-[0.65rem] tracking-[0.18em] uppercase text-muted">
-                {repos.length} public repositories
-              </p>
-            </div>
-            <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
-              {repos.map((repo) => (
-                <li key={repo.name} className="border-t border-rule-strong">
-                  <a
-                    href={repo.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex h-full flex-col justify-between gap-3 p-3 transition-colors hover:bg-ink hover:text-surface md:p-4"
-                  >
-                    <span className="truncate text-sm font-bold tracking-[-0.02em]">
-                      {repo.name}
-                    </span>
-                    <span className="flex items-center justify-between gap-2 text-[0.6rem] tracking-[0.12em] uppercase opacity-70">
-                      <span className="truncate">
-                        {repo.language || "mixed"}
-                      </span>
-                      <span className="shrink-0 tabular-nums">★ {repo.stars}</span>
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
     </section>

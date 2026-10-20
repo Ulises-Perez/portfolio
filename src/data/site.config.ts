@@ -8,6 +8,21 @@ export type Service = {
   stack: string[];
 };
 
+/**
+ * One line per featured project, written for this site. The readmes are
+ * written by their authors, in their own voice and sometimes in another
+ * language; a portfolio speaks with one voice, so the featured projects get
+ * their line here and the readme only fills the gap.
+ */
+export const summaries: Record<string, string> = {
+  nexo: "A monorepo with three parts: a REST and WebSocket API, a cross platform desktop client and a cloud service.",
+  vumies: "A streaming platform built with Vue 3, TypeScript, Vite and Tailwind CSS.",
+  ritup2: "A music player built with Vue 3, TypeScript and Tailwind, on top of the public Deezer catalogue API.",
+  LaraMovies: "A movies site built with Laravel and Blade.",
+  Autonomies: "A movies and series page that runs on its own, with the TMDB API and scraping.",
+  Portafolio: "The portfolio site of a hostel.",
+};
+
 export const site = {
   owner: "Ulises-Perez",
   displayName: "Deus",

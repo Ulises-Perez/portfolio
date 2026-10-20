@@ -37,6 +37,10 @@ const snapshot = JSON.parse(
   readFileSync(resolve(root, "src/data/github.json"), "utf8"),
 );
 
+const syncConfig = JSON.parse(
+  readFileSync(resolve(root, "scripts/github-sync.config.json"), "utf8"),
+);
+
 check("export contains the home page", html.length > 0);
 check(
   "assets are prefixed with the base path",
@@ -124,9 +128,10 @@ check(
   html.includes(`mailto:${email}`),
 );
 check(
-  "the snapshot holds every public repository",
-  snapshot.repos.length === snapshot.profile.publicRepos,
-  `snapshot has ${snapshot.repos.length} of ${snapshot.profile.publicRepos} public repos`,
+  "the snapshot holds every public repository that is not excluded",
+  snapshot.repos.length ===
+    snapshot.profile.publicRepos - syncConfig.exclude.length,
+  `snapshot has ${snapshot.repos.length} of ${snapshot.profile.publicRepos} public repos, ${syncConfig.exclude.length} excluded`,
 );
 
 if (failures.length > 0) {
