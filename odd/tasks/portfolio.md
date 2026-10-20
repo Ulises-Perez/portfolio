@@ -25,6 +25,8 @@ The site connects to GitHub and exposes every public repository of the account.
 Resolved: authenticated `gh`/HTTPS access to account `Ulises-Perez`; 15 public
 repositories. A sync script downloads repository metadata, per-repository language
 byte counts and README text into a committed snapshot consumed at build time.
+The page shows the featured repositories; the rest of the public inventory stays
+in the snapshot and on GitHub, and is not listed on the page (L29).
 
 ### S3 — All technologies used
 The technologies used across the repositories are shown.
@@ -121,8 +123,8 @@ The section stops repeating the projects and states what the visitor can hire.
 > works, es preferible algo como services que tipos de servicio puedo ofrecer"
 
 Resolved: the section becomes "my services." with the three service groups and
-the repositories that prove each one. The full public inventory stays visible
-as a compact archive strip, so S2 still holds.
+the repositories that prove each one. The full public inventory is not listed
+on the page (L29).
 
 ### S13 — Contact beyond GitHub
 Email and Discord join GitHub as ways to start a conversation.
@@ -226,11 +228,11 @@ The site says the same thing once, and the sections that repeat each other go.
 > "en la cual puedas rediseñar algunas secciones, quitar o agregar secciones las
 > cuales no son necesarias o son repetitivas"
 
-Resolved: the featured projects carry a line written for this site, the two
-repositories with nothing to say leave the full screens for the archive, the
-archive moves under the works where the inventory belongs, the toolbox that
-restated the services is gone, the footer carries the section links, the hero
-says what can be hired, and the count of repositories is said once.
+Resolved: the featured projects carry a line written for this site, the
+repositories with nothing to say leave the page, the archive strip is gone
+(L29), the toolbox that restated the services is gone, the footer carries the
+section links, the hero says what can be hired, and the count of repositories
+is said once.
 
 ### S22 — The page can be read without JavaScript
 The navigation exists without the script that builds the menu.
@@ -267,6 +269,7 @@ link shared anywhere shows the site itself as the preview image.
 | T20 | S19     | The interface guidelines the audit found                        | inline | 2de3634 |
 | T21 | S21     | One voice, the sections that repeat themselves cut             | inline | c70fb61 |
 | T22 | S22     | Navigation without JavaScript, structured data, social preview | inline | 100d31d |
+| T23 | S2, S12, S21 | The archive section leaves the page and the smoke test follows it | inline | eaac6b4 |
 
 Work-unit commits are cut per task group (~400 authored changed lines max per commit)
 on the feature branch `feature/portfolio`.
@@ -616,3 +619,43 @@ What the design review said:
 - The Tailwind v4 translate utilities use the `translate` property, so a
   hover rule written with `transform` does not reset them. That was the reason
   the button read as empty.
+
+### L29 — Sixth request (verbatim)
+"Quitar la seccion de thearchive abajo de los works [captura de la sección
+"the archive" al final de los works, en tema oscuro, con los 13 repositorios
+públicos en la grilla]."
+
+### L30 — Decisions taken for the sixth request
+- The archive is not rendered any more: the component and its import are gone.
+- The archive was never a project panel, so it never had an anchor. The wheel
+  still walks the six featured projects, and the handover to the services
+  section happens at the end of the last panel.
+- The fallback copy of the works section no longer points at an archive that
+  does not exist.
+- The snapshot and the sync script do not change. The smoke test still checks
+  that the snapshot matches the profile, and the repositories that are not
+  featured stay in the snapshot and on GitHub.
+
+### L31 — Verification of the sixth request
+- RED first: the new check failed on the previous export with "the archive
+  section is not rendered".
+- `npm run typecheck` clean, `npm run build` and `npm run verify`: 32 export
+  checks pass.
+- In the browser, through the DevTools protocol at 1440x900: the text and the
+  HTML carry no "the archive", the six panels are still there, the works
+  section ends exactly where the last panel ends (6402px) and the services
+  section starts at the same point, so no empty band is left behind.
+- One wheel tick on the last project hands the page to the services section
+  (scrollY 5596 to 6402, the services heading at the top of the viewport).
+- Seen while checking and not caused by this change: the dev overlay reports
+  a hydration mismatch in the theme toggle, the server renders "light" and the
+  client "dark". It predates this work and was left alone.
+- `next build` and `next dev` share `.next/`: a build while the dev server
+  runs breaks it with a MODULE_NOT_FOUND, so the dev server was restarted
+  after the build.
+
+### L32 — Risk
+- T23: `Risk: item 3 (contracts others consume)` — the export smoke test
+  changes what the page owes, and the deploy workflow runs it, so the new rule
+  (the featured repositories are listed, the archive is not) is part of the
+  deployment contract. Covered by the checks in L31.
