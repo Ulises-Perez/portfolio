@@ -1,7 +1,7 @@
 {
   "owner": "Ulises-Perez",
   "includeForks": true,
-  "exclude": [],
+  "exclude": ["proyecto-git", "testgit"],
   "ignoredLanguages": ["Procfile"],
   "featured": [
     "nexo",
@@ -9,8 +9,6 @@
     "ritup2",
     "LaraMovies",
     "Autonomies",
-    "Barberweb",
-    "villanapoles",
     "Portafolio"
   ]
 }

@@ -20,6 +20,7 @@ import {
   isVisibleRepo,
   keepLanguages,
   sortRepos,
+  summary,
   toPlainText,
 } from "./lib/sync-helpers.mjs";
 
@@ -80,14 +81,14 @@ async function requestAll(path) {
   return items;
 }
 
-/** Strips markdown noise so a README reads as a plain-text excerpt. */
+/** Reads the README of a repository as plain text, bounded to the first words. */
 async function readExcerpt(owner, repo) {
   try {
     const readme = await request(`/repos/${owner}/${repo}/readme`);
     if (!readme?.content) return "";
 
     const text = Buffer.from(readme.content, "base64").toString("utf8");
-    return excerpt(toPlainText(text));
+    return excerpt(toPlainText(text), 240);
   } catch {
     return "";
   }
@@ -106,6 +107,7 @@ async function main() {
     const languages = await request(`/repos/${owner}/${repo.name}/languages`);
     const bytes = Object.values(languages).reduce((total, value) => total + value, 0);
     const keptLanguages = keepLanguages(languages, config.ignoredLanguages);
+    const readme = await readExcerpt(owner, repo.name);
 
     repos.push({
       name: repo.name,
@@ -126,7 +128,10 @@ async function main() {
       createdAt: repo.created_at,
       pushedAt: repo.pushed_at,
       featured: config.featured.includes(repo.name),
-      readme: await readExcerpt(owner, repo.name),
+      // The snapshot carries the one line that describes the project, not the
+      // whole readme: the page shows one line and the rest was dead weight in
+      // the browser payload.
+      summary: summary(readme, repo.description ?? "", 150, repo.name),
     });
   }
 

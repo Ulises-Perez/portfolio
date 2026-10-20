@@ -24,16 +24,27 @@ function noise(seed: number, x: number, y: number): number {
 /**
  * Deterministic cover art for a repository, so the portfolio ships no binary
  * assets and every project still gets a distinct visual identity.
+ *
+ * The cells are drawn as two paths instead of one rectangle each: a rendered
+ * rectangle carries its own attributes and the server renderer separates them
+ * with comments, which made the exported page weigh a hundred and seventy
+ * kilobytes more than the whole rest of the site. The empty cells are left
+ * out entirely, they were never visible.
  */
 export function RepoCover({ name, variant = "thumb", className = "" }: RepoCoverProps) {
   const seed = hash(name);
   const columns = variant === "panel" ? 12 : 6;
   const rows = variant === "panel" ? 7 : 8;
-  const cells: Array<{ x: number; y: number; fill: number }> = [];
+
+  let solid = "";
+  let soft = "";
 
   for (let y = 0; y < rows; y += 1) {
     for (let x = 0; x < columns; x += 1) {
-      cells.push({ x, y, fill: noise(seed, x, y) });
+      const fill = noise(seed, x, y);
+
+      if (fill > 0.55) solid += `M${x} ${y}h1v1h-1z`;
+      else if (fill > 0.34) soft += `M${x} ${y}h1v1h-1z`;
     }
   }
 
@@ -42,25 +53,11 @@ export function RepoCover({ name, variant = "thumb", className = "" }: RepoCover
       viewBox={`0 0 ${columns} ${rows}`}
       preserveAspectRatio="none"
       className={`h-full w-full ${className}`}
-      role="img"
-      aria-label={`${name} cover`}
+      aria-hidden="true"
+      focusable="false"
     >
-      {cells.map((cell) => {
-        const filled = cell.fill > 0.55;
-        const soft = cell.fill > 0.34;
-
-        return (
-          <rect
-            key={`${cell.x}-${cell.y}`}
-            x={cell.x}
-            y={cell.y}
-            width={1}
-            height={1}
-            fill={filled ? "currentColor" : soft ? "currentColor" : "none"}
-            opacity={filled ? 0.9 : soft ? 0.28 : 0}
-          />
-        );
-      })}
+      {solid ? <path d={solid} fill="currentColor" opacity="0.9" /> : null}
+      {soft ? <path d={soft} fill="currentColor" opacity="0.28" /> : null}
     </svg>
   );
 }

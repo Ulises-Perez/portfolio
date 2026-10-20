@@ -63,3 +63,30 @@ export function sortRepos(repos) {
 export function excerpt(text, limit = 700) {
   return text.slice(0, limit);
 }
+
+/**
+ * The one line that says what a project is. The README opens with a sentence
+ * about the project itself, so that is the line worth keeping; a framework
+ * boilerplate readme is not, and neither is an empty description. A readme
+ * that starts with the name of the repository is trimmed, because the panel
+ * already shows the name next to the line.
+ */
+export function summary(readme, description, limit = 150, name = "") {
+  let text = (readme ?? "").trim();
+
+  // A readme that opens with the name of the repository repeats it in the
+  // heading and in the first word of the sentence: the heading is dropped.
+  if (name && text.toLowerCase().startsWith(name.toLowerCase())) {
+    const rest = text.slice(name.length).trim().replace(/^[-—:.\s]+/, "");
+
+    if (rest.toLowerCase().startsWith(name.toLowerCase())) {
+      text = rest;
+    }
+  }
+
+  if (text.length >= 24 && !text.startsWith("About ")) {
+    return text.length > limit ? `${text.slice(0, limit).trimEnd()}…` : text;
+  }
+
+  return (description ?? "").trim();
+}

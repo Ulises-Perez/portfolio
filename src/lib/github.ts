@@ -17,8 +17,24 @@ export type Repo = {
   createdAt: string;
   pushedAt: string;
   featured: boolean;
-  readme: string;
+  summary: string;
 };
+
+/**
+ * What a project panel needs. The client only receives these fields, so the
+ * rest of the snapshot never crosses to the browser.
+ */
+export type Project = Pick<
+  Repo,
+  | "name"
+  | "url"
+  | "language"
+  | "languages"
+  | "bytes"
+  | "stars"
+  | "pushedAt"
+  | "summary"
+>;
 
 export type Profile = {
   login: string;
@@ -59,6 +75,9 @@ export const repos = snapshot.repos;
 export const generatedAt = snapshot.generatedAt;
 
 export const featuredRepos = repos.filter((repo) => repo.featured);
+
+/** Public repositories on the site: the whole list, minus the ones excluded. */
+export const repoCount = repos.length;
 
 /** Bytes of every language across the account, used to scale the stack bars. */
 export const totalBytes = languages.reduce((total, language) => total + language.bytes, 0);

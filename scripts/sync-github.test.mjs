@@ -7,6 +7,7 @@ import {
   isVisibleRepo,
   keepLanguages,
   sortRepos,
+  summary,
   toPlainText,
 } from "./lib/sync-helpers.mjs";
 
@@ -83,4 +84,37 @@ test("sortRepos puts featured first and then the most recently pushed", () => {
 test("excerpt bounds the README length", () => {
   assert.equal(excerpt("abcdef", 3), "abc");
   assert.equal(excerpt("abc", 10), "abc");
+});
+
+test("summary keeps the line that talks about the project", () => {
+  assert.equal(
+    summary("Nexo is a personal project built as a monorepo", ""),
+    "Nexo is a personal project built as a monorepo",
+  );
+  assert.equal(summary("", "a short description"), "a short description");
+});
+
+test("summary ignores framework boilerplate and cuts long lines", () => {
+  assert.equal(
+    summary("About Laravel Laravel is a web application framework", "Page LaraMovies"),
+    "Page LaraMovies",
+  );
+  assert.equal(summary("too short", "a real description"), "a real description");
+  assert.equal(summary("", "no readme and no description"), "no readme and no description");
+
+  const long = summary(`${"a".repeat(400)}`, "");
+
+  assert.equal(long.length, 151);
+  assert.match(long, /…$/);
+});
+
+test("summary trims the name the readme repeats", () => {
+  assert.equal(
+    summary("Nexo Nexo is a personal project built as a monorepo", "", 150, "Nexo"),
+    "Nexo is a personal project built as a monorepo",
+  );
+  assert.equal(
+    summary("nexo is a personal project built as a monorepo", "", 150, "Nexo"),
+    "nexo is a personal project built as a monorepo",
+  );
 });
