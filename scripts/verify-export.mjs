@@ -91,13 +91,21 @@ for (const file of ["robots.txt", "sitemap.xml"]) {
   );
 }
 
-for (const repo of snapshot.repos) {
+// Only the featured repositories have a panel in the works section. The rest
+// of the shelf is not listed on the page.
+for (const repo of snapshot.repos.filter((repo) => repo.featured)) {
   check(
-    `repository ${repo.name} is listed`,
+    `featured repository ${repo.name} is listed`,
     html.includes(repo.name),
-    "the repository is in the snapshot but missing from the page",
+    "the repository is featured in the snapshot but missing from the page",
   );
 }
+
+check(
+  "the archive section is not rendered",
+  !html.includes("the archive"),
+  "the archive section is still part of the page",
+);
 
 for (const language of snapshot.languages.slice(0, 6)) {
   check(

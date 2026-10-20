@@ -2,8 +2,7 @@ import { site } from "@/data/site.config";
 
 /**
  * What the visitor can hire, stated as services. The repositories are not
- * repeated here: the featured ones live in the works section, one at a time,
- * and the whole inventory sits in the archive at the end of it.
+ * repeated here: the featured ones live in the works section, one at a time.
  */
 export function Services() {
   return (

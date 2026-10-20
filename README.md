@@ -42,9 +42,11 @@ npm run dev        # http://localhost:3000
    repository. `scripts/github-sync.config.json` decides what is visible and
    which repositories are featured.
 2. The result is written to `src/data/github.json`.
-3. The site reads that file at build time through `src/lib/github.ts`. There
-   is no request to GitHub while the site is being served, so there is no rate
-   limit and no broken page when the API is down.
+3. The site reads that file at build time through `src/lib/github.ts`. The
+   page shows the featured repositories; the rest of the public inventory
+   stays in the snapshot and on GitHub. There is no request to GitHub while
+   the site is being served, so there is no rate limit and no broken page
+   when the API is down.
 
 The `Refresh the GitHub snapshot` workflow runs the sync every Monday and
 commits the result, which triggers a new deployment.

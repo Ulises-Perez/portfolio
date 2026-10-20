@@ -1,4 +1,3 @@
-import { Archive } from "@/components/archive";
 import { Contact } from "@/components/contact";
 import { Developer } from "@/components/developer";
 import { Footer } from "@/components/footer";
@@ -33,7 +32,6 @@ export default function Home() {
         {projects.map((project, index) => (
           <ProjectPanel key={project.name} project={project} index={index} />
         ))}
-        <Archive />
       </Works>
       <Services />
       <Stack />

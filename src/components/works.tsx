@@ -30,7 +30,7 @@ export function Works({
             <WorksNav names={names} />
           ) : (
             <p className="border-b border-rule-strong p-3 text-sm text-muted md:p-4">
-              No featured projects yet. The whole shelf is in the archive below.
+              No featured projects yet.
             </p>
           )}
 
