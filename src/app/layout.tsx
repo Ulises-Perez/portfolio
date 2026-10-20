@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk } from "next/font/google";
 
-import { GridOverlay } from "@/components/grid-overlay";
 import { SiteHeader } from "@/components/site-header";
 import { profile } from "@/lib/github";
 import { site } from "@/data/site.config";
@@ -65,7 +64,6 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <GridOverlay />
         <SiteHeader />
         <main id="main" className="pt-14 md:pt-16">
           {children}
