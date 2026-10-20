@@ -482,3 +482,42 @@ the capture showed a project cut in half with the index bar missing.
 - Captured at 1440x900 and 390x844 with the track anchored: the project
   fills the screen under the header, the index bar sits on its top edge with
   the right number and the right name, and nothing is cut.
+
+### L24 — What the measurement really showed
+The visitor said it was still not right, so the whole walk was measured in the
+browser instead of assumed. The log said the track never anchored: its top sat
+at -172px, the index bar was off screen and every project was cut.
+
+The reason: the track was a sticky element as tall as the viewport, inside a
+column barely taller than it. A sticky element that tall can only stay pinned
+for a couple of hundred pixels, and after that it travels with the page. The
+nested scroll container was the wrong model for this.
+
+### L25 — The model that holds
+- The projects live in the page flow again, each one a full screen, and the
+  wheel moves the page from one project to the next. The page keeps the
+  position, so there is no nested scroller to come unstuck and no trap to
+  leave.
+- The index bar is a small sticky element inside a column that is now very
+  tall, so it stays pinned for the whole section.
+- The wheel owns the works while they are on screen: a hundred and twenty
+  pixels of travel buy the next project, a gesture under that threshold buys
+  nothing, and a change of direction starts the count again.
+- At the last project, and on a hard fling, the page takes over with a
+  handover: the page scrolls to the end of the section, so the next one
+  arrives whole instead of leaving a project half out of the screen.
+- Scrolling up at the first project gives the page back, so the title above
+  comes back into view.
+- The page movements respect the motion preference, and the panels are snap
+  targets, so a touch swipe lands on a project the same way the wheel does.
+
+### L26 — Verification of the rework
+- `npm run typecheck` clean, `npm run build` and `npm run verify`: 40 export
+  checks pass, and the impeccable detector reports no findings on the changed
+  files.
+- A scripted walk in a real browser, at 1440x900 and at 390x844: every wheel
+  tick moves exactly one project, every project lands seated at the anchor
+  (the panel top is exactly the header plus the bar, 96px on desktop and 88px
+  on mobile), the index bar keeps the right number and the right name, a
+  gesture under the threshold moves nothing, a fling hands the page over, and
+  the last project hands the page to the next section.
