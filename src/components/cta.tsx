@@ -10,13 +10,15 @@ type RollingLabelProps = {
  */
 export function RollingLabel({ label, className = "" }: RollingLabelProps) {
   return (
-    <span className="cta-stack">
-      <span className={`cta-label ${className}`}>{label}</span>
-      <span
-        aria-hidden="true"
-        className={`cta-label cta-label-next ${className}`}
-      >
-        {label}
+    <span className="cta-clip">
+      <span className="cta-stack">
+        <span className={`cta-label ${className}`}>{label}</span>
+        <span
+          aria-hidden="true"
+          className={`cta-label cta-label-next ${className}`}
+        >
+          {label}
+        </span>
       </span>
     </span>
   );

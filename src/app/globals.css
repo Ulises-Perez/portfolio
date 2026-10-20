@@ -97,11 +97,17 @@ body {
     @apply font-bold leading-[0.85] tracking-[-0.06em];
   }
 
-  /* Rolling CTA: the label slides up and the duplicate slides in from below,
-     the same move the theme toggle makes. The vertical padding lives on the
-     label, not on the button, so the rolling copy starts outside the frame. */
+  /* Rolling CTA: the label rolls down and out while its copy comes down from
+     above, exactly the move the theme toggle makes. The clip sits on the
+     content box, so the rolling copy starts outside the frame and the two
+     copies travel the same distance and stay in phase: the text is never cut
+     in half and never loses contrast. */
   .cta {
-    @apply relative inline-block overflow-hidden border border-rule-strong px-4 text-lg leading-[1.3] tracking-[0.06em] uppercase transition-colors duration-300 hover:bg-ink hover:text-surface md:text-xl;
+    @apply relative inline-block border border-rule-strong px-4 py-2 text-lg leading-[1.3] tracking-[0.06em] uppercase transition-colors duration-300 hover:bg-ink hover:text-surface md:text-xl;
+  }
+
+  .cta-clip {
+    @apply block overflow-hidden;
   }
 
   .cta-stack {
@@ -109,19 +115,20 @@ body {
   }
 
   .cta-label {
-    @apply block py-2 transition-transform duration-450 ease-[cubic-bezier(0.65,0,0.35,1)];
+    @apply block transition-transform duration-450 ease-[cubic-bezier(0.65,0,0.35,1)];
   }
 
   .cta-label-next {
-    @apply absolute inset-x-0 top-0 translate-y-full transition-transform duration-450 ease-[cubic-bezier(0.65,0,0.35,1)];
+    @apply absolute inset-x-0 top-0 block transition-transform duration-450 ease-[cubic-bezier(0.65,0,0.35,1)];
+    translate: 0 -100%;
   }
 
   .cta:hover .cta-label {
-    transform: translateY(-100%);
+    translate: 0 100%;
   }
 
   .cta:hover .cta-label-next {
-    transform: translateY(0);
+    translate: 0 0;
   }
 }
 

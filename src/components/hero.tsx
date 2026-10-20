@@ -6,7 +6,7 @@ export function Hero() {
   const stack = languages.slice(0, 9);
 
   return (
-    <section className="flex flex-col border-b border-rule-strong md:min-h-[calc(100svh-4rem)]">
+    <section className="flex flex-col border-b border-rule-strong bg-surface md:min-h-[calc(100svh-4rem)]">
       <div className="grid grid-cols-4 border-b border-rule-strong md:min-h-[40svh] md:grid-cols-12 md:flex-1">
         <div className="relative col-span-4 aspect-[4/3] overflow-hidden border-b border-rule-strong bg-ink text-surface md:col-span-8 md:aspect-auto md:h-full md:border-b-0 md:border-r">
           <div className="sweep absolute inset-0 overflow-hidden" aria-hidden="true">
@@ -53,24 +53,20 @@ export function Hero() {
             className="text-[clamp(3.5rem,22vw,17rem)] leading-[0.8] font-bold tracking-[-0.13em]"
             aria-label={`${site.displayName}.`}
           >
-            {/* The word carries its own field, so the column rules stop at the
-                letters instead of running through them. */}
-            <span className="relative inline-block bg-surface px-2 pb-[0.06em]">
-              {letters.map((letter, index) => (
-                <span
-                  key={`${letter}-${index}`}
-                  aria-hidden="true"
-                  className="rise inline-block"
-                  style={{ animationDelay: `${index * 70}ms` }}
-                >
-                  {letter}
-                </span>
-              ))}
-            </span>
+            {letters.map((letter, index) => (
+              <span
+                key={`${letter}-${index}`}
+                aria-hidden="true"
+                className="rise inline-block"
+                style={{ animationDelay: `${index * 70}ms` }}
+              >
+                {letter}
+              </span>
+            ))}
           </h1>
         </div>
 
-        <ul className="col-span-3 flex flex-col justify-end gap-1 border-l border-rule-strong p-3 text-base leading-[1.15] font-medium tracking-[-0.02em] md:col-span-3 md:p-4 md:text-xl lg:text-2xl">
+        <ul className="col-span-3 flex flex-col justify-end gap-1 p-3 text-base leading-[1.15] font-medium tracking-[-0.02em] md:col-span-3 md:border-l md:border-rule-strong md:p-4 md:text-xl lg:text-2xl">
           {site.roles.map((role, index) => (
             <li
               key={role}
@@ -82,7 +78,7 @@ export function Hero() {
           ))}
         </ul>
 
-        <div className="col-span-1 flex items-center justify-center p-3 md:col-span-2 md:p-4">
+        <div className="col-span-1 flex items-center justify-center p-3 md:col-span-2 md:border-l md:border-rule-strong md:p-4">
           <svg
             viewBox="0 0 120 120"
             className="h-20 w-auto md:h-36"

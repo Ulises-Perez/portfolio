@@ -85,23 +85,31 @@ export function SiteHeader() {
         onClick={() => setOpen((value) => !value)}
         className="group fixed right-0 top-0 z-[52] flex h-14 w-14 cursor-pointer items-center justify-center border-b border-l border-rule-strong bg-surface transition-colors hover:bg-ink hover:text-surface md:h-16 md:w-16"
       >
-        <span className="relative block h-4 w-6">
+        {/* Three bars that fold into a cross. Each one keeps its own edge, so
+            they never land on the same line while the menu is closed. */}
+        <span className="relative block h-4 w-6" aria-hidden="true">
           <span
             className={[
               "absolute left-0 block h-px w-full transition-all duration-300",
-              open ? "top-1/2 rotate-45 bg-ink group-hover:bg-surface" : "top-0 bg-ink group-hover:bg-surface",
+              open
+                ? "top-1/2 -translate-y-1/2 rotate-45 bg-ink group-hover:bg-surface"
+                : "top-0 translate-y-0 rotate-0 bg-ink group-hover:bg-surface",
             ].join(" ")}
           />
           <span
             className={[
               "absolute left-0 top-1/2 block h-px w-full transition-all duration-300",
-              open ? "bg-ink group-hover:bg-surface" : "bg-ink group-hover:bg-surface",
+              open
+                ? "-translate-y-1/2 scale-x-0 bg-ink opacity-0"
+                : "-translate-y-1/2 scale-x-100 bg-ink opacity-100 group-hover:bg-surface",
             ].join(" ")}
           />
           <span
             className={[
               "absolute left-0 block h-px w-full transition-all duration-300",
-              open ? "top-1/2 -rotate-45 bg-ink group-hover:bg-surface" : "top-2 bg-ink group-hover:bg-surface",
+              open
+                ? "bottom-auto top-1/2 -translate-y-1/2 -rotate-45 bg-ink group-hover:bg-surface"
+                : "bottom-0 top-auto translate-y-0 rotate-0 bg-ink group-hover:bg-surface",
             ].join(" ")}
           />
         </span>
