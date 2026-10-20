@@ -170,6 +170,16 @@ the same move the theme toggle makes, and both travel the same distance so the
 text stays whole during the roll. The clip sits on the content box, so the
 resting button shows one label and nothing else.
 
+### S17 — No background rules anywhere
+The column rules disappear from the whole site, not only from the hero.
+
+> "Las demas lineas de todo el bg en la demas web tambien quitarlas"
+
+Resolved: the fixed twelve column overlay is removed from the layout. The page
+keeps only the borders that divide blocks, which is the structure the sections
+are built on. The hero no longer needs its own surface to hide the overlay,
+but it keeps it so the media band and the display band read as one panel.
+
 ## Tasks
 
 | ID  | Specs   | Task                                                             | Route  | Commit |
@@ -189,6 +199,7 @@ resting button shows one label and nothing else.
 | T13 | S13     | Contact: email and Discord, in the section and in the menu       | inline | 50b31fd |
 | T14 | S2, S4  | Export smoke test follows the new section ids, full re-verification | inline | a0f5034 |
 | T15 | S15, S16 | Hero like the reference with only the dividing lines, and a button label that keeps its contrast | inline | c9da266 |
+| T16 | S17     | Remove the background column rules from the whole site            | inline | efeb3e1 |
 
 Work-unit commits are cut per task group (~400 authored changed lines max per commit)
 on the feature branch `feature/portfolio`.
@@ -383,3 +394,23 @@ hace que el texto sea invisible a la vista de los usuarios."
   The mid roll shows the whole word, the upper half from the outgoing copy
   and the lower half from the incoming one, with no gap and no loss of
   contrast.
+
+### L17 — Fourth request (verbatim)
+"Las demas lineas de todo el bg en la demas web tambien quitarlas"
+
+### L18 — Decisions taken for the fourth request
+- The `GridOverlay` component is deleted and the layout no longer renders it.
+  The overlay was a fixed layer of twelve column rules behind the whole page;
+  removing it leaves only the borders the sections draw themselves, which are
+  the lines that divide the blocks.
+- The hero keeps its own surface. It no longer hides the overlay, but with the
+  media band and the display band on one surface the hero reads as a single
+  panel instead of two floating blocks.
+
+### L19 — Verification of the fourth request
+- `npm run typecheck` clean, `npm run build` and `npm run verify`: 40 export
+  checks pass.
+- The exported HTML has no overlay markup left and the compiled CSS has no
+  `z-index: -1` rule.
+- The developer section and a works panel were captured in the browser: the
+  only lines left are the ones that divide the blocks.
