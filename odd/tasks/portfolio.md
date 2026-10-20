@@ -195,6 +195,52 @@ never lands halfway between two of them. The keyboard moves the same way, and
 the index numbers jump to any project. At the last project the wheel is left
 to the page, which carries on into the next section.
 
+### S19 — The audits
+The site is audited before it is published: the design critique of impeccable,
+an independent technical audit, and a compliance pass against the Vercel Web
+Interface Guidelines.
+
+> "ok, haz revisiones o audita la web en busqueda de issuea que resolver,
+> mejoras de optimizacion y rendimiento general para una mejor experiencia
+> dentro de la web, ademas de hacer una auditoria de diseño con impeccable"
+
+Resolved: three independent assessments, run as isolated sub agents so none of
+them anchors the others: the design review, the technical audit of performance,
+accessibility, semantics and SEO, and the mechanical compliance pass. The
+impeccable detector ran on the changed files and found nothing.
+
+### S20 — The performance budget
+The page is measured, not guessed: the bytes of the export, the paint timings,
+the layout shift and the size of the client bundle.
+
+> "mejoras de optimizacion y rendimiento general para una mejor experiencia"
+
+Resolved: the cover art is two paths instead of one rectangle per cell, the
+snapshot carries one line per project instead of the whole readme, the project
+data no longer crosses to the browser except the eight fields a panel shows,
+and the works section is split so only its index and its wheel are client side.
+
+### S21 — One voice, and no repetition
+The site says the same thing once, and the sections that repeat each other go.
+
+> "en la cual puedas rediseñar algunas secciones, quitar o agregar secciones las
+> cuales no son necesarias o son repetitivas"
+
+Resolved: the featured projects carry a line written for this site, the two
+repositories with nothing to say leave the full screens for the archive, the
+archive moves under the works where the inventory belongs, the toolbox that
+restated the services is gone, the footer carries the section links, the hero
+says what can be hired, and the count of repositories is said once.
+
+### S22 — The page can be read without JavaScript
+The navigation exists without the script that builds the menu.
+
+> "todo lo demas"
+
+Resolved: a `noscript` block in the header carries the five section links, the
+page is described with structured data for the machines that read it, and a
+link shared anywhere shows the site itself as the preview image.
+
 ## Tasks
 
 | ID  | Specs   | Task                                                             | Route  | Commit |
@@ -216,6 +262,11 @@ to the page, which carries on into the next section.
 | T15 | S15, S16 | Hero like the reference with only the dividing lines, and a button label that keeps its contrast | inline | c9da266 |
 | T16 | S17     | Remove the background column rules from the whole site            | inline | efeb3e1 |
 | T17 | S18     | One scroll swaps one project, full screen, anchored              | inline | 4361e9c |
+| T18 | S19     | Three isolated audits: design, technical and interface guidelines | agents | 100d31d |
+| T19 | S20     | The performance budget: the cover art, the snapshot, the client boundary | inline | 442944f |
+| T20 | S19     | The interface guidelines the audit found                        | inline | 2de3634 |
+| T21 | S21     | One voice, the sections that repeat themselves cut             | inline | c70fb61 |
+| T22 | S22     | Navigation without JavaScript, structured data, social preview | inline | 100d31d |
 
 Work-unit commits are cut per task group (~400 authored changed lines max per commit)
 on the feature branch `feature/portfolio`.
@@ -521,3 +572,47 @@ nested scroll container was the wrong model for this.
   on mobile), the index bar keeps the right number and the right name, a
   gesture under the threshold moves nothing, a fling hands the page over, and
   the last project hands the page to the next section.
+
+### L27 — The audits, and what they changed
+Three assessments ran as isolated sub agents, so none of them anchored the
+others: the design review, the technical audit of performance, accessibility,
+semantics and SEO, and the compliance pass against the Vercel Web Interface
+Guidelines. The impeccable detector ran afterwards and found nothing.
+
+What the measurements said, before any change:
+- The exported page weighed 179 kB because the cover art was one rectangle per
+  cell. It now weighs 130 kB, and the client bundle of the page went from 25.6
+  kB to 8.6 kB, with none of the thirteen repositories in it.
+- The headline was invisible for almost a second because the entrance
+  animation animates the opacity from zero. The letters now move without
+  hiding the text, so the largest contentful paint is not held back.
+- A link shared anywhere showed a blank card: there was no preview image.
+  There is one now, drawn with the site own palette and type.
+- The wheel swallowed a pinch to zoom inside the works, the menu overlay let
+  the focus walk behind it, the ticker could not be stopped with the keyboard,
+  the theme toggle read light on a dark first paint, and the borders of the
+  buttons were at 2.7 to one where a control needs three.
+
+What the design review said:
+- The featured projects spoke with their authors voice, sometimes in another
+  language, on a site that speaks in one. They have a line written for the
+  site now, and the readme only fills the gap.
+- Two of the eight featured repositories had nothing to say, and two of the
+  thirteen were noise. The first two left the full screens for the archive
+  and the second two left the list.
+- The repository count was said six times and the languages five ways. The
+  count is said once now, the stack section is only the measured usage, and
+  the footer carries the section links so the site can be navigated without
+  opening the menu.
+
+### L28 — The rules the audits wrote down
+- A static export is read by two engines: the browser parses the markup and
+  the flight payload carries the same tree again. Rendering the panels on the
+  server doubles their markup in the payload, so the panels are client
+  components that receive only the fields they show.
+- A sticky element as tall as the viewport cannot stay pinned inside a
+  column barely taller than it. The index bar is small and the column below
+  it is tall, so it holds for the whole section.
+- The Tailwind v4 translate utilities use the `translate` property, so a
+  hover rule written with `transform` does not reset them. That was the reason
+  the button read as empty.
