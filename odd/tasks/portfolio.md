@@ -145,6 +145,31 @@ Resolved: the CTA rolls between two stacked labels exactly like the theme
 toggle, so the text that leaves the top edge is replaced by the same text
 coming from the bottom edge, and it rolls back on mouse out.
 
+### S15 — Hero like the reference, with only the dividing lines
+The hero follows the reference layout and carries no background rules.
+
+> "Ademas que sea el hero casi identico que https://mijobello.com/, con menos
+> lineas por detras en the hero, solo las que dividen"
+
+Resolved: the hero section carries its own surface, so the fixed twelve column
+overlay stops at its edges and only the borders that divide the blocks remain:
+the rule under the media band, the rule before the role rail and the rule
+before the monogram. The structure now matches the reference: the media band
+on eight columns, the portrait on four, the display word on seven, the role
+rail on three and the monogram on two.
+
+### S16 — The button label keeps its contrast while it rolls
+The call to action never shows an empty or unreadable label.
+
+> "los botones tampoco estan correctamente corregidos, ya que el texto al subir
+> no hace contraste y eso hace que el texto sea invisible a la vista de los
+> usuarios"
+
+Resolved: the label rolls down and out while its copy comes down from above,
+the same move the theme toggle makes, and both travel the same distance so the
+text stays whole during the roll. The clip sits on the content box, so the
+resting button shows one label and nothing else.
+
 ## Tasks
 
 | ID  | Specs   | Task                                                             | Route  | Commit |
@@ -163,6 +188,7 @@ coming from the bottom edge, and it rolls back on mouse out.
 | T12 | S12     | "my services." section plus the compact repository archive       | inline | b50f50a |
 | T13 | S13     | Contact: email and Discord, in the section and in the menu       | inline | 50b31fd |
 | T14 | S2, S4  | Export smoke test follows the new section ids, full re-verification | inline | a0f5034 |
+| T15 | S15, S16 | Hero like the reference with only the dividing lines, and a button label that keeps its contrast | inline | c9da266 |
 
 Work-unit commits are cut per task group (~400 authored changed lines max per commit)
 on the feature branch `feature/portfolio`.
@@ -310,3 +336,50 @@ ulisesalbertoperez15@gmail.com, tambien por discord que es mi hdeusking."
   repeated the same repositories three times.
 - The theme travel, the scroll snap and the button roll are motion: they
   were checked in the browser, not by the export smoke test.
+
+### L13 — Third request (verbatim)
+"Corrije el button de menu para que tenga las 3 barras y se visualice
+correctamente
+
+Ademas que sea el hero casi identico que https://mijobello.com/, con menos
+lineas por detras en el hero, solo las que dividen, los botones tampoco estan
+correctamente corregidos, ya que el texto al subir no hace contraste y eso
+hace que el texto sea invisible a la vista de los usuarios."
+
+### L14 — What the reference actually does
+- The reference menu button ships three bars with no distinct positions: the
+  first and the third land on the same line and only the middle one is
+  offset. The three bars here are placed one at the top, one at the middle
+  and one at the bottom, and fold into a cross when the menu opens.
+- The reference hero is `flex flex-col`, the media band on eight columns with
+  `md:min-h-[40svh]`, the portrait on four, and a second band with the
+  display word on seven columns, the role rail on three and the branding mark
+  on two, both with a left rule.
+- The reference call to action rolls its label up and out, and brings a copy
+  in from below with `absolute inset-0`. That copy is a flex box, so the
+  padding stays on the button and the copy can be off by the padding, which
+  is why the roll does not read cleanly there.
+
+### L15 — Decisions taken for the third request
+- The hero keeps its own surface background. The fixed column overlay sits
+  behind everything, so an opaque hero is what removes the rules from behind
+  the display word while leaving the borders that divide the blocks.
+- The button label rolls down and out while its copy comes down from above.
+  Both copies travel the same distance, so at any point of the roll the
+  visible halves complete each other and the text is never cut in half.
+- The clip moved from the button to the content box. With the padding on the
+  button, the resting copy showed a sliver of the label inside the padding.
+- Tailwind v4 moves elements with the `translate` property, not with
+  `transform`. A hover rule written as `transform: translateY(0)` does not
+  reset a `translate: 0 -100%` offset, which is why the incoming copy never
+  arrived and the button read as empty. The rules now use `translate`.
+
+### L16 — Verification of the third request
+- `npm run typecheck` clean, `npm run build` and `npm run verify`: 40 export
+  checks pass.
+- The menu button was captured closed (three bars, evenly spaced) and open
+  (a clean cross) through the DevTools protocol.
+- The button was captured at rest, at the end of the roll and 210ms into it.
+  The mid roll shows the whole word, the upper half from the outgoing copy
+  and the lower half from the incoming one, with no gap and no loss of
+  contrast.
