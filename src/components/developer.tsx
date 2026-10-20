@@ -1,8 +1,8 @@
-import { Cta } from "@/components/cta";
 import {
   featuredRepos,
   languages,
   profile,
+  repoCount,
   repos,
   totalBytes,
   yearsOnGitHub,
@@ -10,16 +10,12 @@ import {
 import { formatBytes } from "@/lib/utils";
 
 const stats = [
-  { label: "public repos", value: String(profile.publicRepos) },
+  { label: "public repos", value: String(repoCount) },
   { label: "languages used", value: String(languages.length) },
   { label: "years on github", value: String(yearsOnGitHub) },
   {
     label: "code written",
     value: formatBytes(totalBytes),
-  },
-  {
-    label: "stars earned",
-    value: String(repos.reduce((total, repo) => total + repo.stars, 0)),
   },
 ];
 
@@ -33,16 +29,6 @@ export function Developer() {
     "",
     "$ npm run sync:github",
     `synced ${repos.length} repos · ${languages.length} languages · ${formatBytes(totalBytes)}`,
-    "",
-    "$ cat stack.txt",
-    languages
-      .slice(0, 6)
-      .map((language) => language.name.toLowerCase())
-      .join(" · "),
-    languages
-      .slice(6, 12)
-      .map((language) => language.name.toLowerCase())
-      .join(" · "),
   ];
 
   return (
@@ -59,17 +45,17 @@ export function Developer() {
           <div className="grid grid-cols-4 border-b border-rule-strong md:grid-cols-10">
             <div className="col-span-4 flex flex-col items-start gap-8 border-r border-rule-strong p-3 py-14 md:col-span-4 md:p-4 md:py-20">
               <p className="max-w-[46ch] text-lg leading-relaxed md:text-xl">
-                {yearsOnGitHub} years of public commits on GitHub. {profile.publicRepos}{" "}
-                repositories in, the stack still tells the same story: Vue and
-                TypeScript on the front, PHP and Blade on the back, and Rust, Lua
-                or Python wherever something needs to run, scrape or automate.
+                {yearsOnGitHub}&nbsp;years of public commits on GitHub.{" "}
+                {repoCount}&nbsp;repositories in, the stack still tells the same
+                story: Vue and TypeScript on the front, PHP and Blade on the
+                back, and Rust, Lua or Python wherever something needs to run,
+                scrape or automate.
               </p>
               <p className="max-w-[46ch] text-lg leading-relaxed md:text-xl">
                 The projects below are personal work — scoped, shipped and
                 maintained end to end. Every repository, every language and every
                 byte of it comes straight from my GitHub account.
               </p>
-              <Cta href="#works" label="see the work" />
             </div>
             <div className="col-span-4 border-rule-strong md:col-span-6">
               <div className="m-3 border border-rule-strong md:m-4">

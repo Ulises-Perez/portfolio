@@ -1,0 +1,51 @@
+"use client";
+
+import { useState } from "react";
+
+/**
+ * Copies a value and says what happened. The clipboard can be denied, and the
+ * visitor has to be told that, not left with a button that looks like it
+ * worked.
+ */
+export function CopyButton({
+  value,
+  label,
+  className = "",
+}: {
+  value: string;
+  label: string;
+  className?: string;
+}) {
+  const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setState("copied");
+      window.setTimeout(() => setState("idle"), 1800);
+    } catch {
+      setState("failed");
+      window.setTimeout(() => setState("idle"), 2600);
+    }
+  };
+
+  return (
+    <>
+      <button type="button" onClick={copy} className={`cta ${className}`}>
+        <span className="cta-stack">
+          <span className="cta-label">{state === "copied" ? "copied" : label}</span>
+          <span aria-hidden="true" className="cta-label cta-label-next">
+            {state === "copied" ? "copied" : label}
+          </span>
+        </span>
+      </button>
+      <p aria-live="polite" className="sr-only">
+        {state === "copied"
+          ? `${label} copied to the clipboard`
+          : state === "failed"
+            ? `could not copy the ${label}`
+            : ""}
+      </p>
+    </>
+  );
+}

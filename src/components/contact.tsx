@@ -1,8 +1,5 @@
-"use client";
-
-import { useState } from "react";
-
-import { Cta, RollingLabel } from "@/components/cta";
+import { CopyButton } from "@/components/copy-button";
+import { Cta } from "@/components/cta";
 import { site } from "@/data/site.config";
 import { profile } from "@/lib/github";
 
@@ -22,8 +19,6 @@ type Channel = {
  * copy action unless an invite URL is configured.
  */
 export function Contact() {
-  const [copied, setCopied] = useState<string | null>(null);
-
   const channels: Channel[] = [
     {
       key: "github",
@@ -52,20 +47,6 @@ export function Contact() {
     },
   ];
 
-  const copy = async (channel: Channel) => {
-    try {
-      await navigator.clipboard.writeText(channel.value);
-      setCopied(channel.key);
-      window.setTimeout(
-        () =>
-          setCopied((current) => (current === channel.key ? null : current)),
-        1800,
-      );
-    } catch {
-      setCopied(null);
-    }
-  };
-
   return (
     <section id="contact" className="border-b border-rule-strong">
       <div className="grid grid-cols-4 md:grid-cols-12">
@@ -82,9 +63,9 @@ export function Contact() {
           <div className="grid grid-cols-4 border-b border-rule-strong md:grid-cols-10">
             <div className="col-span-4 p-3 py-10 md:col-span-5 md:p-4 md:py-16">
               <p className="max-w-[42ch] text-lg leading-relaxed md:text-xl">
-                {profile.publicRepos} public repositories, {site.roles.length}{" "}
-                disciplines, one inbox. Tell me what you are building and I will
-                tell you honestly whether I am the right person for it.
+                {site.roles.length}&nbsp;disciplines, one inbox. Tell me what
+                you are building and I will tell you honestly whether I am the
+                right person for it.
               </p>
             </div>
             <div className="col-span-4 border-l border-rule-strong p-3 md:col-span-5 md:p-4">
@@ -109,7 +90,7 @@ export function Contact() {
                 <p className="eyebrow">{channel.label}</p>
                 <div>
                   <p className="display text-xl break-words md:text-3xl">
-                    {channel.value}
+                    <span translate="no">{channel.value}</span>
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {channel.href ? (
@@ -123,15 +104,11 @@ export function Contact() {
                       />
                     ) : null}
                     {channel.copyable ? (
-                      <button
-                        type="button"
-                        onClick={() => copy(channel)}
-                        className="cta text-base"
-                      >
-                        <RollingLabel
-                          label={copied === channel.key ? "copied" : channel.action}
-                        />
-                      </button>
+                      <CopyButton
+                        value={channel.value}
+                        label={channel.action}
+                        className="text-base"
+                      />
                     ) : null}
                   </div>
                 </div>

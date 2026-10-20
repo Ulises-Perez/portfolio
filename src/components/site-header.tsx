@@ -23,8 +23,15 @@ export function SiteHeader() {
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
 
+    // The page behind the overlay leaves the focus order, so Tab cannot walk
+    // into content the visitor cannot see.
+    const main = document.getElementById("main");
+
+    if (main) main.toggleAttribute("inert", open);
+
     return () => {
       document.body.style.overflow = "";
+      main?.removeAttribute("inert");
     };
   }, [open]);
 
@@ -53,8 +60,24 @@ export function SiteHeader() {
     <>
       <header
         inert={open}
-        className="fixed inset-x-0 top-0 z-30 grid h-14 grid-cols-4 border-b border-rule-strong bg-surface md:h-16 md:grid-cols-12"
+        className="fixed inset-x-0 top-0 z-30 grid h-[calc(3.5rem+env(safe-area-inset-top))] grid-cols-4 border-b border-rule-strong bg-surface pt-[env(safe-area-inset-top)] md:h-[calc(4rem+env(safe-area-inset-top))] md:grid-cols-12"
       >
+        <noscript>
+          <nav
+            aria-label="sections"
+            className="fixed inset-x-0 top-[calc(3.5rem+env(safe-area-inset-top))] z-20 flex flex-wrap gap-4 border-b border-rule-strong bg-surface px-3 py-2 md:top-[calc(4rem+env(safe-area-inset-top))]"
+          >
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-[0.65rem] font-bold tracking-[0.18em] uppercase underline underline-offset-4"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        </noscript>
         <Link
           href="/"
           className="col-span-2 flex items-center border-r border-rule-strong px-3 text-2xl font-bold tracking-[-0.06em] md:col-span-3 md:px-4 md:text-3xl"
@@ -67,7 +90,7 @@ export function SiteHeader() {
               "available for new projects",
               "remote · worldwide",
               "github.com/Ulises-Perez",
-              "{clock}",
+              "open to freelance",
             ]}
           />
         </div>
@@ -83,22 +106,23 @@ export function SiteHeader() {
         aria-expanded={open}
         aria-controls="site-menu"
         onClick={() => setOpen((value) => !value)}
-        className="group fixed right-0 top-0 z-[52] flex h-14 w-14 cursor-pointer items-center justify-center border-b border-l border-rule-strong bg-surface transition-colors hover:bg-ink hover:text-surface md:h-16 md:w-16"
+        className="group fixed right-0 top-0 z-[52] flex h-[calc(3.5rem+env(safe-area-inset-top))] w-14 cursor-pointer items-center justify-center border-b border-l border-rule-strong bg-surface pt-[env(safe-area-inset-top)] transition-colors hover:bg-ink md:h-[calc(4rem+env(safe-area-inset-top))] md:w-16"
       >
-        {/* Three bars that fold into a cross. Each one keeps its own edge, so
-            they never land on the same line while the menu is closed. */}
+        {/* Three bars that fold into a cross. They are placed with transforms
+            and not with top, so the animation never touches layout, and each
+            one keeps its own line. */}
         <span className="relative block h-4 w-6" aria-hidden="true">
           <span
             className={[
-              "absolute left-0 block h-px w-full transition-all duration-300",
+              "absolute left-0 top-1/2 block h-px w-full transition-transform duration-300",
               open
-                ? "top-1/2 -translate-y-1/2 rotate-45 bg-ink group-hover:bg-surface"
-                : "top-0 translate-y-0 rotate-0 bg-ink group-hover:bg-surface",
+                ? "translate-y-0 rotate-45 bg-ink group-hover:bg-surface"
+                : "-translate-y-2 rotate-0 bg-ink group-hover:bg-surface",
             ].join(" ")}
           />
           <span
             className={[
-              "absolute left-0 top-1/2 block h-px w-full transition-all duration-300",
+              "absolute left-0 top-1/2 block h-px w-full transition-[transform,opacity] duration-300",
               open
                 ? "-translate-y-1/2 scale-x-0 bg-ink opacity-0"
                 : "-translate-y-1/2 scale-x-100 bg-ink opacity-100 group-hover:bg-surface",
@@ -106,10 +130,10 @@ export function SiteHeader() {
           />
           <span
             className={[
-              "absolute left-0 block h-px w-full transition-all duration-300",
+              "absolute left-0 top-1/2 block h-px w-full transition-transform duration-300",
               open
-                ? "bottom-auto top-1/2 -translate-y-1/2 -rotate-45 bg-ink group-hover:bg-surface"
-                : "bottom-0 top-auto translate-y-0 rotate-0 bg-ink group-hover:bg-surface",
+                ? "translate-y-0 -rotate-45 bg-ink group-hover:bg-surface"
+                : "translate-y-2 rotate-0 bg-ink group-hover:bg-surface",
             ].join(" ")}
           />
         </span>
@@ -119,7 +143,7 @@ export function SiteHeader() {
         id="site-menu"
         ref={menuRef}
         hidden={!open}
-        className="fixed inset-0 z-[50] overflow-y-auto bg-surface"
+        className="fixed inset-0 z-[50] overscroll-contain overflow-y-auto bg-surface pt-[env(safe-area-inset-top)]"
       >
         <nav className="grid min-h-full grid-cols-4 content-start md:grid-cols-12">
           <div className="col-span-4 border-b border-rule-strong md:col-span-12">
@@ -130,7 +154,11 @@ export function SiteHeader() {
               <li key={link.href} className="border-b border-rule-strong">
                 <Link
                   href={link.href}
-                  onClick={() => setOpen(false)}
+                  prefetch={false}
+                  onClick={() => {
+                    setOpen(false);
+                    toggleRef.current?.focus();
+                  }}
                   className="group flex items-baseline gap-4 px-3 py-4 transition-colors hover:bg-ink hover:text-surface md:px-4 md:py-6"
                 >
                   <span className="text-[0.7rem] font-bold tracking-[0.18em] uppercase text-muted group-hover:text-surface">

@@ -10,12 +10,18 @@
      which keeps the smallest labels (0.6rem) above the WCAG AA threshold. */
   --muted: color-mix(in srgb, var(--ink) 80%, var(--surface));
   --rule: color-mix(in oklab, var(--ink) 25%, transparent);
-  --rule-strong: color-mix(in oklab, var(--ink) 50%, transparent);
+  /* 60% ink over the surface: 3.3:1 on the light theme and 3.2:1 on the dark
+     one, the threshold a non text element such as a button border needs. */
+  --rule-strong: color-mix(in oklab, var(--ink) 60%, transparent);
+  /* The browser chrome follows the theme: scrollbars and form controls in the
+     dark theme must not stay light. */
+  color-scheme: light;
 }
 
 :root[data-theme="dark"] {
   --surface: #6a0c06;
   --ink: #b2c7ab;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -81,6 +87,22 @@ body {
   font-family: var(--font-sans);
   font-synthesis-weight: none;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch targets answer the first tap, without the double tap zoom delay. */
+a,
+button,
+summary,
+label {
+  touch-action: manipulation;
+}
+
+/* The rubber band only belongs to touch devices. */
+@media (pointer: fine) {
+  html {
+    overscroll-behavior: none;
+  }
 }
 
 ::selection {
@@ -95,6 +117,7 @@ body {
 
   .display {
     @apply font-bold leading-[0.85] tracking-[-0.06em];
+    text-wrap: balance;
   }
 
   /* Rolling CTA: the label rolls down and out while its copy comes down from
@@ -169,6 +192,11 @@ body {
   animation-play-state: paused;
 }
 
+/* The ticker also stops for anyone reaching it with the keyboard. */
+.group:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
 @keyframes rise {
   from {
     opacity: 0;
@@ -180,8 +208,24 @@ body {
   }
 }
 
+/* The variant used above the fold: it moves without ever hiding the text, so
+   the headline paints at once and the largest contentful paint is not held
+   back by an entrance animation. */
+@keyframes rise-shift {
+  from {
+    transform: translateY(28px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
 .rise {
   animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.rise-shift {
+  animation: rise-shift 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes sweep {
@@ -209,7 +253,14 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .marquee-track,
   .rise,
+  .rise-shift,
   .sweep::after {
+    animation: none !important;
+  }
+
+  /* The project that arrives fades in: with reduced motion it simply is
+     there, no fade. */
+  .works-section.is-swapping [data-panel] {
     animation: none !important;
   }
 

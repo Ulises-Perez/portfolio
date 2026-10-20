@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Space_Grotesk } from "next/font/google";
 
 import { SiteHeader } from "@/components/site-header";
-import { profile } from "@/lib/github";
+import { profile, repoCount } from "@/lib/github";
 import { site } from "@/data/site.config";
 
 import "./globals.css";
@@ -11,11 +11,22 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
   display: "swap",
+  preload: true,
 });
 
 const title = `${site.displayName} — Web Developer`;
 
-const description = `Portfolio of ${site.displayName} (${site.owner}): ${profile.publicRepos} public repositories, built across TypeScript, Vue, PHP, Rust, Lua and Python.`;
+const description = `Portfolio of ${site.displayName} (${site.owner}): ${repoCount} public repositories, built across TypeScript, Vue, PHP, Rust, Lua and Python.`;
+
+/** The page, described for the machines that read it. */
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.displayName,
+  url: `https://${site.domain}/${site.repo}/`,
+  sameAs: [site.contact.github],
+  jobTitle: site.roles.join(", "),
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(`https://${site.domain}/${site.repo}`),
@@ -40,14 +51,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#b2c7ab" },
-    { media: "(prefers-color-scheme: dark)", color: "#6a0c06" },
-  ],
+  themeColor: "#b2c7ab",
 };
 
 /** Applies the stored theme before first paint so the page never flashes. */
-const themeScript = `try{var t=localStorage.getItem('portfolio-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.dataset.theme='dark'}}catch(e){}`;
+const themeScript = `try{var t=localStorage.getItem('portfolio-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.dataset.theme='dark';var m=document.querySelector('meta[name="theme-color"]');if(m)m.content='#6a0c06'}}catch(e){}`;
 
 export default function RootLayout({
   children,
@@ -56,6 +64,10 @@ export default function RootLayout({
     <html lang="en" className={spaceGrotesk.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
       </head>
       <body>
         <a
@@ -64,8 +76,12 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <link rel="preconnect" href="https://avatars.githubusercontent.com" />
         <SiteHeader />
-        <main id="main" className="pt-14 md:pt-16">
+        <main
+          id="main"
+          className="pt-[calc(3.5rem+env(safe-area-inset-top))] md:pt-[calc(4rem+env(safe-area-inset-top))]"
+        >
           {children}
         </main>
       </body>
