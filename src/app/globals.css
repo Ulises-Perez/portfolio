@@ -35,9 +35,6 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  /* Only the featured project panels are snap targets, so the page walks them
-     one at a time and carries on into the next section past the last one. */
-  scroll-snap-type: y proximity;
 }
 
 /* The header is fixed, so anchored sections must clear it. */
@@ -71,7 +68,6 @@ section[id] {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-    scroll-snap-type: none;
   }
 }
 
@@ -130,6 +126,18 @@ body {
   .cta:hover .cta-label-next {
     translate: 0 0;
   }
+}
+
+/* The featured projects live in their own track, anchored one project at a
+   time. The scrollbar stays out of the way: the wheel moves the track, not
+   the bar, and the default overscroll keeps the wheel chained to the page
+   once the last project is on screen. */
+.works-track {
+  scrollbar-width: none;
+}
+
+.works-track::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes marquee-scroll {

@@ -180,6 +180,21 @@ keeps only the borders that divide blocks, which is the structure the sections
 are built on. The hero no longer needs its own surface to hide the overlay,
 but it keeps it so the media band and the display band read as one panel.
 
+### S18 — One scroll swaps one project, full screen, anchored
+The visitor moves between the featured projects with a single scroll, each one
+filling the screen and landing on its anchor.
+
+> "Que al navegar en cada work sea mediante un solo scroll hacia abajo para
+> intercambiar entre works, pero este use toda la pantalla y que se ancle
+> correctamente."
+
+Resolved: the projects live in their own track, a scroll container that sticks
+under the header and fills the rest of the screen, with mandatory snapping. A
+wheel gesture is turned into a move of exactly one project, so the visitor
+never lands halfway between two of them. The keyboard moves the same way, and
+the index numbers jump to any project. At the last project the wheel is left
+to the page, which carries on into the next section.
+
 ## Tasks
 
 | ID  | Specs   | Task                                                             | Route  | Commit |
@@ -200,6 +215,7 @@ but it keeps it so the media band and the display band read as one panel.
 | T14 | S2, S4  | Export smoke test follows the new section ids, full re-verification | inline | a0f5034 |
 | T15 | S15, S16 | Hero like the reference with only the dividing lines, and a button label that keeps its contrast | inline | c9da266 |
 | T16 | S17     | Remove the background column rules from the whole site            | inline | efeb3e1 |
+| T17 | S18     | One scroll swaps one project, full screen, anchored              | inline | —      |
 
 Work-unit commits are cut per task group (~400 authored changed lines max per commit)
 on the feature branch `feature/portfolio`.
@@ -414,3 +430,36 @@ hace que el texto sea invisible a la vista de los usuarios."
   `z-index: -1` rule.
 - The developer section and a works panel were captured in the browser: the
   only lines left are the ones that divide the blocks.
+
+### L20 — Fifth request (verbatim)
+"Que al navegar en cada work sea mediante un solo scroll hacia abajo para
+intercambiar entre works, pero este use toda la pantalla y que se ancle
+correctamente."
+
+### L21 — Decisions taken for the fifth request
+- The track is a scroll container of its own, `h-[calc(100svh-3.5rem)]` on
+  mobile and `h-[calc(100svh-4rem)]` on desktop, so it fills exactly the
+  screen under the fixed header. It sticks there, so the title scrolls away
+  above it and every project lands on a full viewport.
+- The panels are `h-[calc(100%-2rem)]`: the sticky index bar takes the other
+  two rem, and the panel clears it, so a project is never cut by the bar and
+  never spills past the bottom of the screen.
+- A wheel gesture is intercepted and turned into a move of exactly one panel.
+  Native snapping alone is not enough: a wheel tick is about a hundred pixels,
+  so the browser would pull it back to the same project and the visitor would
+  read the track as stuck.
+- Until the track reaches its anchored position the wheel moves the page
+  instead, because a wheel over a scroll container always moves that
+  container, never the page.
+- The project in view is the one that holds the middle of the track, not the
+  last one that passed the top edge, which was one project behind.
+
+### L22 — Verification of the fifth request
+- `npm run typecheck` clean, `npm run build` and `npm run verify`: 40 export
+  checks pass.
+- Through the DevTools protocol: one wheel tick of a hundred and twenty
+  pixels moved the track from project 01 to project 02, and the index bar
+  followed.
+- Captured at 1440x900 and 390x844 with the track anchored: the project
+  fills the screen under the header, the index bar sits on its top edge with
+  the right number and the right name, and nothing is cut.
