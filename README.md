@@ -47,6 +47,10 @@ npm run dev        # http://localhost:3000
    stays in the snapshot and on GitHub. There is no request to GitHub while
    the site is being served, so there is no rate limit and no broken page
    when the API is down.
+4. Every featured work also carries what the site says about it in
+   `src/data/site.config.ts`: one line written in the voice of the site, the
+   technologies and libraries it is built with, read from the manifests of
+   the repository, and the drawn screen the frame shows.
 
 The `Refresh the GitHub snapshot` workflow runs the sync every Monday and
 commits the result, which triggers a new deployment.
@@ -55,7 +59,7 @@ commits the result, which triggers a new deployment.
 
 | File                            | What to change                                              |
 | ------------------------------- | ----------------------------------------------------------- |
-| `src/data/site.config.ts`       | Name, roles, services, contact links, domain and repository |
+| `src/data/site.config.ts`       | Name, roles, services, contact links, and the line, the stack and the screen of every featured work |
 | `scripts/github-sync.config.json` | Owner, forks, ignored languages, featured repositories    |
 | `src/app/globals.css`           | The palette: `--surface`, `--ink`, `--muted` and the theme flip |
 
@@ -78,7 +82,11 @@ commits the result, which triggers a new deployment.
 - Muted text uses a dedicated color mix instead of opacity, which keeps the
   smallest labels above the WCAG AA contrast ratio on both themes.
 - `prefers-reduced-motion` disables the marquee, the entrance animations and
-  smooth scrolling.
+  smooth scrolling. The works carousel keeps every piece of a work in place
+  and drops the tilt of the frame.
+- The works are pinned and moved by the scroll, so the section is reached with
+  the keyboard like any other: the arrow keys walk the works one at a time
+  and the index numbers jump to any of them.
 - The menu overlay takes the focus when it opens and returns it on `Escape`.
 
 ## Project layout
@@ -90,3 +98,26 @@ src/data/         site configuration and the GitHub snapshot
 src/lib/          snapshot accessors and formatting helpers
 scripts/          sync script, its unit tests and the export smoke test
 ```
+
+## The works
+
+The works are read sideways, one at a time. The section is pinned: the page
+scrolls into it, the stage holds under the header, and the vertical scroll
+travels the works sideways. A work fills the whole width and the whole height
+of the section, so exactly one of them is on screen at a time.
+
+One wheel gesture buys one work, the arrow keys move the same way, and the
+index numbers jump to any of them. Past the last work the page takes the
+wheel back and carries on into the next section, so there is no scroll trap
+and no way to get stuck in the section. Without JavaScript the works stack
+down the page, one under the other.
+
+Every card shows the name of the work on the top left, the framed screen of
+the product on the other side, and under the name the line written for this
+site and the technologies it is built with. The script writes the position of
+each card in the stage, and every piece of the card travels on its own as the
+card reaches the middle. The animation is reversible.
+
+None of the featured projects has a live deployment to photograph, so the
+frame holds a drawn screen instead of a picture. It is built from the
+identity of the project, weighs nothing, and never goes out of date.

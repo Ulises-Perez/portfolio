@@ -1,0 +1,240 @@
+# Works — horizontal carousel with product mockups
+
+Feature: the works section stops being a vertical stack of full screen panels and becomes a
+horizontal carousel the visitor swipes through, where every work shows its name, a framed
+product mockup, a natural description and the technologies it is built with. The dark theme
+surface moves from the red to `#0C0D0D` and the light theme stays as it is.
+
+Stack: Next.js 15 (App Router) + Tailwind v4, static export, no new runtime dependency.
+
+## Specs
+
+### S1 — The dark surface is near black, the light surface does not move
+
+> "vamos a configurar el color de bg a #0C0D0D como dark mode y el de light mode tal cual,
+> se va el bg rojo, lo otro es mantener lo demas."
+
+Resolved: `--surface` is `#0C0D0D` in `:root[data-theme="dark"]` and stays `#b2c7ab` in
+`:root`. The red `#6a0c06` survives only as the light theme ink. The two places that carry
+the theme color outside the stylesheet follow it: the `themeColor` viewport meta and the
+inline script that applies the stored theme before the first paint, plus the constants the
+theme toggle writes into the meta tag.
+
+### S2 — The works are read sideways, one at a time, with the scroll held in place
+
+> "en la seccion de works, quiero que la visualizacion sea diferente, sea mas intuitiva de
+> forma que al realizar scroll puedas ir navegando por cada work de forma horizontal no
+> vertical, esto añade un poco mas de exploracion dentro del portfolio"
+
+> "Que al momento de scrollear al works, se quede fijado el scroll y mediante el mismo scroll
+> naveges de forma individual por cada work, ya que este lo ideal es que use todo el ancho y
+> alto de su seccion y solo se muestre 1 work por uno asi ir navegando"
+
+Resolved: the works section is pinned. The page scrolls into it and the section stays in
+place while the scroll travels the works sideways: the works are a horizontal track and
+the vertical scroll moves it. Each work fills the whole width and the whole height of the
+section, so one work is on screen at a time. The wheel moves one work per gesture, the
+keyboard moves the same way, the index numbers jump to any of them, and past the last
+work the page takes the wheel back and carries on into the next section. Without the
+script the works stack down the page, one under the other.
+
+### S3 — Every work opens with its name on the top left
+
+> "cada que aparece un work este debe aparecer su nombre arriba a la izquierda con alguna
+> animacion"
+
+Resolved: the name sits on the top left of the card, in the display type, and it travels in
+as the card reaches the middle of the scroller. The index of the work sits above it.
+
+### S4 — The product arrives from the opposite corner, framed like a computer
+
+> "del otro lado que aparezca desde la esquina una imagen, referencial del producto o work,
+> que sea tipo con un border de pc tipo mac o demas el cual muestra la imagen del work"
+
+Resolved: on the right half of the card there is a window frame with a title bar, three
+traffic lights and an address bar, holding a synthetic screen of the product. The frame
+arrives from the top right corner and settles into a slight three dimensional tilt, so the
+row of works never reads as a flat line of rectangles.
+
+### S5 — The description is natural, and the technologies follow it
+
+> "con esto agregar bajo el nombre del repo o work, la descripcion de forma mas natural no
+> tan detallada y abajo de esta descripcion las tecnologias, librerias y otros usados de cada
+> work"
+
+Resolved: under the name there is one short sentence in the voice of the site, written for
+this site and not taken from the readme. Under the description there is the list of the
+technologies and libraries the work is actually built with, read from the manifests of each
+repository: `package.json`, `composer.json` and the languages endpoint. The old four line
+stats block stays as a small meta row at the bottom of the card.
+
+### S6 — Every piece arrives on its own
+
+> "cada cosa con una animacion que sea por scroll hasta mantener una visual completa del
+> work"
+
+Resolved: the name, the description, the technology list, the meta row and the frame each
+read the position of their card in the scroller and travel on their own, in order, as the
+card comes to the middle. The animation is reversible: scrolling back returns the card to
+the state it had. Under `prefers-reduced-motion` every piece is simply there.
+
+### S7 — The work is not perfectly aligned
+
+> "el work o imagen que este un poco ladeado tipo 3d en aspectos que no sea tan lineal para
+> mantener una estructura un poco mas divertida."
+
+Resolved: the frame tilts on the Y axis as its card moves away from the middle, and the
+cards lift a little on a curve. The tilt lives on the frame and not on the text, so the
+name and the description stay readable.
+
+### S8 — The screen inside the frame is a mockup, not a photograph
+
+> "una imagen, referencial del producto o work"
+
+Resolved: the six repositories have no live deployment (`ulises-perez.github.io/<repo>`
+answers 404 for every one of them) and no screenshot in their own tree, so there is nothing
+to photograph. The frame holds a drawn screen instead, built from the identity of the
+project: its own accent color, its own navigation, its own content blocks. It is drawn, so
+it weighs nothing and it is honest about what it is.
+
+### S9 — The whole thing is reviewed, not shipped on faith
+
+> "Todo esto hazlo con impeccable y ego lite para revisar absolutamente todo, puedes buscar
+> referencias, ejemplos y demas para aplicarlos aca, ademas de uso de librerias etc."
+
+Resolved: the browser checks are done with ego lite, on a desktop and on a phone, in both
+themes, with the carousel scrolled by hand. The impeccable detector runs over the changed
+files. The references behind the model were read before writing: the sticky pin and the
+`translateX` track are the standard horizontal gallery, but the pinned model was rejected in
+favour of the native carousel the visitor chose, and the CSS scroll driven animations are
+not usable because Firefox does not support them.
+
+## Tasks
+
+| ID  | Specs                | Task                                                                     | Route  | Commit |
+| --- | -------------------- | ------------------------------------------------------------------------ | ------ | ------ |
+| T1  | S1                   | The dark surface moves to `#0C0D0D`, light surface untouched             | inline | —      |
+| T2  | S5, S8               | The works carry their own voice, their stack and their screen            | inline | —      |
+| T3  | S3, S4, S6, S7       | The framed product screen, drawn from the identity of the project         | inline | —      |
+| T4  | S2, S3, S5, S6, S7   | The pinned carousel: the card, the runway, the stage and the index       | inline | —      |
+| T5  | S2                   | The section shell and the page wiring; the panels and the old nav are gone | inline | —      |
+| T9  | S2                   | The scroll model corrected: the section is pinned and the travel is driven by the scroll | inline | —      |
+| T6  | S2, S3, S6           | The export smoke test follows the new section                             | inline | —      |
+| T7  | S9                   | The review with ego lite and the impeccable detector                      | inline | —      |
+| T8  | S2, S8               | The README describes what the section is now                               | inline | —      |
+
+Work-unit commits are cut per task group (~400 authored changed lines max per commit)
+on the feature branch `feature/portfolio`.
+
+## Log
+
+### L1 — Original request (verbatim)
+"Vamos a realizar ciertos cambios en el diseño, primero es que vamos a configurar el color
+de bg a #0C0D0D como dark mode y el de light mode tal cual, se va el bg rojo, lo otro es
+mantener lo demas.
+
+En la seccion de works, quiero que la visualizacion sea diferente, sea mas intuitiva de
+forma que al realizar scroll puedas ir navegando por cada work de forma horizontal no
+vertical, esto añade un poco mas de exploracion dentro del portfolio, cada que aparece un
+work este debe aparecer su nombre arriba a la izquierda con alguna animacion, del otro lado
+que aparezca desde la esquina una imagen, referencial del producto o work, que sea tipo con
+un border de pc tipo mac o demas el cual muestra la imagen del work, con esto agregar bajo
+el nombre del repo o work, la descripcion de forma mas natural no tan detallada y abajo de
+esta descripcion las tecnologias, librerias y otros usados de cada work, cada cosa con una
+animacion que sea por scroll hasta mantener una visual completa del work, el work o imagen
+que este un poco ladeado tipo 3d en aspectos que no sea tan lineal para mantener una
+estructura un poco mas divertida."
+
+### L2 — The review request (verbatim)
+"Todo esto hazlo con impeccable y ego lite para revisar absolutamente todo, puedes buscar
+referencias, ejemplos y demas para aplicarlos aca, ademas de uso de librerias etc."
+
+### L3 — Decisions taken from the user
+- The image inside the frame is a generated product mockup, not a photograph: there is
+  nothing to photograph, and a mockup weighs nothing.
+- The section is a native horizontal carousel with swipe, not a pinned section where the
+  vertical scroll moves the rail sideways.
+
+### L4 — Evidence collected
+- `ulises-perez.github.io/<repo>` answers 404 for nexo, vumies, ritup2, LaraMovies,
+  Autonomies and Portafolio: there is no live deployment to capture.
+- No repository carries a screenshot: `Portafolio/img` is empty, `vumies/public` holds a
+  vite logo, `ritup2/public` a favicon, and the readmes only link to the Laravel logo.
+- The stack of each work is read from its own manifests, not guessed:
+  nexo (Express, Socket.IO, Prisma, Redis, Zod, JWT, Tauri, Vue, TypeScript, Rust,
+  Cloudflare Workers), vumies (Vue 3, Vue Router, Pinia, Tauri, Tailwind CSS, Vite,
+  TypeScript), ritup2 (Vue 3, Pinia, Tailwind CSS v4, reka-ui, VueUse, Express, Vitest,
+  Playwright, axios), LaraMovies (Laravel 8, Blade, Guzzle, PHPUnit, Laravel PWA),
+  Autonomies (PHP, Hack, TMDB, scraping), Portafolio (HTML, CSS, JavaScript).
+
+### L5 — What the references said
+- The horizontal gallery is built in two ways: a sticky section that travels sideways with
+  the vertical scroll, or a native horizontal scroller with snap. The visitor chose the
+  second one.
+- CSS scroll driven animations (`animation-timeline: view()`) are not an option: Chrome and
+  Safari support them, Firefox does not.
+- The browser frame with three traffic lights and an address bar is the standard way to
+  show a web product in a portfolio.
+- The page already inverts a single pair of colors when the theme flips, so the near black
+  surface is one value in one place and everything else follows.
+
+### L6 — Risk
+- T6: `Risk: item 3 (contracts others consume)` — the export smoke test says what the page
+  owes, and the deploy workflow runs it, so the new section is part of the deployment
+  contract. Covered by the checks in the log of this feature.
+
+### L7 — The scroll model, corrected (verbatim)
+"Que al momento de scrollear al works, se quede fijado el scroll y mediante el mismo scroll
+naveges de forma individual por cada work, ya que este lo ideal es que use todo el ancho y
+alto de su seccion y solo se muestre 1 work por uno asi ir navegando."
+
+### L8 — What the correction changed
+- The native horizontal carousel is gone. The works section is pinned: the stage sticks
+  under the header and the vertical scroll travels the works sideways.
+- The runway is as tall as the section needs: one stage per work. The stage is a sticky
+  element of the height of the screen under the header, so it holds for the whole
+  section, which is the mistake the old vertical version made.
+- A work fills the whole width and the whole height of the section, so one is on screen
+  at a time. The frame grows with it and the name keeps the top left.
+- The wheel is turned into a move of exactly one work, the way it was before: the
+  gesture buys one work, a gesture under the threshold buys nothing, and a change of
+  direction starts the count again. Past the last work the page takes the wheel back.
+- The travel itself is driven by the scroll position, so the track follows the page
+  exactly and the works slide into place instead of jumping.
+- The index bar lives inside the pinned stage, so it stays with the works while the page
+  travels.
+- Without the script the works stack down the page, one under the other.
+
+### L9 — What the browser said
+Measured in ego lite, at 1440x900 and at 390x844, in both themes.
+
+- The runway is 4800px tall for six works, the stage is 800px, and the stage pins at
+  64px from the top: the header height. One wheel gesture of 140px moved the page from
+  2088 to 2888, the travel from 0 to 0.2, and the work from `nexo` to `vumies`: one
+  gesture, one work.
+- A work is 1425px wide, the whole width of the screen, and the cards sit two half
+  widths apart, so exactly one of them is in view.
+- At the middle of a travel the frame of the work that leaves is still on the screen
+  while the name, the description and the technologies of the work that arrives come in
+  one after the other, the chips last: the stagger reads.
+- The first pass measured the opacity of the name and found 1 on every card. The
+  opacity is on the block that holds the name, not on the name, so the fade was working
+  all along: the cards that are far from the middle measure 0.
+- The dev overlay reports one issue and it is a 404 for `/favicon.ico`, the request the
+  browser makes on its own. It predates this work and does not reach the export.
+
+### L10 — Two mistakes the measurements caught
+- The wheel did nothing for the first pass. The range the wheel answers to started at
+  the top of the runway, but the stage holds under the header, so the section was
+  already pinned 64px before the range opened. The geometry now reads the offset the
+  stage sticks at and the range opens there.
+- The first gesture jumped from the first work to the last. The travel was divided by
+  the distance of one work instead of by the whole travel of the runway, so the track
+  reached the end of the rail after one work. The geometry now keeps the whole travel
+  and the share of each work apart.
+
+### L11 — Risk
+- T4, T5: `Risk: item 3 (contracts others consume)` — the works section changes what the
+  page owes: the export smoke test now names the classes of the new section and the
+  content of every work, and the deploy workflow runs that test. Covered by the checks
+  in L12.
