@@ -297,6 +297,9 @@ label {
   position: relative;
   display: grid;
   flex: 0 0 100%;
+  /* The works do not sit on a line: the ones that are away from the middle
+     drop a little, so the row reads as a curve. */
+  translate: 0 calc(var(--d) * var(--d) * 1.5rem);
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
@@ -373,9 +376,10 @@ label {
   }
 }
 
-/* A phone too short to hold a whole work: the works stack down the page,
-   the way they do without the script. */
-@media (max-width: 767px) and (max-height: 620px) {
+/* A screen too short to hold a whole work — a phone in landscape, a very
+   short window: the works stack down the page, the way they do without the
+   script. */
+@media (max-height: 620px) {
   .works-stage {
     --works-pinned: 0;
     position: static;

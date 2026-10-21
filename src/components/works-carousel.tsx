@@ -7,6 +7,9 @@ const pad = (value: number) => String(value).padStart(2, "0");
 /** Wheel distance that buys the next work. */
 const SCROLL_THRESHOLD = 120;
 
+/** Milliseconds without a wheel event that start a new gesture. */
+const GESTURE_GAP = 120;
+
 /** Whether the works are pinned, or stacked because the screen is too short. */
 function isPinned(stage: HTMLElement): boolean {
   return (
@@ -42,6 +45,9 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
   const [active, setActive] = useState(0);
   const pending = useRef(false);
   const accumulated = useRef(0);
+  /** When the last wheel event came, and whether it already bought a work. */
+  const lastWheel = useRef(0);
+  const moved = useRef(false);
 
   /** Where the section stands in the page and how far it travels. */
   const geometry = useCallback(() => {
@@ -77,13 +83,28 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
     const cards = track.querySelectorAll<HTMLElement>("[data-card]");
 
     // Stacked works are all of them in view: no travel, no fade, nothing out
-    // of the way of the keyboard.
+    // of the way of the keyboard. The one in the middle of the screen is the
+    // one the bar names.
     if (!geo) {
-      cards.forEach((card) => {
+      const middle = window.innerHeight / 2;
+      let closest = 0;
+      let nearest = Infinity;
+
+      cards.forEach((card, index) => {
         card.style.setProperty("--p", "0");
         card.style.setProperty("--d", "0");
         card.inert = false;
+
+        const rect = card.getBoundingClientRect();
+        const distance = Math.abs(rect.top + rect.height / 2 - middle);
+
+        if (distance < nearest) {
+          nearest = distance;
+          closest = index;
+        }
       });
+
+      setActive((previous) => (previous === closest ? previous : closest));
 
       return;
     }
@@ -139,7 +160,22 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
     (index: number) => {
       const geo = geometry();
 
-      if (!geo) return;
+      if (!geo) {
+        // The works are stacked: the card is brought into the screen.
+        const card = trackRef.current?.querySelectorAll<HTMLElement>(
+          "[data-card]",
+        )[index];
+
+        card?.scrollIntoView({
+          block: "center",
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+            .matches
+            ? "auto"
+            : "smooth",
+        });
+
+        return;
+      }
 
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -198,12 +234,29 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
         return;
       }
 
+      // A gesture is a burst of wheel events. A new one starts the count
+      // again, and it is the one that buys the next work.
+      const now = Date.now();
+
+      if (now - lastWheel.current > GESTURE_GAP) {
+        accumulated.current = 0;
+        moved.current = false;
+      }
+
+      lastWheel.current = now;
+
       const target = active + (down ? 1 : -1);
 
       // At the ends the page takes the wheel back, and it takes it whole: a
       // gesture under the threshold must not be swallowed there.
       if (target >= names.length || target < 0) {
         accumulated.current = 0;
+        return;
+      }
+
+      // One gesture buys one work: a fling does not fly over the section.
+      if (moved.current) {
+        event.preventDefault();
         return;
       }
 
@@ -223,6 +276,7 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
       }
 
       accumulated.current = 0;
+      moved.current = true;
 
       event.preventDefault();
       goTo(target);
