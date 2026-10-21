@@ -1,9 +1,8 @@
-import { WorksNav } from "@/components/works-nav";
+import { WorksCarousel } from "@/components/works-carousel";
 
 /**
- * The featured projects, one at a time. The panels are rendered on the server
- * and arrive as children; only the index bar and the wheel that walks them
- * live in the browser.
+ * The featured projects, read sideways. The header keeps the shape of the
+ * section; the carousel below holds the cards, one per work.
  */
 export function Works({
   names,
@@ -22,21 +21,16 @@ export function Works({
               <h2 className="display text-5xl md:text-7xl lg:text-8xl">works.</h2>
             </div>
           </div>
-
-          {/* Names the project in view and jumps straight to any of them. The
-              bar is small and the column below it is tall, so it stays put
-              for the whole section. */}
-          {names.length > 0 ? (
-            <WorksNav names={names} />
-          ) : (
-            <p className="border-b border-rule-strong p-3 text-sm text-muted md:p-4">
-              No featured projects yet.
-            </p>
-          )}
-
-          {children}
         </div>
       </div>
+
+      {/* The works take the whole width of the page: one of them fills the
+          screen at a time while the scroll travels them sideways. */}
+      {names.length > 0 ? (
+        <WorksCarousel names={names}>{children}</WorksCarousel>
+      ) : (
+        <p className="p-3 text-sm text-muted md:p-4">No featured projects yet.</p>
+      )}
     </section>
   );
 }

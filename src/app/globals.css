@@ -16,11 +16,29 @@
   /* The browser chrome follows the theme: scrollbars and form controls in the
      dark theme must not stay light. */
   color-scheme: light;
+
+  /* The works stage: the height of the screen under the header, less the bar
+     that names the work in view. The runway is as many stages as there are
+     works. */
+  --work-bar-h: 2.25rem;
+  --work-stage-top: calc(3.5rem + env(safe-area-inset-top));
+  --work-stage-h: calc(
+    100svh - 3.5rem - env(safe-area-inset-top) - var(--work-bar-h)
+  );
 }
 
+@media (min-width: 768px) {
+  :root {
+    --work-stage-top: calc(4rem + env(safe-area-inset-top));
+    --work-stage-h: calc(
+      100svh - 4rem - env(safe-area-inset-top) - var(--work-bar-h)
+    );
+  }
+}
+
+/* The dark theme is the near black the visitor asked for: the red that used
+   to fill it is gone, and the green ink stays on top of it. */
 :root[data-theme="dark"] {
-  /* The dark theme is the near black the visitor asked for: the red that
-     used to fill it is gone, and the green ink stays on top of it. */
   --surface: #0c0d0d;
   --ink: #b2c7ab;
   color-scheme: dark;
@@ -43,9 +61,6 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  /* The project panels are the only snap targets, so a touch swipe lands on a
-     project the same way the wheel does. */
-  scroll-snap-type: y proximity;
 }
 
 /* The header is fixed, so anchored sections must clear it. */
@@ -79,7 +94,6 @@ section[id] {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-    scroll-snap-type: none;
   }
 }
 
@@ -157,24 +171,456 @@ label {
   }
 }
 
-/* The projects live in the page flow and the wheel moves the page from one to
-   the next. The project that just arrived fades in, so the change reads as a
-   change and not as a panel crossing the screen. */
-.works-section.is-swapping [data-panel][data-active="true"] {
-  animation: panel-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+/* The works, read sideways with the scroll held in place.
+
+   The runway is as tall as the section needs: one stage per work. The stage
+   is a sticky element the height of the screen under the header, so it holds
+   for the whole section while the page travels the works sideways. The script
+   writes the travel of the track in `--p`, and the position of every card in
+   `--p` and `--d`, so each piece of a card can travel on its own.
+
+   Without the script the works stack down the page, one under the other. */
+.works-runway {
+  position: relative;
+  height: calc(var(--work-stage-h) * var(--work-count, 1));
+  /* `clip` and not `hidden`: a hidden overflow would turn the runway into a
+     scroll container, and the stage would never stick to it. */
+  overflow: clip;
 }
 
-@keyframes panel-in {
-  from {
-    opacity: 0.2;
-  }
-  to {
-    opacity: 1;
+.works-stage {
+  position: sticky;
+  top: var(--work-stage-top);
+  display: flex;
+  flex-direction: column;
+  height: var(--work-stage-h);
+  /* The script reads this to know whether the works are pinned or stacked. */
+  --works-pinned: 1;
+}
+
+.works-track {
+  --works-travel: calc((var(--work-count, 1) - 1) * 100%);
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  transform: translate3d(calc(var(--p, 0) * var(--works-travel) * -1), 0, 0);
+  will-change: transform;
+}
+
+.works-bar {
+  display: flex;
+  flex: 0 0 var(--work-bar-h);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: var(--work-bar-h);
+  padding-inline: 0.75rem;
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--surface);
+}
+
+@media (min-width: 768px) {
+  .works-bar {
+    padding-inline: 1rem;
   }
 }
 
-.works-track::-webkit-scrollbar {
+.works-bar__index {
   display: none;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .works-bar__index {
+    display: flex;
+  }
+}
+
+.works-bar__now {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.works-bar__arrows {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.works-bar__arrow {
+  cursor: pointer;
+  border: 1px solid var(--rule-strong);
+  padding: 0.125rem 0.5rem;
+  line-height: 1.4;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+.works-bar__arrow:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.works-bar__arrow:disabled {
+  cursor: default;
+  opacity: 0.3;
+}
+
+/* One work.
+
+   The card fills the whole width and the whole height of the stage, so one
+   work is on screen at a time. It holds the name on the top left, the
+   description and the technologies under it, and the framed screen of the
+   product on the other side. Every piece reads the position of the card in
+   the stage, written by the script as `--p` (the signed distance from the
+   middle) and `--d` (how far it is from it), and travels on its own. */
+.work-card {
+  --arrive: 1.35;
+  --settle: 0.4;
+  /* The position of the card in the stage, written by the script. The
+     defaults keep the card whole when the script never runs. */
+  --p: 0;
+  --d: 0;
+  --in: clamp(
+    0,
+    calc((var(--arrive) - var(--d)) / (var(--arrive) - var(--settle))),
+    1
+  );
+
+  position: relative;
+  display: grid;
+  flex: 0 0 100%;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "head   visual"
+    "text   visual"
+    "footer visual";
+  column-gap: 3rem;
+  row-gap: 1.25rem;
+  padding: 1.5rem 1.5rem 2rem;
+}
+
+@media (max-width: 767px) {
+  .work-card {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+      "head"
+      "visual"
+      "text"
+      "footer";
+    row-gap: 0.875rem;
+    padding: 0.75rem 0.75rem 1rem;
+  }
+
+  /* A phone has no room for a mock the size of a monitor: the frame keeps a
+     share of the width and the height of the card goes to the text. */
+  .work-frame {
+    width: 64%;
+    margin-inline: auto;
+  }
+
+  .work-card__name {
+    font-size: clamp(2.25rem, 11vw, 3rem);
+  }
+
+  .work-card__blurb {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .work-card__text {
+    gap: 1rem;
+  }
+
+  .work-card__chip {
+    padding: 0.1875rem 0.375rem;
+    font-size: 0.55rem;
+  }
+
+  .work-card__meta {
+    gap: 0.75rem;
+    font-size: 0.55rem;
+  }
+
+  /* The call to action of a phone keeps its label but gives up its height. */
+  .work-card .cta {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* A short phone: the frame gives up more of the width so the whole work,
+   the call to action included, stays on the screen. */
+@media (max-width: 767px) and (max-height: 700px) {
+  .work-frame {
+    width: 58%;
+  }
+}
+
+/* A very short phone: the frame gives up a little more. */
+@media (max-width: 767px) and (max-height: 660px) {
+  .work-frame {
+    width: 52%;
+  }
+}
+
+/* A phone too short to hold a whole work: the works stack down the page,
+   the way they do without the script. */
+@media (max-width: 767px) and (max-height: 620px) {
+  .works-stage {
+    --works-pinned: 0;
+    position: static;
+    height: auto;
+  }
+
+  .works-runway {
+    height: auto;
+    overflow: visible;
+  }
+
+  .works-track {
+    flex-direction: column;
+    transform: none;
+  }
+
+  .work-card {
+    flex: 0 0 auto;
+    min-height: 70svh;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+}
+
+.work-card__head {
+  grid-area: head;
+}
+
+.work-card__text {
+  grid-area: text;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.work-card__stack {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: 0.5rem;
+}
+
+.work-card__footer {
+  grid-area: footer;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.work-card__visual {
+  grid-area: visual;
+  align-self: center;
+  perspective: 1200px;
+}
+
+/* Each piece arrives on its own, in order, and the animation is reversible:
+   scrolling back returns the card to the state it had. */
+.work-card__head,
+.work-card__blurb,
+.work-card__chip,
+.work-card__footer,
+.work-card__visual {
+  --vis: clamp(0, calc((var(--in) * 1.9 - var(--i) * 0.3) * 10), 1);
+  opacity: var(--vis);
+}
+
+.work-card__visual {
+  --i: 0;
+}
+
+.work-card__head {
+  --i: 0;
+  translate: calc((1 - var(--vis)) * -1.25rem) 0;
+}
+
+.work-card__blurb {
+  --i: 1;
+  translate: 0 calc((1 - var(--vis)) * 1rem);
+}
+
+.work-card__chip {
+  translate: 0 calc((1 - var(--vis)) * 0.75rem);
+}
+
+.work-card__footer {
+  --i: 3.2;
+  translate: 0 calc((1 - var(--vis)) * 0.6rem);
+}
+
+.work-card__index {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.work-card__number {
+  font-size: 0.9rem;
+}
+
+.work-card__total {
+  color: var(--muted);
+}
+
+.work-card__name {
+  font-size: clamp(2.75rem, 6vw, 5.5rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+.work-card__blurb {
+  max-width: 44ch;
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.work-card__chip {
+  border: 1px solid var(--rule-strong);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.work-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.work-card__meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+/* The frame: a window with three traffic lights and an address bar, holding
+   the screen of the product. It arrives from the opposite corner and settles
+   into a slight tilt, so the row of works never reads as a flat line of
+   rectangles. */
+.work-frame {
+  border: 1px solid var(--rule-strong);
+  background: #141618;
+  box-shadow: 0 24px 60px -28px rgb(0 0 0 / 0.6);
+  transform: rotateY(calc(clamp(-1.35, var(--p), 1.35) * -6deg - 5deg))
+    rotateX(1.5deg);
+  translate: calc((1 - var(--vis)) * 2.5rem) calc((1 - var(--vis)) * -2rem);
+}
+
+.work-frame__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  background: #1e2226;
+}
+
+.work-frame__lights {
+  display: flex;
+  gap: 0.375rem;
+}
+
+.work-frame__lights span {
+  width: 0.625rem;
+  height: 0.625rem;
+  /* The three lights of a window are the one place the site allows a round
+     corner: the square rule of the design system would not read as a
+     window. */
+  border-radius: 999px !important;
+  background: var(--ink);
+  opacity: 0.85;
+}
+
+.work-frame__lights span:nth-child(2) {
+  opacity: 0.5;
+}
+
+.work-frame__lights span:nth-child(3) {
+  opacity: 0.25;
+}
+
+.work-frame__url {
+  flex: 1;
+  border: 1px solid var(--rule);
+  padding: 0.125rem 0.625rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.work-frame__screen {
+  aspect-ratio: 8 / 5;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The card is simply there: no piece travels, and the frame keeps no
+     tilt. */
+  .work-card {
+    --in: 1;
+  }
+
+  .work-frame {
+    transform: none;
+    translate: none;
+  }
+}
+
+/* Without the script the works stack down the page, one under the other. */
+@media (scripting: none) {
+  .works-runway {
+    height: auto;
+    overflow: visible;
+  }
+
+  .works-stage {
+    position: static;
+    height: auto;
+  }
+
+  .works-track {
+    flex-direction: column;
+    transform: none;
+  }
+
+  .work-card {
+    flex: 0 0 auto;
+    min-height: 60svh;
+    border-bottom: 1px solid var(--rule-strong);
+  }
 }
 
 @keyframes marquee-scroll {
@@ -257,12 +703,6 @@ label {
   .rise,
   .rise-shift,
   .sweep::after {
-    animation: none !important;
-  }
-
-  /* The project that arrives fades in: with reduced motion it simply is
-     there, no fade. */
-  .works-section.is-swapping [data-panel] {
     animation: none !important;
   }
 
