@@ -314,6 +314,11 @@ label {
     gap: 1rem;
   }
 
+  /* On a phone the frame is centered and narrow: it floats on its own. */
+  .work-card__visual {
+    padding: 0;
+  }
+
   .work-card__chip {
     padding: 0.1875rem 0.375rem;
     font-size: 0.55rem;
@@ -380,8 +385,6 @@ label {
 
 .work-card__head {
   grid-area: head;
-  padding-bottom: 0.875rem;
-  border-bottom: 1px solid var(--rule-strong);
 }
 
 .work-card__text {
@@ -406,13 +409,14 @@ label {
   align-items: end;
   justify-content: space-between;
   gap: 1rem;
-  padding-top: 0.875rem;
-  border-top: 1px solid var(--rule-strong);
 }
 
 .work-card__visual {
   grid-area: visual;
   align-self: center;
+  /* The frame floats: it does not sit in the corner of the work, and it does
+     not fight the opening when the work takes the whole screen. */
+  padding: 1.5rem 1.5rem 0 0;
   perspective: 1200px;
 }
 
@@ -518,7 +522,7 @@ label {
   box-shadow: 0 24px 60px -28px rgb(0 0 0 / 0.6);
   transform: rotateY(calc(clamp(-1.35, var(--p), 1.35) * -6deg - 5deg))
     rotateX(1.5deg);
-  translate: calc((1 - var(--vis)) * 2.5rem) calc((1 - var(--vis)) * -2rem);
+  translate: calc((1 - var(--vis)) * 1.5rem) calc((1 - var(--vis)) * -1.25rem);
 }
 
 .work-frame__bar {

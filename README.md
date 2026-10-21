@@ -116,8 +116,11 @@ column move out to the edges of the screen when a work breaks out of the
 column, and they come back to the column when the section ends and the work
 shrinks to the width of the page again. The movement is the scroll itself, so
 it is smooth by construction: nothing is timed, everything follows the
-visitor. Inside the work, the name and the meta row are divided by hairlines,
-the way the blocks of the rest of the site are.
+visitor.
+
+The frame of the product floats inside the work: it keeps its distance from
+the top and the right, so it never sits in the corner of the screen and never
+fights the opening.
 
 One wheel gesture buys one work, the arrow keys move the same way, and past
 the last work the page takes the wheel back and carries on into the next
