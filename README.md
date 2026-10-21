@@ -86,8 +86,7 @@ commits the result, which triggers a new deployment.
   smooth scrolling. The works carousel keeps every piece of a work in place
   and drops the tilt of the frame.
 - The works are pinned and moved by the scroll, so the section is reached with
-  the keyboard like any other: the arrow keys walk the works one at a time
-  and the index numbers jump to any of them.
+  the keyboard like any other: the arrow keys walk the works one at a time.
 - The menu overlay takes the focus when it opens and returns it on `Escape`.
 
 ## Project layout
@@ -107,11 +106,15 @@ scrolls into it, the stage holds under the header, and the vertical scroll
 travels the works sideways. A work fills the whole width and the whole height
 of the section, so exactly one of them is on screen at a time.
 
-One wheel gesture buys one work, the arrow keys move the same way, and the
-index numbers jump to any of them. Past the last work the page takes the
-wheel back and carries on into the next section, so there is no scroll trap
-and no way to get stuck in the section. Without JavaScript the works stack
-down the page, one under the other.
+The section opens. The work arrives at the width of the page — the same
+column the rest of the site is built on — and it takes the whole width of the
+screen as the visitor scrolls into it. The opening takes half the height of
+the stage, and the works travel after it.
+
+One wheel gesture buys one work, the arrow keys move the same way, and past
+the last work the page takes the wheel back and carries on into the next
+section, so there is no scroll trap and no way to get stuck in the section.
+Without JavaScript the works stack down the page, one under the other.
 
 Every card shows the name of the work on the top left, the framed screen of
 the product on the other side, and under the name the line written for this

@@ -17,22 +17,21 @@
      dark theme must not stay light. */
   color-scheme: light;
 
-  /* The works stage: the height of the screen under the header, less the bar
-     that names the work in view. The runway is as many stages as there are
-     works. */
-  --work-bar-h: 2.25rem;
+  /* The works stage: the height of the screen under the header. The runway
+     is as many stages as there are works. */
   --work-stage-top: calc(3.5rem + env(safe-area-inset-top));
-  --work-stage-h: calc(
-    100svh - 3.5rem - env(safe-area-inset-top) - var(--work-bar-h)
-  );
+  --work-stage-h: calc(100svh - 3.5rem - env(safe-area-inset-top));
+  /* The width of the page: the work opens from here to the whole screen. */
+  --work-narrow: 92%;
 }
 
 @media (min-width: 768px) {
   :root {
     --work-stage-top: calc(4rem + env(safe-area-inset-top));
-    --work-stage-h: calc(
-      100svh - 4rem - env(safe-area-inset-top) - var(--work-bar-h)
-    );
+    --work-stage-h: calc(100svh - 4rem - env(safe-area-inset-top));
+    /* The width of the column the rest of the page is built on: ten of the
+       twelve columns, with the same margins the header of the section has. */
+    --work-narrow: 83.3333%;
   }
 }
 
@@ -207,72 +206,6 @@ label {
   will-change: transform;
 }
 
-.works-bar {
-  display: flex;
-  flex: 0 0 var(--work-bar-h);
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  height: var(--work-bar-h);
-  padding-inline: 0.75rem;
-  border-bottom: 1px solid var(--rule-strong);
-  background: var(--surface);
-}
-
-@media (min-width: 768px) {
-  .works-bar {
-    padding-inline: 1rem;
-  }
-}
-
-.works-bar__index {
-  display: none;
-  align-items: center;
-  gap: 1rem;
-}
-
-@media (min-width: 768px) {
-  .works-bar__index {
-    display: flex;
-  }
-}
-
-.works-bar__now {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.works-bar__arrows {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.works-bar__arrow {
-  cursor: pointer;
-  border: 1px solid var(--rule-strong);
-  padding: 0.125rem 0.5rem;
-  line-height: 1.4;
-  transition:
-    background-color 200ms ease,
-    color 200ms ease;
-}
-
-.works-bar__arrow:hover:not(:disabled) {
-  background: var(--ink);
-  color: var(--surface);
-}
-
-.works-bar__arrow:disabled {
-  cursor: default;
-  opacity: 0.3;
-}
-
 /* One work.
 
    The card fills the whole width and the whole height of the stage, so one
@@ -295,11 +228,26 @@ label {
   );
 
   position: relative;
-  display: grid;
+  display: flex;
   flex: 0 0 100%;
   /* The works do not sit on a line: the ones that are away from the middle
      drop a little, so the row reads as a curve. */
   translate: 0 calc(var(--d) * var(--d) * 1.5rem);
+}
+
+/* The visible work.
+
+   It opens from the width of the page to the whole width of the screen as
+   the visitor scrolls into the section, and the script writes how far the
+   opening has gone in `--reveal`. The card stays the box the layout
+   measures, so the travel of the works does not depend on the opening. */
+.work-card__inner {
+  display: grid;
+  width: calc(
+    var(--work-narrow, 100%) +
+      (100% - var(--work-narrow, 100%)) * var(--reveal, 0)
+  );
+  margin-inline: auto;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
@@ -308,11 +256,11 @@ label {
     "footer visual";
   column-gap: 3rem;
   row-gap: 1.25rem;
-  padding: 1.5rem 1.5rem 2rem;
+  padding: 1rem 1rem 1.5rem;
 }
 
 @media (max-width: 767px) {
-  .work-card {
+  .work-card__inner {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto 1fr auto;
     grid-template-areas:
@@ -400,6 +348,11 @@ label {
     flex: 0 0 auto;
     min-height: 70svh;
     border-bottom: 1px solid var(--rule-strong);
+  }
+
+  /* Stacked works take the whole width: there is no opening to make. */
+  .work-card__inner {
+    width: 100%;
   }
 }
 
@@ -624,6 +577,11 @@ label {
     flex: 0 0 auto;
     min-height: 60svh;
     border-bottom: 1px solid var(--rule-strong);
+  }
+
+  /* Stacked works take the whole width: there is no opening to make. */
+  .work-card__inner {
+    width: 100%;
   }
 }
 

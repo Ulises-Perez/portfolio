@@ -60,52 +60,57 @@ export function ProjectCard({
 
   return (
     <article data-card className="work-card">
-      <div className="work-card__head" style={stagger(0)}>
-        <p className="work-card__index">
-          <span className="work-card__number">{pad(index + 1)}</span>
-          <span className="work-card__total">/ {pad(total)}</span>
-        </p>
-        <h3 className="work-card__name">{name}</h3>
-      </div>
+      {/* The visible work. The card itself is the box the layout measures:
+          the work opens inside it, from the width of the page to the whole
+          width of the screen. */}
+        <div className="work-card__inner">
+          <div className="work-card__head" style={stagger(0)}>
+            <p className="work-card__index">
+              <span className="work-card__number">{pad(index + 1)}</span>
+              <span className="work-card__total">/ {pad(total)}</span>
+            </p>
+            <h3 className="work-card__name">{name}</h3>
+          </div>
 
-      <div className="work-card__text">
-        <p className="work-card__blurb" style={stagger(1)}>
-          {blurb}
-        </p>
+          <div className="work-card__text">
+            <p className="work-card__blurb" style={stagger(1)}>
+              {blurb}
+            </p>
 
-        <ul className="work-card__stack">
-          {stack.map((item, chip) => (
-            <li
-              key={item}
-              className="work-card__chip"
-              style={stagger(2 + chip * 0.08)}
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
+            <ul className="work-card__stack">
+              {stack.map((item, chip) => (
+                <li
+                  key={item}
+                  className="work-card__chip"
+                  style={stagger(2 + chip * 0.08)}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-      <div className="work-card__footer" style={stagger(3.2)}>
-        <dl className="work-card__meta">
-          {[
-            { label: "language", value: language || "mixed" },
-            { label: "size", value: formatBytes(bytes) },
-            { label: "stars", value: String(stars) },
-            { label: "pushed", value: formatMonth(pushedAt) },
-          ].map((item) => (
-            <div key={item.label} className="work-card__meta-item">
-              <dt className="text-muted">{item.label}</dt>
-              <dd className="tabular-nums">{item.value}</dd>
-            </div>
-          ))}
-        </dl>
-        <Cta href={url} label="view on github" external />
-      </div>
+          <div className="work-card__footer" style={stagger(3.2)}>
+            <dl className="work-card__meta">
+              {[
+                { label: "language", value: language || "mixed" },
+                { label: "size", value: formatBytes(bytes) },
+                { label: "stars", value: String(stars) },
+                { label: "pushed", value: formatMonth(pushedAt) },
+              ].map((item) => (
+                <div key={item.label} className="work-card__meta-item">
+                  <dt className="text-muted">{item.label}</dt>
+                  <dd className="tabular-nums">{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <Cta href={url} label="view on github" external />
+          </div>
 
-      <div className="work-card__visual">
-        <ProjectScreen accent={accent} screen={screen} name={name} />
-      </div>
+          <div className="work-card__visual">
+            <ProjectScreen accent={accent} screen={screen} name={name} />
+          </div>
+        </div>
     </article>
   );
 }

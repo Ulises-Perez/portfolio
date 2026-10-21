@@ -27,7 +27,7 @@ export function Works({
       {/* The works take the whole width of the page: one of them fills the
           screen at a time while the scroll travels them sideways. */}
       {names.length > 0 ? (
-        <WorksCarousel names={names}>{children}</WorksCarousel>
+        <WorksCarousel count={names.length}>{children}</WorksCarousel>
       ) : (
         <p className="p-3 text-sm text-muted md:p-4">No featured projects yet.</p>
       )}

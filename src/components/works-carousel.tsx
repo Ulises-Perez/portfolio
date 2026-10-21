@@ -1,14 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-
-const pad = (value: number) => String(value).padStart(2, "0");
+import { useCallback, useEffect, useRef } from "react";
 
 /** Wheel distance that buys the next work. */
 const SCROLL_THRESHOLD = 120;
 
 /** Milliseconds without a wheel event that start a new gesture. */
 const GESTURE_GAP = 120;
+
+/** The share of the stage the opening takes before the works travel. */
+const REVEAL = 0.5;
 
 /** Whether the works are pinned, or stacked because the screen is too short. */
 function isPinned(stage: HTMLElement): boolean {
@@ -18,8 +19,8 @@ function isPinned(stage: HTMLElement): boolean {
 }
 
 type WorksCarouselProps = {
-  /** The names of the featured works, for the index. Nothing else. */
-  names: string[];
+  /** How many works the track holds. */
+  count: number;
   children?: React.ReactNode;
 };
 
@@ -38,11 +39,10 @@ type WorksCarouselProps = {
  * change of direction starts the count again. Past the last work the page
  * takes the wheel back and carries on into the next section.
  */
-export function WorksCarousel({ names, children }: WorksCarouselProps) {
+export function WorksCarousel({ count, children }: WorksCarouselProps) {
   const runwayRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
   const pending = useRef(false);
   const accumulated = useRef(0);
   /** When the last wheel event came, and whether it already bought a work. */
@@ -61,16 +61,32 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
     if (!isPinned(stage)) return null;
 
     const top = runway.getBoundingClientRect().top + window.scrollY;
-    // The whole runway travels once, and the travel is divided between the
-    // works, so each one of them takes its share of it.
-    const travel = runway.offsetHeight - stage.offsetHeight;
-    const perWork = travel / Math.max(names.length - 1, 1);
+    // The whole runway travels once: the opening takes a piece of it, and the
+    // works share the rest.
+    const total = runway.offsetHeight - stage.offsetHeight;
+    const reveal = stage.offsetHeight * REVEAL;
+    const travel = Math.max(total - reveal, 1);
+    const perWork = travel / Math.max(count - 1, 1);
     // The stage holds under the header, so the first work is seated when the
     // runway has reached the top of the screen, not the top of the runway.
     const offset = Number.parseFloat(getComputedStyle(stage).top) || 0;
 
-    return { top: top - offset, travel, perWork };
-  }, [names.length]);
+    return { top: top - offset, reveal, travel, perWork };
+  }, [count]);
+
+  /** The work in view, counted from the travel. */
+  const currentIndex = useCallback(() => {
+    const geo = geometry();
+
+    if (!geo) return 0;
+
+    const progress = Math.min(
+      Math.max((window.scrollY - geo.top - geo.reveal) / geo.travel, 0),
+      1,
+    );
+
+    return Math.round(progress * (count - 1));
+  }, [count, geometry]);
 
   /** Writes the travel of the track and the position of every card. */
   const measure = useCallback(() => {
@@ -83,35 +99,34 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
     const cards = track.querySelectorAll<HTMLElement>("[data-card]");
 
     // Stacked works are all of them in view: no travel, no fade, nothing out
-    // of the way of the keyboard. The one in the middle of the screen is the
-    // one the bar names.
+    // of the way of the keyboard.
     if (!geo) {
-      const middle = window.innerHeight / 2;
-      let closest = 0;
-      let nearest = Infinity;
+      track.style.setProperty("--reveal", "1");
 
-      cards.forEach((card, index) => {
+      cards.forEach((card) => {
         card.style.setProperty("--p", "0");
         card.style.setProperty("--d", "0");
         card.inert = false;
-
-        const rect = card.getBoundingClientRect();
-        const distance = Math.abs(rect.top + rect.height / 2 - middle);
-
-        if (distance < nearest) {
-          nearest = distance;
-          closest = index;
-        }
       });
-
-      setActive((previous) => (previous === closest ? previous : closest));
 
       return;
     }
 
+    const scroll = window.scrollY;
+
+    // The opening: the work grows from the width of the page to the whole
+    // width of the screen while the visitor scrolls into the section.
+    const reveal = Math.min(Math.max((scroll - geo.top) / geo.reveal, 0), 1);
+
+    track.style.setProperty("--reveal", reveal.toFixed(4));
+
+    // The travel of the works starts when the opening is done.
     const progress =
       geo.travel > 0
-        ? Math.min(Math.max((window.scrollY - geo.top) / geo.travel, 0), 1)
+        ? Math.min(
+            Math.max((scroll - geo.top - geo.reveal) / geo.travel, 0),
+            1,
+          )
         : 0;
 
     track.style.setProperty("--p", progress.toFixed(5));
@@ -120,10 +135,7 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
     const half = bounds.width / 2;
     const middle = bounds.left + half;
 
-    let closest = 0;
-    let nearest = Infinity;
-
-    cards.forEach((card, index) => {
+    cards.forEach((card) => {
       const rect = card.getBoundingClientRect();
       const position = (rect.left + rect.width / 2 - middle) / half;
       const distance = Math.abs(position);
@@ -134,14 +146,7 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
       // A work that is not in view is out of the way: the keyboard does not
       // walk into a link nobody can see.
       card.inert = distance > 0.6;
-
-      if (distance < nearest) {
-        nearest = distance;
-        closest = index;
-      }
     });
-
-    setActive((previous) => (previous === closest ? previous : closest));
   }, [geometry]);
 
   /** One measurement per frame, however fast the visitor scrolls. */
@@ -180,7 +185,7 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       window.scrollTo({
-        top: geo.top + index * geo.perWork,
+        top: geo.top + geo.reveal + index * geo.perWork,
         behavior: reduced ? "instant" : "smooth",
       });
     },
@@ -216,7 +221,7 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
       // The menu overlay owns the wheel while it is open.
       if (document.body.style.overflow === "hidden") return;
 
-      if (names.length === 0) return;
+      if (count === 0) return;
 
       const geo = geometry();
 
@@ -225,8 +230,14 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
       const y = window.scrollY;
       const down = event.deltaY > 0;
 
-      // Outside the works the page scrolls as usual.
-      if (y < geo.top - 1 || y > geo.top + geo.travel + 1) return;
+      // The works answer the wheel once the opening is done, and until the
+      // last one is on screen. Outside that the page scrolls as usual.
+      if (
+        y < geo.top + geo.reveal - 1 ||
+        y > geo.top + geo.reveal + geo.travel + 1
+      ) {
+        return;
+      }
 
       // A hard fling means the visitor wants to leave, not to walk.
       if (Math.abs(event.deltaY) > 240) {
@@ -245,11 +256,11 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
 
       lastWheel.current = now;
 
-      const target = active + (down ? 1 : -1);
+      const target = currentIndex() + (down ? 1 : -1);
 
       // At the ends the page takes the wheel back, and it takes it whole: a
       // gesture under the threshold must not be swallowed there.
-      if (target >= names.length || target < 0) {
+      if (target >= count || target < 0) {
         accumulated.current = 0;
         return;
       }
@@ -285,18 +296,19 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
     window.addEventListener("wheel", onWheel, { passive: false });
 
     return () => window.removeEventListener("wheel", onWheel);
-  }, [active, geometry, goTo, names.length]);
+  }, [count, currentIndex, geometry, goTo]);
 
   // The keyboard walks the works the same way.
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      const current = currentIndex();
       const keys: Record<string, number> = {
-        ArrowDown: active + 1,
-        ArrowRight: active + 1,
-        PageDown: active + 1,
-        ArrowUp: active - 1,
-        ArrowLeft: active - 1,
-        PageUp: active - 1,
+        ArrowDown: current + 1,
+        ArrowRight: current + 1,
+        PageDown: current + 1,
+        ArrowUp: current - 1,
+        ArrowLeft: current - 1,
+        PageUp: current - 1,
       };
 
       const target = keys[event.key];
@@ -305,7 +317,7 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
 
       if (document.body.style.overflow === "hidden") return;
 
-      if (names.length === 0) return;
+      if (count === 0) return;
 
       const geo = geometry();
 
@@ -313,78 +325,29 @@ export function WorksCarousel({ names, children }: WorksCarouselProps) {
 
       const y = window.scrollY;
 
-      if (y < geo.top - 1 || y > geo.top + geo.travel + 1) return;
+      if (
+        y < geo.top + geo.reveal - 1 ||
+        y > geo.top + geo.reveal + geo.travel + 1
+      ) {
+        return;
+      }
 
       event.preventDefault();
-      goTo(Math.min(Math.max(target, 0), names.length - 1));
+      goTo(Math.min(Math.max(target, 0), count - 1));
     };
 
     window.addEventListener("keydown", onKeyDown);
 
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [active, geometry, goTo, names.length]);
+  }, [count, currentIndex, geometry, goTo]);
 
   return (
     <div
       ref={runwayRef}
       className="works-runway"
-      style={{ "--work-count": names.length } as React.CSSProperties}
+      style={{ "--work-count": count } as React.CSSProperties}
     >
       <div ref={stageRef} className="works-stage">
-        <div className="works-bar">
-          <p className="eyebrow">scroll to browse</p>
-
-          <ul className="works-bar__index">
-            {names.map((name, index) => (
-              <li key={name}>
-                <button
-                  type="button"
-                  onClick={() => goTo(index)}
-                  aria-label={`Go to ${name}`}
-                  aria-current={index === active ? "true" : undefined}
-                  className={[
-                    "cursor-pointer text-[0.65rem] font-bold tracking-[0.12em] tabular-nums transition-opacity",
-                    index === active ? "opacity-100" : "text-muted hover:opacity-100",
-                  ].join(" ")}
-                >
-                  {pad(index + 1)}
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          <p className="works-bar__now">
-            <span className="tabular-nums text-muted">
-              {pad(active + 1)}/{pad(names.length)}
-            </span>
-            <span aria-hidden="true" className="opacity-40">
-              /
-            </span>
-            <span className="truncate">{names[active]}</span>
-          </p>
-
-          <div className="works-bar__arrows">
-            <button
-              type="button"
-              onClick={() => goTo(Math.max(active - 1, 0))}
-              disabled={active === 0}
-              aria-label="Previous work"
-              className="works-bar__arrow"
-            >
-              ←
-            </button>
-            <button
-              type="button"
-              onClick={() => goTo(Math.min(active + 1, names.length - 1))}
-              disabled={active === names.length - 1}
-              aria-label="Next work"
-              className="works-bar__arrow"
-            >
-              →
-            </button>
-          </div>
-        </div>
-
         <div ref={trackRef} className="works-track">
           {children}
         </div>
