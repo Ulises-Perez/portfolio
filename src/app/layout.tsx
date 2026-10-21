@@ -55,7 +55,7 @@ export const viewport: Viewport = {
 };
 
 /** Applies the stored theme before first paint so the page never flashes. */
-const themeScript = `try{var t=localStorage.getItem('portfolio-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.dataset.theme='dark';var m=document.querySelector('meta[name="theme-color"]');if(m)m.content='#6a0c06'}}catch(e){}`;
+const themeScript = `try{var t=localStorage.getItem('portfolio-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.dataset.theme='dark';var m=document.querySelector('meta[name="theme-color"]');if(m)m.content='#0c0d0d'}}catch(e){}`;
 
 export default function RootLayout({
   children,

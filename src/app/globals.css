@@ -19,7 +19,9 @@
 }
 
 :root[data-theme="dark"] {
-  --surface: #6a0c06;
+  /* The dark theme is the near black the visitor asked for: the red that
+     used to fill it is gone, and the green ink stays on top of it. */
+  --surface: #0c0d0d;
   --ink: #b2c7ab;
   color-scheme: dark;
 }

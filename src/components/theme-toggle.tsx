@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "portfolio-theme";
 const LIGHT = "#b2c7ab";
-const DARK = "#6a0c06";
+const DARK = "#0c0d0d";
 
 /** Light/dark switch. The initial paint is handled by an inline script in the layout. */
 export function ThemeToggle() {
