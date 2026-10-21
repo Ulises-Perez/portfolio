@@ -111,6 +111,14 @@ column the rest of the site is built on — and it takes the whole width of the
 screen as the visitor scrolls into it. The opening takes half the height of
 the stage, and the works travel after it.
 
+The rules of the page travel with it. The two vertical rules that hold the
+column move out to the edges of the screen when a work breaks out of the
+column, and they come back to the column when the section ends and the work
+shrinks to the width of the page again. The movement is the scroll itself, so
+it is smooth by construction: nothing is timed, everything follows the
+visitor. Inside the work, the name and the meta row are divided by hairlines,
+the way the blocks of the rest of the site are.
+
 One wheel gesture buys one work, the arrow keys move the same way, and past
 the last work the page takes the wheel back and carries on into the next
 section, so there is no scroll trap and no way to get stuck in the section.

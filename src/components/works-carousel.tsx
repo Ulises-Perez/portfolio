@@ -71,7 +71,16 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
     // runway has reached the top of the screen, not the top of the runway.
     const offset = Number.parseFloat(getComputedStyle(stage).top) || 0;
 
-    return { top: top - offset, reveal, travel, perWork };
+    return {
+      top: top - offset,
+      reveal,
+      travel,
+      perWork,
+      // The closing: the work shrinks back to the width of the page while the
+      // section leaves, and the rules of the page go back to the column.
+      closeStart: top - offset + reveal + travel,
+      close: stage.offsetHeight * REVEAL,
+    };
   }, [count]);
 
   /** The work in view, counted from the travel. */
@@ -92,6 +101,7 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
   const measure = useCallback(() => {
     const stage = stageRef.current;
     const track = trackRef.current;
+    const runway = runwayRef.current;
     const geo = geometry();
 
     if (!stage || !track) return;
@@ -101,7 +111,7 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
     // Stacked works are all of them in view: no travel, no fade, nothing out
     // of the way of the keyboard.
     if (!geo) {
-      track.style.setProperty("--reveal", "1");
+      runway?.style.setProperty("--reveal", "1");
 
       cards.forEach((card) => {
         card.style.setProperty("--p", "0");
@@ -115,10 +125,16 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
     const scroll = window.scrollY;
 
     // The opening: the work grows from the width of the page to the whole
-    // width of the screen while the visitor scrolls into the section.
+    // width of the screen while the visitor scrolls into the section, and it
+    // shrinks back when the section leaves.
     const reveal = Math.min(Math.max((scroll - geo.top) / geo.reveal, 0), 1);
 
-    track.style.setProperty("--reveal", reveal.toFixed(4));
+    const opened = Math.min(
+      Math.max((scroll - geo.closeStart) / geo.close, 0),
+      1,
+    );
+
+    runway?.style.setProperty("--reveal", (reveal * (1 - opened)).toFixed(4));
 
     // The travel of the works starts when the opening is done.
     const progress =
@@ -348,6 +364,12 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
       style={{ "--work-count": count } as React.CSSProperties}
     >
       <div ref={stageRef} className="works-stage">
+        {/* The rules of the page: they hold the column the site is built on,
+            and when a work breaks out of the column to take the whole screen
+            they travel with it to the edges of the screen. */}
+        <span className="works-rule works-rule--left" aria-hidden="true" />
+        <span className="works-rule works-rule--right" aria-hidden="true" />
+
         <div ref={trackRef} className="works-track">
           {children}
         </div>

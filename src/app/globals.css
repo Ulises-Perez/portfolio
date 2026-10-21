@@ -181,10 +181,32 @@ label {
    Without the script the works stack down the page, one under the other. */
 .works-runway {
   position: relative;
-  height: calc(var(--work-stage-h) * var(--work-count, 1));
+  /* The runway is as many stages as there are works, and half a stage more:
+     the closing, where the work shrinks back to the width of the page. */
+  height: calc(var(--work-stage-h) * (var(--work-count, 1) + 0.5));
   /* `clip` and not `hidden`: a hidden overflow would turn the runway into a
      scroll container, and the stage would never stick to it. */
   overflow: clip;
+}
+
+/* The rules of the page. They hold the column the site is built on, and when
+   a work breaks out of the column to take the whole screen they travel with
+   it to the edges of the screen, and come back when it returns. */
+.works-rule {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--rule-strong);
+  pointer-events: none;
+}
+
+.works-rule--left {
+  left: calc((100% - var(--work-narrow, 100%)) / 2 * (1 - var(--reveal, 0)));
+}
+
+.works-rule--right {
+  right: calc((100% - var(--work-narrow, 100%)) / 2 * (1 - var(--reveal, 0)));
 }
 
 .works-stage {
@@ -358,6 +380,8 @@ label {
 
 .work-card__head {
   grid-area: head;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid var(--rule-strong);
 }
 
 .work-card__text {
@@ -382,6 +406,8 @@ label {
   align-items: end;
   justify-content: space-between;
   gap: 1rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--rule-strong);
 }
 
 .work-card__visual {
