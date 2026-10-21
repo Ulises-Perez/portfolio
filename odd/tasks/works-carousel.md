@@ -152,7 +152,8 @@ fight the opening when the work takes the whole screen.
 | T10 | S10                  | The navigation of the works is out and the section opens from the width of the page | inline | 48abb5f |
 | T11 | S11                  | The rules of the page travel with the work: they hold the column and go to the edges of the screen | inline | 469bf18 |
 | T12 | S1                   | The toggle of the theme stops breaking the hydration of the page            | inline | 5678b61 |
-| T13 | S1                   | The stack section is out, the discord button is fixed, the footer is indexed and the page opens at the top | inline | —      |
+| T13 | S1                   | The stack section is out, the discord button is fixed, the footer is indexed and the page opens at the top | inline | 9a50660 |
+| T14 | S1                   | The services carry only their number and what they offer, and the contact section closes | inline | —      |
 | T6  | S2, S3, S6           | The export smoke test follows the new section                             | inline | f449cb5 |
 | T7  | S9                   | The review with ego lite and the impeccable detector                      | inline | fc368cd |
 | T8  | S2, S8               | The README describes what the section is now                               | inline | 5ab0f4d |
@@ -432,3 +433,35 @@ recargue la pagina siempre esta inicie desde arriba, no donde quedo."
 - T13: `Risk: item 3 (contracts others consume)` — the navigation of the page points at
   its sections, and the smoke test names the sections the page has to carry. Covered by
   the measurements in L24.
+
+### L26 — The services and the end of the contact section (verbatim)
+"En services, quiero que salga el titulo de el service solamente con el 01 o 02 etc... y en
+el otro lado salga tipo lo que ofrezco pero mas resumido tipo fronted, y demas no con que
+tecnologias trabajo sino lo que puedo ofrecer. pero que se mantenga el worker with pero que
+diga otra cosa que sirva para nombrar los servicios que presto. Ademas quiero que
+termines la seccion donde se muestran los contactos ya que las lineas no llegan abajo,
+estan cortadas."
+
+### L27 — What changed
+- The service carries only its number now: the name of the service is gone and the number
+  takes its place, at the size of the headings.
+- The other side of the row names what the visitor can hire, in the plainest words:
+  frontend, backend, cms integration, custom sites, web maintenance; automation, ci
+  pipelines, internal tooling, scripts and bots, system services; api integrations,
+  scraping, scheduled jobs, rest endpoints, data cleanup.
+- The "worked with" slot is still there and says something else now: "what i offer". The
+  technologies are out of the section: the stack of the account is in the developer
+  section and the technologies of every work are in the works.
+- The contact section closes: the vertical lines of the three channels reach the bottom
+  of the section. The empty band at the end of the section is gone and the content has
+  the air inside the channels instead.
+
+### L28 — What was measured
+- The three services carry the number 01, 02 and 03 at 96px, the label "what i offer"
+  and the offer of the service. There is no technology list left in the section.
+- The bottom of the contact section: the section ends at 9319, the column at 9318 and
+  the three channels at 9318. The lines reach the bottom.
+
+### L29 — Risk
+- T14: `Risk: item 3 (contracts others consume)` — the services are read from the site
+  configuration and the page shows what it says. Covered by the measurements in L28.

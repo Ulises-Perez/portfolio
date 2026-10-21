@@ -50,7 +50,7 @@ export function Contact() {
   return (
     <section id="contact" className="border-b border-rule-strong">
       <div className="grid grid-cols-4 md:grid-cols-12">
-        <div className="col-span-4 border-x border-rule-strong pb-0 md:col-span-10 md:col-start-2 md:pt-40 md:pb-40">
+        <div className="col-span-4 border-x border-rule-strong pb-0 md:col-span-10 md:col-start-2 md:pt-40">
           <div className="grid grid-cols-4 border-b border-rule-strong md:grid-cols-10">
             <div className="col-span-4 p-3 md:col-span-10 md:p-4">
               <p className="eyebrow mb-2 md:mb-3">got something in mind</p>
@@ -85,7 +85,7 @@ export function Contact() {
             {channels.map((channel) => (
               <div
                 key={channel.key}
-                className="flex flex-col justify-between gap-6 border-b border-rule-strong p-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0 md:p-4"
+                className="flex flex-col justify-between gap-6 border-b border-rule-strong p-3 pb-8 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0 md:p-4 md:pb-10"
               >
                 <p className="eyebrow">{channel.label}</p>
                 <div>

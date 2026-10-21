@@ -1,11 +1,9 @@
 export type Service = {
   index: string;
-  title: string;
+  /** What the visitor can hire, in the plainest words. */
   items: string[];
   /** One line that says what this service is for. */
   note: string;
-  /** Languages that count as proof for this service. */
-  stack: string[];
 };
 
 /** The kind of product a screen shows. */
@@ -214,42 +212,36 @@ export const site = {
   services: [
     {
       index: "01",
-      title: "web development",
       items: [
-        "front end",
-        "back end",
+        "frontend",
+        "backend",
         "cms integration",
         "custom sites",
         "web maintenance",
       ],
       note: "From the first commit to the deployment, in one stack.",
-      stack: ["Vue", "TypeScript", "HTML", "CSS", "SCSS", "PHP", "Blade"],
     },
     {
       index: "02",
-      title: "systems & tooling",
       items: [
-        "rust services",
-        "lua game scripts",
-        "python automation",
-        "shell tooling",
+        "automation",
         "ci pipelines",
+        "internal tooling",
+        "scripts and bots",
+        "system services",
       ],
       note: "The parts that keep running when nobody is watching.",
-      stack: ["Rust", "Lua", "Shell", "Hack", "Python"],
     },
     {
       index: "03",
-      title: "data & integrations",
       items: [
-        "third party apis",
+        "api integrations",
         "scraping",
         "scheduled jobs",
         "rest endpoints",
         "data cleanup",
       ],
       note: "Your product wired to the services it actually needs.",
-      stack: ["Python", "PHP", "Shell", "TypeScript"],
     },
   ] satisfies Service[],
   contact: {

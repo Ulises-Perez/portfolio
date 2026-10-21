@@ -23,14 +23,15 @@ export function Services() {
               key={service.index}
               className="grid grid-cols-4 border-b border-rule-strong md:grid-cols-10"
             >
-              <div className="col-span-4 border-b border-rule-strong p-3 md:col-span-6 md:border-b-0 md:border-r md:p-4">
-                <div className="flex items-baseline gap-4">
-                  <span className="display text-3xl tabular-nums text-muted md:text-4xl">
-                    {service.index}
-                  </span>
-                  <h3 className="display text-3xl md:text-5xl">{service.title}</h3>
-                </div>
-                <ul className="mt-6 grid gap-1.5 text-sm md:mt-8 md:grid-cols-2 md:gap-2 md:text-base">
+              <div className="col-span-4 border-b border-rule-strong p-3 md:col-span-5 md:border-b-0 md:border-r md:p-4">
+                <h3 className="display text-6xl tabular-nums md:text-8xl">
+                  {service.index}
+                </h3>
+              </div>
+
+              <div className="col-span-4 p-3 md:col-span-5 md:p-4">
+                <p className="eyebrow">what i offer</p>
+                <ul className="mt-3 grid gap-1.5 text-sm md:mt-4 md:grid-cols-2 md:gap-2 md:text-base">
                   {service.items.map((item) => (
                     <li key={item} className="flex gap-3">
                       <span aria-hidden="true" className="opacity-40">
@@ -40,21 +41,7 @@ export function Services() {
                     </li>
                   ))}
                 </ul>
-              </div>
-
-              <div className="col-span-4 p-3 md:col-span-4 md:p-4">
-                <p className="eyebrow">worked with</p>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {service.stack.map((language) => (
-                    <li
-                      key={language}
-                      className="border border-rule-strong px-2 py-1 text-[0.6rem] font-bold tracking-[0.12em] uppercase"
-                    >
-                      {language}
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-6 max-w-[34ch] text-sm leading-relaxed text-muted">
+                <p className="mt-6 max-w-[34ch] text-sm leading-relaxed text-muted md:mt-8">
                   {service.note}
                 </p>
               </div>
