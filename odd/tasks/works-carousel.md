@@ -113,15 +113,15 @@ not usable because Firefox does not support them.
 
 | ID  | Specs                | Task                                                                     | Route  | Commit |
 | --- | -------------------- | ------------------------------------------------------------------------ | ------ | ------ |
-| T1  | S1                   | The dark surface moves to `#0C0D0D`, light surface untouched             | inline | —      |
-| T2  | S5, S8               | The works carry their own voice, their stack and their screen            | inline | —      |
-| T3  | S3, S4, S6, S7       | The framed product screen, drawn from the identity of the project         | inline | —      |
-| T4  | S2, S3, S5, S6, S7   | The pinned carousel: the card, the runway, the stage and the index       | inline | —      |
-| T5  | S2                   | The section shell and the page wiring; the panels and the old nav are gone | inline | —      |
-| T9  | S2                   | The scroll model corrected: the section is pinned and the travel is driven by the scroll | inline | —      |
-| T6  | S2, S3, S6           | The export smoke test follows the new section                             | inline | —      |
-| T7  | S9                   | The review with ego lite and the impeccable detector                      | inline | —      |
-| T8  | S2, S8               | The README describes what the section is now                               | inline | —      |
+| T1  | S1                   | The dark surface moves to `#0C0D0D`, light surface untouched             | inline | 1f5506b |
+| T2  | S5, S8               | The works carry their own voice, their stack and their screen            | inline | dc4dc80 |
+| T3  | S3, S4, S6, S7       | The framed product screen, drawn from the identity of the project         | inline | 675e94c |
+| T4  | S2, S3, S5, S6, S7   | The pinned carousel: the card, the runway, the stage and the index       | inline | fc368cd |
+| T5  | S2                   | The section shell and the page wiring; the panels and the old nav are gone | inline | fc368cd |
+| T9  | S2                   | The scroll model corrected: the section is pinned and the travel is driven by the scroll | inline | fc368cd |
+| T6  | S2, S3, S6           | The export smoke test follows the new section                             | inline | f449cb5 |
+| T7  | S9                   | The review with ego lite and the impeccable detector                      | inline | fc368cd |
+| T8  | S2, S8               | The README describes what the section is now                               | inline | 5ab0f4d |
 
 Work-unit commits are cut per task group (~400 authored changed lines max per commit)
 on the feature branch `feature/portfolio`.
@@ -238,3 +238,31 @@ Measured in ego lite, at 1440x900 and at 390x844, in both themes.
   page owes: the export smoke test now names the classes of the new section and the
   content of every work, and the deploy workflow runs that test. Covered by the checks
   in L12.
+
+### L12 — The final verification
+- `npm run typecheck`: clean, no diagnostics.
+- `npm test`: 10 of 10.
+- `npm run build`: 8 of 8 static pages, the page is 4.25 kB and the export is 128 kB.
+- `npm run verify`: 56 export checks pass, including the sixteen new ones.
+- The impeccable detector over the changed files: no findings.
+- In ego lite, at 1440x900 and at 390x844, in both themes: the stage pins at 64px, one
+  work fills the screen, one gesture of the wheel buys one work, the pieces of the work
+  arrive in order and the frame keeps its tilt.
+- On a short phone the whole work has to fit: the card was measured at 375x667, at
+  390x844 and at 360x640. The call to action was cut off by the bottom of the screen on
+  the two shorter ones, and the card is compact now: a smaller frame, a smaller call to
+  action. The call to action ends 52, 52 and 16 pixels above the bottom of the screen on
+  the three.
+- The wheel was swallowing the gesture under the threshold at the first and the last
+  work, where the page has to take it back. The target is checked before the threshold
+  now.
+- The cards that are not in view are `inert`, so the keyboard does not walk into a link
+  nobody can see.
+
+### L13 — The commits
+Six work units on `feature/portfolio`: `1f5506b` the palette, `dc4dc80` the content of
+the works, `675e94c` the drawn screens, `fc368cd` the pinned section with the card and
+the wiring, `f449cb5` the smoke test, `5ab0f4d` the README and this document.
+
+The pinned section is one work unit and not three: the card, the runway, the styles and
+the wiring have to land together or the page does not build.
