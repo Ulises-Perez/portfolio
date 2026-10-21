@@ -80,7 +80,8 @@ section[id] {
     border-color 420ms cubic-bezier(0.4, 0, 0.2, 1),
     fill 420ms cubic-bezier(0.4, 0, 0.2, 1),
     stroke 420ms cubic-bezier(0.4, 0, 0.2, 1),
-    outline-color 420ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+    outline-color 420ms cubic-bezier(0.4, 0, 0.2, 1),
+    translate 420ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* A visible focus ring on every interactive element, in the current color so
@@ -123,6 +124,38 @@ label {
 ::selection {
   background: var(--ink);
   color: var(--surface);
+}
+
+/* The label and the switch of the theme toggle follow the theme of the
+   document, which the script in the layout applies before the first paint.
+   The server does not have to know the theme, so the page never has to be
+   regenerated on the client, and the visitor never reads a label that is
+   about to change. */
+.theme-label__out::after {
+  content: "light";
+}
+
+.theme-label__in::after {
+  content: "dark";
+}
+
+.theme-switch {
+  translate: -100% 0;
+  transition:
+    translate 450ms cubic-bezier(0.65, 0, 0.35, 1),
+    background-color 200ms ease;
+}
+
+:root[data-theme="dark"] .theme-label__out::after {
+  content: "dark";
+}
+
+:root[data-theme="dark"] .theme-label__in::after {
+  content: "light";
+}
+
+:root[data-theme="dark"] .theme-switch {
+  translate: 0 0;
 }
 
 @layer components {

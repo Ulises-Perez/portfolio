@@ -150,7 +150,8 @@ fight the opening when the work takes the whole screen.
 | T5  | S2                   | The section shell and the page wiring; the panels and the old nav are gone | inline | fc368cd |
 | T9  | S2                   | The scroll model corrected: the section is pinned and the travel is driven by the scroll | inline | fc368cd |
 | T10 | S10                  | The navigation of the works is out and the section opens from the width of the page | inline | 48abb5f |
-| T11 | S11                  | The rules of the page travel with the work: they hold the column and go to the edges of the screen | inline | —      |
+| T11 | S11                  | The rules of the page travel with the work: they hold the column and go to the edges of the screen | inline | 469bf18 |
+| T12 | S1                   | The toggle of the theme stops breaking the hydration of the page            | inline | —      |
 | T6  | S2, S3, S6           | The export smoke test follows the new section                             | inline | f449cb5 |
 | T7  | S9                   | The review with ego lite and the impeccable detector                      | inline | fc368cd |
 | T8  | S2, S8               | The README describes what the section is now                               | inline | 5ab0f4d |
@@ -365,3 +366,33 @@ sea mediante una animacion suave."
   the work is open, halfway back at 59px while the section leaves, and at 119px again.
   On a phone, at 16px, then 0px, and back. The frame keeps 47px of air to the right edge
   when the work is open, and 16px while it arrives.
+
+### L19 — The hydration error of the theme toggle, fixed (verbatim)
+"Corrije este error: ## Error Type Recoverable Error ## Error Message Hydration failed
+because the server rendered text didn't match the client. As a result this tree will be
+regenerated on the client. [...] + aria-pressed={true} - aria-pressed="false" [...] + dark
+- light"
+
+### L20 — What the error was, and why it happened
+- The toggle read the theme from the document in the initializer of its state, so the
+  server rendered "light" and the browser rendered "dark" whenever the visitor had chosen
+  the dark theme. The tree was regenerated on the client every time.
+- The theme of the page lives in the document: the script in the layout applies the stored
+  theme before the first paint. The label of the button and the position of its switch are
+  drawn by the stylesheet from that theme now, so the server does not have to know it and
+  the visitor never reads a label that is about to change.
+- The state carries only what the button announces, and it starts on the value the server
+  rendered, so the markup the server sent and the first paint of the browser are the same
+  thing.
+- The roll of the label still works: the two copies keep their place and the stylesheet
+  decides which one reads "light" and which one reads "dark". Verified: without hover the
+  outgoing copy sits in place and the incoming one is above it; on hover the outgoing one
+  rolls down and the incoming one arrives; leaving puts them back.
+- Verified in the browser in both themes: the dev overlay has nothing to say, there is no
+  error in the console, the label reads the theme from the first paint, and the click
+  still flips the theme, the stored value and the color of the browser chrome.
+
+### L21 — Risk
+- T12: `Risk: item 3 (contracts others consume)` — the button announces its state with
+  `aria-pressed`, and the state it announces has to be the real one. Covered by the
+  measurements in L20.
