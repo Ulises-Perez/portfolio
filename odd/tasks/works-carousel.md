@@ -153,7 +153,8 @@ fight the opening when the work takes the whole screen.
 | T11 | S11                  | The rules of the page travel with the work: they hold the column and go to the edges of the screen | inline | 469bf18 |
 | T12 | S1                   | The toggle of the theme stops breaking the hydration of the page            | inline | 5678b61 |
 | T13 | S1                   | The stack section is out, the discord button is fixed, the footer is indexed and the page opens at the top | inline | 9a50660 |
-| T14 | S1                   | The services carry only their number and what they offer, and the contact section closes | inline | —      |
+| T14 | S1                   | The services carry only their number and what they offer, and the contact section closes | inline | 081499a |
+| T15 | S1                   | The footer says the name, big and in the middle, and nothing else           | inline | —      |
 | T6  | S2, S3, S6           | The export smoke test follows the new section                             | inline | f449cb5 |
 | T7  | S9                   | The review with ego lite and the impeccable detector                      | inline | fc368cd |
 | T8  | S2, S8               | The README describes what the section is now                               | inline | 5ab0f4d |
@@ -465,3 +466,20 @@ estan cortadas."
 ### L29 — Risk
 - T14: `Risk: item 3 (contracts others consume)` — the services are read from the site
   configuration and the page shows what it says. Covered by the measurements in L28.
+
+### L30 — The footer (verbatim)
+"En el footer quiero que apareza abajo deus. en grande en medio y quitar lo de section del
+footer esta sobrante, al igual que sata spnapshot"
+
+### L31 — What changed
+- The footer says the name and nothing else: "deus." big and in the middle, the way the
+  page ends with a word.
+- The index of the sections is out of the footer: the header and the menu already carry
+  it.
+- The date of the snapshot is out of the footer too: it belongs to the data.
+- The colophon stays, under the name and centered.
+
+### L32 — What was measured
+- The footer carries the name at 224px on the desktop and at 78px on a phone, with no
+  link, no index and no date. The name is centered: the only offset is the seven pixels
+  the scrollbar takes, and on a phone, where there is no scrollbar, it measures centered.
