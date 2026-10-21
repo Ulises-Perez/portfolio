@@ -266,3 +266,27 @@ the wiring, `f449cb5` the smoke test, `5ab0f4d` the README and this document.
 
 The pinned section is one work unit and not three: the card, the runway, the styles and
 the wiring have to land together or the page does not build.
+
+### L14 — The independent verification
+An independent verifier read the committed range and ran the gates. Its verdict: safe to
+deliver, nothing blocking. It found two things worth fixing and three worth noting.
+
+- The checks about the description and the technologies of every work read the raw
+  export, and the flight payload carries the props of the client components inside it. A
+  page with the chips taken out of the markup still passed them. The export is now read
+  without its script blocks for every check about what the page shows, and a new check
+  counts the chips: one for every technology of every work. Breaking the markup now
+  fails the test: the count goes from 40 to 0.
+- The script reads the site configuration directly, and Node strips the types of a
+  `.ts` file from 22.18 on. The floor is written down in the engines field and in the
+  README.
+- A fling was buying several works, because the count restarted after every purchase. A
+  gesture is a burst of wheel events now, and it is the one that buys the work: a fling
+  of six events moved the page one work.
+- A phone in landscape was cutting the frame off the bottom of the screen. A screen too
+  short to hold a work stacks the works, whatever its width.
+- The spec said the works lift a little on a curve and the stylesheet did not. It does
+  now: the card away from the middle drops, and the row reads as a curve.
+- The `inert` attribute only exists once the script runs, so between the first paint and
+  the first measurement the keyboard can reach a card that is not in view. The script
+  cannot know the geometry before the page is painted.
