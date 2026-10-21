@@ -56,6 +56,14 @@ const snapshot = JSON.parse(
   readFileSync(resolve(root, "src/data/github.json"), "utf8"),
 );
 
+/**
+ * The page without the script blocks. The flight payload carries the props of
+ * the client components inside them, so a check that reads the raw export
+ * proves that the props reached the browser and not that the page shows
+ * them. Every check about what the page shows reads this one.
+ */
+const rendered = html.replace(/<script[\s\S]*?<\/script>/g, "");
+
 const syncConfig = JSON.parse(
   readFileSync(resolve(root, "scripts/github-sync.config.json"), "utf8"),
 );
@@ -124,7 +132,7 @@ for (const repo of featured) {
 
 // The works are read sideways: one card per work inside a horizontal track,
 // and the panels that used to stack down the page are gone.
-const cards = html.match(/data-card/g) ?? [];
+const cards = rendered.match(/data-card/g) ?? [];
 
 check(
   "every featured work has a card in the carousel",
@@ -133,22 +141,33 @@ check(
 );
 check(
   "the works are a horizontal track",
-  html.includes("works-runway") &&
-    html.includes("works-stage") &&
-    html.includes("works-track"),
+  rendered.includes("works-runway") &&
+    rendered.includes("works-stage") &&
+    rendered.includes("works-track"),
 );
 check(
   "the vertical project panels are gone",
-  !html.includes("data-panel"),
+  !rendered.includes("data-panel"),
   "the page still carries the old project panels",
 );
 check(
   "every work shows the frame of its product",
-  html.includes("work-frame__url"),
+  rendered.includes("work-frame__url"),
 );
 
 // Every featured work carries a line written for this site and the
 // technologies it is built with, and both reach the page.
+const expectedChips = featured.reduce(
+  (total, repo) => total + (works[repo.name]?.stack?.length ?? 0),
+  0,
+);
+
+check(
+  "every technology of every work is rendered",
+  (rendered.match(/work-card__chip/g) ?? []).length === expectedChips,
+  `the page renders ${(rendered.match(/work-card__chip/g) ?? []).length} chips for ${expectedChips} technologies`,
+);
+
 for (const repo of featured) {
   const work = works[repo.name];
 
@@ -159,10 +178,10 @@ for (const repo of featured) {
   );
   check(
     `the description of ${repo.name} is on the page`,
-    Boolean(work?.blurb) && html.includes(work.blurb),
+    Boolean(work?.blurb) && rendered.includes(work.blurb),
   );
 
-  const missing = (work?.stack ?? []).filter((item) => !html.includes(item));
+  const missing = (work?.stack ?? []).filter((item) => !rendered.includes(item));
 
   check(
     `the technologies of ${repo.name} are on the page`,

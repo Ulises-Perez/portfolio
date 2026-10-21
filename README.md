@@ -13,7 +13,8 @@ GitHub API, stored in a committed snapshot and rendered as a static site.
 
 ## Requirements
 
-- Node.js 22 or newer
+- Node.js 22.18 or newer. The export smoke test reads the site configuration
+  directly, and Node strips the types of a `.ts` file from 22.18 on.
 - A GitHub token for the sync script — `GITHUB_TOKEN` (or `GH_TOKEN`). Without
   a token the script falls back to the authenticated `gh` CLI.
 
