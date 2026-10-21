@@ -109,6 +109,20 @@ files. The references behind the model were read before writing: the sticky pin 
 favour of the native carousel the visitor chose, and the CSS scroll driven animations are
 not usable because Firefox does not support them.
 
+### S10 — The section opens, and the works carry no navigation of their own
+
+> "Quiero que quites nav de los works porque repite muchas cosas, al momento de entrar a
+> los works que sea mediante una animacion de apertura, osea que primero este todo en el
+> mismo ancho de la pagina, y cuando bajes este se desplace y use todo el ancho nuevamente
+> para que se super intuitivo."
+
+Resolved: the index bar of the works is gone: the numbers, the counter, the arrows and
+the label. The scroll itself is the navigation, and it still buys one work per gesture.
+The section opens instead: the work arrives at the width of the page, the same column the
+rest of the site is built on, and it takes the whole width of the screen as the visitor
+scrolls into it. The opening takes half the height of the stage, and the works travel
+after it.
+
 ## Tasks
 
 | ID  | Specs                | Task                                                                     | Route  | Commit |
@@ -119,6 +133,7 @@ not usable because Firefox does not support them.
 | T4  | S2, S3, S5, S6, S7   | The pinned carousel: the card, the runway, the stage and the index       | inline | fc368cd |
 | T5  | S2                   | The section shell and the page wiring; the panels and the old nav are gone | inline | fc368cd |
 | T9  | S2                   | The scroll model corrected: the section is pinned and the travel is driven by the scroll | inline | fc368cd |
+| T10 | S10                  | The navigation of the works is out and the section opens from the width of the page | inline | —      |
 | T6  | S2, S3, S6           | The export smoke test follows the new section                             | inline | f449cb5 |
 | T7  | S9                   | The review with ego lite and the impeccable detector                      | inline | fc368cd |
 | T8  | S2, S8               | The README describes what the section is now                               | inline | 5ab0f4d |
@@ -290,3 +305,25 @@ deliver, nothing blocking. It found two things worth fixing and three worth noti
 - The `inert` attribute only exists once the script runs, so between the first paint and
   the first measurement the keyboard can reach a card that is not in view. The script
   cannot know the geometry before the page is painted.
+
+### L15 — The navigation of the works is out, and the section opens (verbatim)
+"Quiero que quites nav de los works porque repite muchas cosas, al momento de entrar a
+los works que sea mediante una animacion de apertura, osea que primero este todo en el
+mismo ancho de la pagina, y cuando bajes este se desplace y use todo el ancho nuevamente
+para que se super intuitivo."
+
+### L16 — What changed
+- The index bar of the works is gone: the numbers, the counter, the arrows and the
+  "scroll to browse". The scroll is the navigation, and the wheel still buys one work per
+  gesture. The keyboard still walks the works, and the work in view is counted from the
+  travel instead of from a bar.
+- The card is now the box the layout measures, and the work opens inside it: the inner
+  goes from the width of the page to the whole width of the screen. The travel of the
+  works does not depend on the opening, because the card keeps its place in the track.
+- The width of the page is the column the rest of the site is built on: ten of the twelve
+  columns, 83.33% of the screen on the desktop and 92% on a phone.
+- The opening takes half the height of the stage, and the works travel after it, so the
+  wheel answers only once the work is open.
+- Measured at 1440x900: at the anchor the work is 1187px wide, 83.33% of the 1425 of the
+  screen; 200px into the opening it is 1301; at 400px it is 1415; at the end the whole
+  1425. A gesture after the opening moves the travel from 0 to 0.2, one work.
