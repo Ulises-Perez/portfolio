@@ -133,9 +133,11 @@ Resolved: the works carry the rules of the page. Two vertical rules hold the col
 site is built on, and they travel with the work: when a work breaks out of the column to
 take the whole width of the screen, the rules go with it to the edges of the screen, and
 they come back to the column when the section ends and the work shrinks to the width of
-the page. Inside the work, the name and the meta row are divided by hairlines, the way the
-blocks of the rest of the site are. The movement is the scroll itself, so it is smooth by
-construction: nothing is timed.
+the page. The movement is the scroll itself, so it is smooth by construction: nothing is
+timed.
+
+The frame of the product floats: it does not sit in the corner of the work, so it does not
+fight the opening when the work takes the whole screen.
 
 ## Tasks
 
@@ -354,10 +356,12 @@ sea mediante una animacion suave."
   of the screen when the work takes the whole width.
 - The closing: when the section ends the work shrinks back to the width of the page and
   the rules come back to the column. The runway grew half a stage for it.
-- The name and the meta row are divided by hairlines, the way the blocks of the rest of
-  the site are.
+- The frame floats: 24px away from the top and the right of the work, so it does not sit
+  in the corner and does not fight the opening. The arrival from the corner travels less
+  far for the same reason and stays inside the screen.
 - Nothing is timed. The rules follow the same number the work does, so the movement is
   the scroll itself and it is smooth by construction.
 - Measured at 1440x900: the left rule sits at 119px with the work narrow, at 0px when
   the work is open, halfway back at 59px while the section leaves, and at 119px again.
-  On a phone, at 16px, then 0px, and back.
+  On a phone, at 16px, then 0px, and back. The frame keeps 47px of air to the right edge
+  when the work is open, and 16px while it arrives.
