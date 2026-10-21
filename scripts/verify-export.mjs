@@ -80,7 +80,7 @@ check(
   "found an asset path without the base path",
 );
 
-for (const section of ["developer", "works", "services", "stack", "contact"]) {
+for (const section of ["developer", "works", "services", "contact"]) {
   check(
     `section #${section} is rendered`,
     html.includes(`id="${section}"`),

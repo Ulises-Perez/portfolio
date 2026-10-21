@@ -659,3 +659,14 @@ públicos en la grilla]."
   changes what the page owes, and the deploy workflow runs it, so the new rule
   (the featured repositories are listed, the archive is not) is part of the
   deployment contract. Covered by the checks in L31.
+
+### L33 — What came later
+- The "my stack." section was removed from the page: the technologies it measured are
+  in the services, where they are a promise, and the count of languages and the size of
+  the account are in the developer section. The header and the footer read one list of
+  sections, so the index of the footer always points at the sections the page has.
+- The hydration error of the theme toggle, seen in L31, is fixed: the label of the button
+  and the position of its switch are drawn by the stylesheet from the theme the document
+  already carries, so the server does not have to know it.
+- The page always opens at the top: the browser no longer brings back the place it was
+  left at.

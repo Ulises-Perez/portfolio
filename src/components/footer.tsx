@@ -1,13 +1,5 @@
 import { generatedAt } from "@/lib/github";
-import { site } from "@/data/site.config";
-
-const links = [
-  { href: "/#developer", label: "the developer" },
-  { href: "/#works", label: "selected works" },
-  { href: "/#services", label: "my services" },
-  { href: "/#stack", label: "my stack" },
-  { href: "/#contact", label: "contact" },
-];
+import { sections, site } from "@/data/site.config";
 
 export function Footer() {
   return (
@@ -29,7 +21,7 @@ export function Footer() {
         >
           <p className="eyebrow">sections</p>
           <ul className="mt-1 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-            {links.map((link) => (
+            {sections.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}

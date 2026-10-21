@@ -13,7 +13,7 @@ export function Services() {
             <div className="col-span-4 p-3 md:col-span-10 md:p-4">
               <p className="eyebrow mb-2 md:mb-3">what i can do for you</p>
               <h2 className="display text-5xl md:text-7xl lg:text-8xl">
-                my services.
+                services.
               </h2>
             </div>
           </div>

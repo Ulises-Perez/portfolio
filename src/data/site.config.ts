@@ -279,6 +279,18 @@ export const site = {
 export type Site = typeof site;
 
 /**
+ * The sections of the page, for the navigation of the header and of the
+ * footer. Both read the same list, so the index of the footer always points
+ * at the sections the page really has.
+ */
+export const sections = [
+  { href: "/#developer", label: "the developer" },
+  { href: "/#works", label: "selected works" },
+  { href: "/#services", label: "services" },
+  { href: "/#contact", label: "contact" },
+];
+
+/**
  * The work of a repository that has no line written for it yet. It keeps the
  * page whole when a repository is featured before it is described here.
  */

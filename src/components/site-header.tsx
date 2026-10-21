@@ -3,17 +3,9 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-import { site } from "@/data/site.config";
+import { sections, site } from "@/data/site.config";
 import { Marquee } from "@/components/marquee";
 import { ThemeToggle } from "@/components/theme-toggle";
-
-const links = [
-  { href: "/#developer", label: "the developer" },
-  { href: "/#works", label: "selected works" },
-  { href: "/#services", label: "my services" },
-  { href: "/#stack", label: "my stack" },
-  { href: "/#contact", label: "contact" },
-];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -67,7 +59,7 @@ export function SiteHeader() {
             aria-label="sections"
             className="fixed inset-x-0 top-[calc(3.5rem+env(safe-area-inset-top))] z-20 flex flex-wrap gap-4 border-b border-rule-strong bg-surface px-3 py-2 md:top-[calc(4rem+env(safe-area-inset-top))]"
           >
-            {links.map((link) => (
+            {sections.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -150,7 +142,7 @@ export function SiteHeader() {
             <p className="eyebrow px-3 pt-24 md:px-4 md:pt-32">menu</p>
           </div>
           <ul className="col-span-4 md:col-span-8">
-            {links.map((link, index) => (
+            {sections.map((link, index) => (
               <li key={link.href} className="border-b border-rule-strong">
                 <Link
                   href={link.href}

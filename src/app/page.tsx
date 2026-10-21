@@ -4,7 +4,6 @@ import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
 import { ProjectCard } from "@/components/project-card";
 import { Services } from "@/components/services";
-import { Stack } from "@/components/stack";
 import { Works } from "@/components/works";
 import { featuredRepos } from "@/lib/github";
 import { defaultWork, works } from "@/data/site.config";
@@ -51,7 +50,6 @@ export default function Home() {
         ))}
       </Works>
       <Services />
-      <Stack />
       <Contact />
       <Footer />
     </>

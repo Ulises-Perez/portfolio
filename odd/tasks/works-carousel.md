@@ -151,7 +151,8 @@ fight the opening when the work takes the whole screen.
 | T9  | S2                   | The scroll model corrected: the section is pinned and the travel is driven by the scroll | inline | fc368cd |
 | T10 | S10                  | The navigation of the works is out and the section opens from the width of the page | inline | 48abb5f |
 | T11 | S11                  | The rules of the page travel with the work: they hold the column and go to the edges of the screen | inline | 469bf18 |
-| T12 | S1                   | The toggle of the theme stops breaking the hydration of the page            | inline | —      |
+| T12 | S1                   | The toggle of the theme stops breaking the hydration of the page            | inline | 5678b61 |
+| T13 | S1                   | The stack section is out, the discord button is fixed, the footer is indexed and the page opens at the top | inline | —      |
 | T6  | S2, S3, S6           | The export smoke test follows the new section                             | inline | f449cb5 |
 | T7  | S9                   | The review with ego lite and the impeccable detector                      | inline | fc368cd |
 | T8  | S2, S8               | The README describes what the section is now                               | inline | 5ab0f4d |
@@ -396,3 +397,38 @@ regenerated on the client. [...] + aria-pressed={true} - aria-pressed="false" [.
 - T12: `Risk: item 3 (contracts others consume)` — the button announces its state with
   `aria-pressed`, and the state it announces has to be the real one. Covered by the
   measurements in L20.
+
+### L22 — The sections of the page (verbatim)
+"My stack se va quitalo por completo y corrije el buttonm de discord, cambia de my services
+a services y obviamente indexa correctamente el footer con la pagina, ademas de cuando se
+recargue la pagina siempre esta inicie desde arriba, no donde quedo."
+
+### L23 — What changed
+- The "my stack." section is gone: the component, the place it had in the page and its
+  place in the navigation. The technologies it measured are still in the services, where
+  they are a promise, and the count of languages and the size of the account are still in
+  the developer section.
+- The button of Discord was broken: the copy button did not have the clip that keeps
+  the second copy of the label inside it, so the label that rolls in floated above the
+  button. It has the same clip the other buttons of the site have.
+- "my services." is now "services.", in the section and in the navigation.
+- The header and the footer read the same list of sections, so the index of the footer
+  always points at the sections the page really has. The list lives in the site
+  configuration and has four entries: the developer, the selected works, the services and
+  the contact.
+- The page always opens at the top: the browser no longer brings back the place the page
+  was left at, and the page is at the top before the first paint.
+
+### L24 — What was measured
+- The footer carries four links and the page has four sections, and they are the same
+  four: the developer, the selected works, the services and the contact.
+- The title of the services section reads "services." and there is no section with the
+  stack any more.
+- A reload from the middle of the page: the scroll was at 3200 and it is at 0 after.
+- The button of Discord shows one label inside its own box, and the copy that rolls in
+  is clipped.
+
+### L25 — Risk
+- T13: `Risk: item 3 (contracts others consume)` — the navigation of the page points at
+  its sections, and the smoke test names the sections the page has to carry. Covered by
+  the measurements in L24.

@@ -57,6 +57,13 @@ export const viewport: Viewport = {
 /** Applies the stored theme before first paint so the page never flashes. */
 const themeScript = `try{var t=localStorage.getItem('portfolio-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.dataset.theme='dark';var m=document.querySelector('meta[name="theme-color"]');if(m)m.content='#0c0d0d'}}catch(e){}`;
 
+/**
+ * The page always opens at the top. The browser brings back the place a page
+ * was left at, and on a site that is one long scroll that is never what the
+ * visitor wants after a reload.
+ */
+const scrollScript = `try{if('scrollRestoration' in history)history.scrollRestoration='manual';window.scrollTo(0,0)}catch(e){}`;
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -64,6 +71,7 @@ export default function RootLayout({
     <html lang="en" className={spaceGrotesk.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: scrollScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}

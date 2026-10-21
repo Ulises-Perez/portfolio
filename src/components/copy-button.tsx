@@ -32,10 +32,16 @@ export function CopyButton({
   return (
     <>
       <button type="button" onClick={copy} className={`cta ${className}`}>
-        <span className="cta-stack">
-          <span className="cta-label">{state === "copied" ? "copied" : label}</span>
-          <span aria-hidden="true" className="cta-label cta-label-next">
-            {state === "copied" ? "copied" : label}
+        {/* The clip is what keeps the second copy of the label out of the
+            button: without it the label that rolls in floats above it. */}
+        <span className="cta-clip">
+          <span className="cta-stack">
+            <span className={`cta-label ${className}`}>
+              {state === "copied" ? "copied" : label}
+            </span>
+            <span aria-hidden="true" className={`cta-label cta-label-next ${className}`}>
+              {state === "copied" ? "copied" : label}
+            </span>
           </span>
         </span>
       </button>
