@@ -123,6 +123,20 @@ rest of the site is built on, and it takes the whole width of the screen as the 
 scrolls into it. The opening takes half the height of the stage, and the works travel
 after it.
 
+### S11 — The works carry the rules of the page, and the rules travel
+
+> "pero que tambien este con lineas divisoras el work, despues que estan pasen a las
+> esquinas y despues vuelvan cuando se achica al bajar de works o terminar esa seccion, que
+> sea mediante una animacion suave."
+
+Resolved: the works carry the rules of the page. Two vertical rules hold the column the
+site is built on, and they travel with the work: when a work breaks out of the column to
+take the whole width of the screen, the rules go with it to the edges of the screen, and
+they come back to the column when the section ends and the work shrinks to the width of
+the page. Inside the work, the name and the meta row are divided by hairlines, the way the
+blocks of the rest of the site are. The movement is the scroll itself, so it is smooth by
+construction: nothing is timed.
+
 ## Tasks
 
 | ID  | Specs                | Task                                                                     | Route  | Commit |
@@ -133,7 +147,8 @@ after it.
 | T4  | S2, S3, S5, S6, S7   | The pinned carousel: the card, the runway, the stage and the index       | inline | fc368cd |
 | T5  | S2                   | The section shell and the page wiring; the panels and the old nav are gone | inline | fc368cd |
 | T9  | S2                   | The scroll model corrected: the section is pinned and the travel is driven by the scroll | inline | fc368cd |
-| T10 | S10                  | The navigation of the works is out and the section opens from the width of the page | inline | —      |
+| T10 | S10                  | The navigation of the works is out and the section opens from the width of the page | inline | 48abb5f |
+| T11 | S11                  | The rules of the page travel with the work: they hold the column and go to the edges of the screen | inline | —      |
 | T6  | S2, S3, S6           | The export smoke test follows the new section                             | inline | f449cb5 |
 | T7  | S9                   | The review with ego lite and the impeccable detector                      | inline | fc368cd |
 | T8  | S2, S8               | The README describes what the section is now                               | inline | 5ab0f4d |
@@ -327,3 +342,22 @@ para que se super intuitivo."
 - Measured at 1440x900: at the anchor the work is 1187px wide, 83.33% of the 1425 of the
   screen; 200px into the opening it is 1301; at 400px it is 1415; at the end the whole
   1425. A gesture after the opening moves the travel from 0 to 0.2, one work.
+
+### L17 — The rules of the page (verbatim)
+"pero que tambien este con lineas divisoras el work, despues que estan pasen a las
+esquinas y despues vuelvan cuando se achica al bajar de works o terminar esa seccion, que
+sea mediante una animacion suave."
+
+### L18 — What changed
+- Two vertical rules hold the column the site is built on, and they travel with the work:
+  they sit on the edges of the column while the work is narrow and they go to the edges
+  of the screen when the work takes the whole width.
+- The closing: when the section ends the work shrinks back to the width of the page and
+  the rules come back to the column. The runway grew half a stage for it.
+- The name and the meta row are divided by hairlines, the way the blocks of the rest of
+  the site are.
+- Nothing is timed. The rules follow the same number the work does, so the movement is
+  the scroll itself and it is smooth by construction.
+- Measured at 1440x900: the left rule sits at 119px with the work narrow, at 0px when
+  the work is open, halfway back at 59px while the section leaves, and at 119px again.
+  On a phone, at 16px, then 0px, and back.
