@@ -5,9 +5,11 @@
  *
  *   npm run build && npm run verify
  */
-import { readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { readFileSync, readdirSync, statSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { works } from "../src/data/site.config.ts";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const exportDir = resolve(root, "out");
@@ -23,6 +25,23 @@ function check(name, condition, detail = "") {
   } else {
     failures.push(`${name}${detail ? ` — ${detail}` : ""}`);
   }
+}
+
+/** Every stylesheet of the export, as one string. */
+function stylesheets(dir) {
+  const found = [];
+
+  for (const entry of readdirSync(dir)) {
+    const path = join(dir, entry);
+
+    if (statSync(path).isDirectory()) {
+      found.push(...stylesheets(path));
+    } else if (entry.endsWith(".css")) {
+      found.push(readFileSync(path, "utf8"));
+    }
+  }
+
+  return found.join("\n");
 }
 
 let html = "";
@@ -91,13 +110,64 @@ for (const file of ["robots.txt", "sitemap.xml"]) {
   );
 }
 
-// Only the featured repositories have a panel in the works section. The rest
+// Only the featured repositories have a card in the works section. The rest
 // of the shelf is not listed on the page.
-for (const repo of snapshot.repos.filter((repo) => repo.featured)) {
+const featured = snapshot.repos.filter((repo) => repo.featured);
+
+for (const repo of featured) {
   check(
     `featured repository ${repo.name} is listed`,
     html.includes(repo.name),
     "the repository is featured in the snapshot but missing from the page",
+  );
+}
+
+// The works are read sideways: one card per work inside a horizontal track,
+// and the panels that used to stack down the page are gone.
+const cards = html.match(/data-card/g) ?? [];
+
+check(
+  "every featured work has a card in the carousel",
+  cards.length === featured.length,
+  `the page has ${cards.length} cards for ${featured.length} featured works`,
+);
+check(
+  "the works are a horizontal track",
+  html.includes("works-runway") &&
+    html.includes("works-stage") &&
+    html.includes("works-track"),
+);
+check(
+  "the vertical project panels are gone",
+  !html.includes("data-panel"),
+  "the page still carries the old project panels",
+);
+check(
+  "every work shows the frame of its product",
+  html.includes("work-frame__url"),
+);
+
+// Every featured work carries a line written for this site and the
+// technologies it is built with, and both reach the page.
+for (const repo of featured) {
+  const work = works[repo.name];
+
+  check(
+    `the work ${repo.name} has a line written for the site`,
+    Boolean(work?.blurb),
+    "the work has no description in the site configuration",
+  );
+  check(
+    `the description of ${repo.name} is on the page`,
+    Boolean(work?.blurb) && html.includes(work.blurb),
+  );
+
+  const missing = (work?.stack ?? []).filter((item) => !html.includes(item));
+
+  check(
+    `the technologies of ${repo.name} are on the page`,
+    missing.length > 0 ? false : (work?.stack?.length ?? 0) > 0,
+    `missing from the page: ${missing.join(", ")}`,
   );
 }
 
@@ -140,6 +210,21 @@ check(
   snapshot.repos.length ===
     snapshot.profile.publicRepos - syncConfig.exclude.length,
   `snapshot has ${snapshot.repos.length} of ${snapshot.profile.publicRepos} public repos, ${syncConfig.exclude.length} excluded`,
+);
+
+// The palette is part of what the site promises: the dark theme fills with the
+// near black and the light theme keeps the surface it had.
+const css = stylesheets(resolve(exportDir, "_next", "static")).toLowerCase().replace(/\s+/g, "");
+
+check(
+  "the dark theme fills with the near black",
+  css.includes("--surface:#0c0d0d"),
+  "the dark theme still fills with the red",
+);
+check(
+  "the light theme keeps its surface",
+  css.includes("--surface:#b2c7ab"),
+  "the light surface moved",
 );
 
 if (failures.length > 0) {
