@@ -22,3 +22,4 @@ yarn-error.log*
 # local tooling
 .commandcode/
 .audit-shots/
+.impeccable/critique/
