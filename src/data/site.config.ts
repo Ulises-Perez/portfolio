@@ -1,5 +1,9 @@
 export type Service = {
   index: string;
+  /** The plain name of the service, the way a client would ask for it. */
+  title: string;
+  /** The diagram the row shows next to the offer. */
+  visual: "browser" | "pipeline" | "api";
   /** What the visitor can hire, in the plainest words. */
   items: string[];
   /** One line that says what this service is for. */
@@ -212,6 +216,8 @@ export const site = {
   services: [
     {
       index: "01",
+      title: "web development",
+      visual: "browser",
       items: [
         "frontend",
         "backend",
@@ -223,6 +229,8 @@ export const site = {
     },
     {
       index: "02",
+      title: "automation & tooling",
+      visual: "pipeline",
       items: [
         "automation",
         "ci pipelines",
@@ -234,6 +242,8 @@ export const site = {
     },
     {
       index: "03",
+      title: "integrations & data",
+      visual: "api",
       items: [
         "api integrations",
         "scraping",
