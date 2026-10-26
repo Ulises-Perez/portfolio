@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-22T16:30:00.000Z",
+  "title": "Design System: Portfolio — Deus",
+  "extensions": {
+    "colorMeta": {
+      "surface": {
+        "role": "neutral",
+        "displayName": "Sage Paper",
+        "canonical": "#b2c7ab",
+        "tonalRamp": ["#3f493d", "#536052", "#687767", "#7d8f7b", "#93a691", "#a8bba5", "#bfd0bc", "#d7e2d5"]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Oxblood Ink",
+        "canonical": "#6a0c06",
+        "tonalRamp": ["#260502", "#3a0704", "#4f0905", "#640b06", "#7a1009", "#99271e", "#b84b42", "#d47f78"]
+      },
+      "surface-dark": {
+        "role": "neutral",
+        "displayName": "Near Black",
+        "canonical": "#0c0d0d",
+        "tonalRamp": ["#000000", "#0c0d0d", "#171918", "#232625", "#303332", "#3e4241", "#4d5250", "#5d6361"]
+      },
+      "ink-dark": {
+        "role": "primary",
+        "displayName": "Sage Ink",
+        "canonical": "#b2c7ab",
+        "tonalRamp": ["#3f493d", "#536052", "#687767", "#7d8f7b", "#93a691", "#a8bba5", "#bfd0bc", "#d7e2d5"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "color-mix(in srgb, #6a0c06 80%, #b2c7ab)",
+        "tonalRamp": ["#3f4139", "#55584e", "#6b6f63", "#828679", "#999d90", "#b0b4a8", "#c8cbc1", "#e0e2db"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The hero name only; the largest word on the page."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "One display word per section, under the eyebrow."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Service titles and work names."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Descriptions, promises and notes, kept near 34–46ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Eyebrows, indexes, uppercase lists and meta."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Terminal, URL bars, pipeline rows and API rows."
+      }
+    },
+    "shadows": [
+      {
+        "name": "work-frame",
+        "value": "0 24px 60px -28px rgb(0 0 0 / 0.6)",
+        "purpose": "Lifts the framed product screen above the works stage; the only shadow in the system."
+      }
+    ],
+    "motion": [
+      {
+        "name": "roll",
+        "value": "450ms cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "CTA and footer labels: the two copies travel together while the colors change on the same curve."
+      },
+      {
+        "name": "theme",
+        "value": "500ms cubic-bezier(0.33, 1, 0.68, 1)",
+        "purpose": "The registered --surface/--ink pair travels once on :root; every derived color changes together."
+      },
+      {
+        "name": "work-step",
+        "value": "900ms easeOutQuart",
+        "purpose": "One work step through Lenis, so the track and the card pieces travel on one glide."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "md",
+        "value": "768px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary CTA",
+      "kind": "button",
+      "refersTo": "cta",
+      "description": "The bordered uppercase action used for see the work and start a project.",
+      "html": "<a class=\"ds-cta\" href=\"#\">see the work</a>",
+      "css": ".ds-cta { display: inline-block; border: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); border-radius: 0; padding: 0.5rem 1rem; color: var(--ink); font: 700 1.125rem/1.3 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background-color 450ms cubic-bezier(0.22, 1, 0.36, 1), color 450ms cubic-bezier(0.22, 1, 0.36, 1), border-color 450ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-cta:hover, .ds-cta:focus-visible { background: var(--ink); color: var(--surface); outline: 2px solid currentColor; outline-offset: 2px; }"
+    },
+    {
+      "name": "Footer Roll Cell",
+      "kind": "nav",
+      "refersTo": "roll-cell",
+      "description": "One cell of the footer strip; it inverts on hover while its label rolls.",
+      "html": "<a class=\"ds-roll\" href=\"#\">github</a>",
+      "css": ".ds-roll { display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); padding: 0.75rem 1rem; color: var(--ink); font: 400 1.125rem/1.3 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background-color 450ms cubic-bezier(0.22, 1, 0.36, 1), color 450ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-roll:hover, .ds-roll:focus-visible { background: var(--ink); color: var(--surface); outline: 2px solid currentColor; outline-offset: -2px; }"
+    },
+    {
+      "name": "Eyebrow Label",
+      "kind": "custom",
+      "refersTo": "label",
+      "description": "The small uppercase label that opens every section and labels every list.",
+      "html": "<p class=\"ds-eyebrow\">my</p>",
+      "css": ".ds-eyebrow { margin: 0; color: var(--muted, color-mix(in srgb, var(--ink) 80%, var(--surface))); font: 700 0.7rem/1.4 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; }"
+    },
+    {
+      "name": "Section Head",
+      "kind": "custom",
+      "refersTo": "headline",
+      "description": "Eyebrow plus the oversized section word, the page's editorial anchor.",
+      "html": "<div class=\"ds-head\"><p class=\"ds-eyebrow\">my</p><h2 class=\"ds-head-title\">services.</h2></div>",
+      "css": ".ds-head { display: flex; flex-direction: column; gap: 0.5rem; } .ds-head .ds-eyebrow { color: var(--muted, color-mix(in srgb, var(--ink) 80%, var(--surface))); font: 700 0.7rem/1.4 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; } .ds-head-title { margin: 0; color: var(--ink); font: 700 clamp(3rem, 7vw, 6rem)/0.85 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.06em; }"
+    },
+    {
+      "name": "Service Row",
+      "kind": "card",
+      "refersTo": "service-panel",
+      "description": "The full-width service band: index, title and promise, deliverables, and a drawn panel.",
+      "html": "<div class=\"ds-service\"><span class=\"ds-service-index\">01</span><div class=\"ds-service-main\"><h3>web development</h3><p>From the first commit to the deployment, in one stack.</p></div><ul class=\"ds-service-list\"><li>frontend</li><li>backend</li><li>cms integration</li><li>custom sites</li><li>web maintenance</li></ul><div class=\"ds-service-panel\"><span>your-project.com</span><strong>web development</strong><em>frontend · cms · api</em></div></div>",
+      "css": ".ds-service { display: grid; grid-template-columns: 1fr 5fr 3fr 3fr; border-top: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); border-bottom: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); min-height: 300px; color: var(--ink); font-family: \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; } .ds-service-index { padding: 1rem; opacity: 0.6; font: 700 0.65rem/1.4 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; } .ds-service-main { display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; border-left: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); border-right: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); padding: 1rem; } .ds-service-main h3 { margin: 0; font: 700 3rem/0.95 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.06em; } .ds-service-main p { margin: 0; max-width: 34ch; color: var(--muted, color-mix(in srgb, var(--ink) 80%, var(--surface))); font-size: 1rem; line-height: 1.6; } .ds-service-list { display: flex; flex-direction: column; justify-content: center; gap: 0.375rem; margin: 0; border-right: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); padding: 1rem; list-style: none; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; } .ds-service-panel { display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; background: var(--ink); color: var(--surface); padding: 1.25rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.6rem; } .ds-service-panel strong { font: 700 1.5rem/1 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.04em; } .ds-service-panel em { font-style: normal; opacity: 0.7; letter-spacing: 0.12em; text-transform: uppercase; }"
+    },
+    {
+      "name": "Work Frame",
+      "kind": "card",
+      "refersTo": "work-frame",
+      "description": "The framed product screen that floats inside a work, with its own dark palette.",
+      "html": "<div class=\"ds-work\"><div class=\"ds-work-bar\"><span></span><span></span><span></span><b>nexo.app</b></div><div class=\"ds-work-screen\"><strong>Everything in one place</strong><p>Your files, your devices, one account</p></div></div>",
+      "css": ".ds-work { overflow: hidden; border: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); background: #141618; color: #b2c7ab; box-shadow: 0 24px 60px -28px rgb(0 0 0 / 0.6); font-family: \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; } .ds-work-bar { display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid #303639; background: #1e2226; padding: 0.5rem 0.75rem; } .ds-work-bar span { width: 0.625rem; height: 0.625rem; border-radius: 999px; background: #ef6f5c; opacity: 0.85; } .ds-work-bar span:nth-child(2) { background: #f0a63c; opacity: 0.5; } .ds-work-bar span:nth-child(3) { background: #7bc96f; opacity: 0.25; } .ds-work-bar b { flex: 1; color: #8b9390; font: 400 0.6rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0.06em; } .ds-work-screen { aspect-ratio: 8 / 5; padding: 1.5rem; } .ds-work-screen strong { display: block; font-size: 2rem; line-height: 0.95; letter-spacing: -0.05em; } .ds-work-screen p { margin-top: 0.75rem; color: #8b9390; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }"
+    },
+    {
+      "name": "Stat Cell",
+      "kind": "custom",
+      "refersTo": "label",
+      "description": "One cell of the developer stat strip.",
+      "html": "<div class=\"ds-stat\"><strong>13</strong><span>public repos</span></div>",
+      "css": ".ds-stat { border-right: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); padding: 1rem; color: var(--ink); font-family: \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; } .ds-stat strong { display: block; font-size: 2rem; font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; } .ds-stat span { display: block; margin-top: 0.25rem; color: var(--muted, color-mix(in srgb, var(--ink) 80%, var(--surface))); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Ink & Sage Ledger",
+    "overview": "An editorial portfolio built like a ledger: one ink on one paper, a 12-column page, and hairline rules that record where every block begins and ends. The type does the loud work while the interface stays quiet. The palette never gains a third color; light and dark are the same pair inverted, and the only other colors live inside the drawn product screens of the works. Square corners, 1px rules and flat surfaces keep the page close to a printed sheet. The work leads: the hero is the name and the portrait, the works take the full screen, the services take the full width, and the contact section and footer close without repeating what has been said.",
+    "keyCharacteristics": [
+      "One ink/surface pair, inverted for dark mode",
+      "4/12 columns on mobile, 12 on desktop, 10-column inset reading frame",
+      "Oversized Space Grotesk display type with tight tracking",
+      "Uppercase micro-labels at 0.65–0.7rem and 0.18em tracking",
+      "Full-bleed works and service rows; hairline rules elsewhere",
+      "Square corners; only the works traffic lights are round",
+      "Drawn product screens instead of stock imagery"
+    ],
+    "rules": [
+      {
+        "name": "The Two-Ink Rule",
+        "body": "Every color in the interface is the ink, the surface, or a mix of the two. The only other colors allowed are inside a drawn product screen, where they belong to that product.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Display Rule",
+        "body": "One oversized display word per section. It names the section; the body copy and labels never compete with it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "A surface is flat until it is a product screen. If a block needs to stand out, invert it; do not add a shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep the palette to the ink/surface pair and their mixes; the works' product screens are the only exception.",
+      "Do use 1px hairline rules to hold the grid; use strong hairline for controls and section edges.",
+      "Do keep corners square and surfaces flat.",
+      "Do set labels in uppercase at 0.65–0.7rem with 0.18em tracking.",
+      "Do let the works and the service rows break the inset frame to the full width.",
+      "Do respect prefers-reduced-motion: no marquee, no entrance travel, no theme travel, no label roll.",
+      "Do say each thing once; the section list is in the header/menu, the contact links in the footer/menu."
+    ],
+    "donts": [
+      "Don't add a second accent color, gradients or decorative glows to the chrome.",
+      "Don't round cards, buttons or inputs; the traffic lights of the works frame are the only circles.",
+      "Don't put a shadow on a card, a button or a section; invert the block instead.",
+      "Don't repeat contact details in the contact section, the footer and the menu.",
+      "Don't invent clients, testimonials, metrics or case studies; the evidence is the public GitHub account and the site's own copy.",
+      "Don't make the interface the subject; the work, the type and the grid are."
+    ]
+  }
+}
