@@ -1,3 +1,5 @@
+import { CounterNumber } from "@/components/counter-number";
+import { InteractiveTerminal } from "@/components/interactive-terminal";
 import {
   featuredRepos,
   languages,
@@ -8,7 +10,6 @@ import {
   yearsOnGitHub,
 } from "@/lib/github";
 import { formatBytes } from "@/lib/utils";
-
 const stats = [
   { label: "public repos", value: String(repoCount) },
   { label: "languages used", value: String(languages.length) },
@@ -20,17 +21,6 @@ const stats = [
 ];
 
 export function Developer() {
-  const terminalLines = [
-    "$ whoami",
-    profile.login,
-    "",
-    "$ gh repo list --public",
-    `${repos.length} repositories · ${featuredRepos.length} featured`,
-    "",
-    "$ npm run sync:github",
-    `synced ${repos.length} repos · ${languages.length} languages · ${formatBytes(totalBytes)}`,
-  ];
-
   return (
     <section id="developer" className="border-b border-rule-strong">
       <div className="grid grid-cols-4 md:grid-cols-12">
@@ -58,23 +48,13 @@ export function Developer() {
               </p>
             </div>
             <div className="col-span-4 border-rule-strong md:col-span-6">
-              <div className="m-3 border border-rule-strong md:m-4">
-                <div className="flex items-center gap-1.5 border-b border-rule-strong px-3 py-2">
-                  <span aria-hidden="true" className="h-2 w-2 bg-ink" />
-                  <span aria-hidden="true" className="h-2 w-2 bg-ink/40" />
-                  <span aria-hidden="true" className="h-2 w-2 bg-ink/20" />
-                  <span className="eyebrow ml-auto">zsh</span>
-                </div>
-                <pre className="overflow-x-auto p-3 font-mono text-xs leading-relaxed md:text-sm">
-                  <code>
-                    {terminalLines.map((line, index) => (
-                      <span key={index} className="block">
-                        {line}
-                      </span>
-                    ))}
-                  </code>
-                </pre>
-              </div>
+              <InteractiveTerminal
+                profile={profile}
+                repos={repos}
+                featuredRepos={featuredRepos}
+                languages={languages}
+                totalBytes={totalBytes}
+              />
             </div>
           </div>
 
@@ -85,7 +65,7 @@ export function Developer() {
                 className="col-span-1 border-r border-rule-strong p-3 last:border-r-0 md:p-4"
               >
                 <p className="text-2xl font-bold tracking-[-0.04em] tabular-nums md:text-3xl">
-                  {stat.value}
+                  <CounterNumber value={stat.value} />
                 </p>
                 <p className="eyebrow mt-1">{stat.label}</p>
               </div>
