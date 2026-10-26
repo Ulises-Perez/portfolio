@@ -38,9 +38,8 @@ export function ThemeToggle() {
 
     const root = document.documentElement;
 
-    // The class goes on before the values change, so the page travels to the
-    // new theme instead of jumping, and it comes off once the travel is over.
-    root.classList.add("theme-flip");
+    // The two variables of the stylesheet travel on their own, so the whole
+    // page changes together without every element carrying a transition.
     root.dataset.theme = theme;
     window.localStorage.setItem(STORAGE_KEY, theme);
 
@@ -50,12 +49,6 @@ export function ThemeToggle() {
     );
 
     if (meta) meta.content = theme === "dark" ? DARK : LIGHT;
-
-    const timer = window.setTimeout(() => {
-      root.classList.remove("theme-flip");
-    }, 460);
-
-    return () => window.clearTimeout(timer);
   }, [theme, mounted]);
 
   const next = theme === "dark" ? "light" : "dark";
@@ -65,24 +58,24 @@ export function ThemeToggle() {
       type="button"
       aria-pressed={theme === "dark"}
       onClick={() => setTheme(next)}
-      className="group/roll flex h-full cursor-pointer items-center gap-2.5 px-4 transition-colors hover:bg-ink hover:text-surface disabled:cursor-default mr-14 md:mr-16"
+      className="roll group/roll flex h-full cursor-pointer items-center gap-2.5 px-4 hover:bg-ink hover:text-surface disabled:cursor-default mr-14 md:mr-16"
     >
       {/* Two copies of the label that roll into each other. Which one reads
           "light" and which one reads "dark" is decided by the stylesheet,
           from the theme the document already carries. */}
       <span className="theme-label relative block shrink-0 overflow-hidden leading-[1.4] text-[0.65rem] tracking-[0.18em] uppercase">
-        <span className="theme-label__out block transition-transform duration-450 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover/roll:translate-y-full" />
+        <span className="theme-label__out block transition-transform duration-[var(--roll-duration)] ease-[var(--roll-ease)] group-hover/roll:translate-y-full" />
         <span
           aria-hidden="true"
-          className="theme-label__in absolute inset-0 block -translate-y-full transition-transform duration-450 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover/roll:translate-y-0"
+          className="theme-label__in absolute inset-0 block -translate-y-full transition-transform duration-[var(--roll-duration)] ease-[var(--roll-ease)] group-hover/roll:translate-y-0"
         />
       </span>
 
       <span
         aria-hidden="true"
-        className="relative block h-3 w-3 overflow-hidden border border-ink transition-colors group-hover/roll:border-surface"
+        className="relative block h-3 w-3 overflow-hidden border border-ink transition-[border-color] duration-[var(--roll-duration)] ease-[var(--roll-ease)] group-hover/roll:border-surface"
       >
-        <span className="theme-switch absolute inset-0 bg-ink transition-colors group-hover/roll:bg-surface" />
+        <span className="theme-switch absolute inset-0 bg-ink group-hover/roll:bg-surface" />
       </span>
 
       <span className="sr-only">theme</span>

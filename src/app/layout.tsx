@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Space_Grotesk } from "next/font/google";
 
 import { SiteHeader } from "@/components/site-header";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import { profile, repoCount } from "@/lib/github";
 import { site } from "@/data/site.config";
 
@@ -78,6 +79,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <SmoothScroll />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:border focus:border-rule-strong focus:bg-surface focus:px-3 focus:py-2 focus:text-sm"

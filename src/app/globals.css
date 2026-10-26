@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+/* The theme is one pair of colors. Registering them as colors lets the pair
+   itself travel, so every surface, rule and letter on the page changes on the
+   same frame instead of every element carrying its own transition. */
+@property --surface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #b2c7ab;
+}
+
+@property --ink {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #6a0c06;
+}
+
 /* The reference site swaps a single pair of colors when the theme flips.
    Same approach here: semantic variables flip, Tailwind utilities stay stable. */
 :root {
@@ -13,6 +28,13 @@
   /* 60% ink over the surface: 3.3:1 on the light theme and 3.2:1 on the dark
      one, the threshold a non text element such as a button border needs. */
   --rule-strong: color-mix(in oklab, var(--ink) 60%, transparent);
+  /* The words that roll and the colors that answer them share one motion:
+     both copies leave and arrive together, and the cell changes with them. */
+  --roll-duration: 450ms;
+  --roll-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* The theme travels a little slower and all at once. */
+  --theme-duration: 500ms;
+  --theme-ease: cubic-bezier(0.33, 1, 0.68, 1);
   /* The browser chrome follows the theme: scrollbars and form controls in the
      dark theme must not stay light. */
   color-scheme: light;
@@ -67,21 +89,15 @@ section[id] {
   scroll-margin-top: 4rem;
 }
 
-/* The theme flip travels. While this class sits on the root, every color on
-   the page moves to its new value instead of jumping, and the class is taken
-   off again right after so the rest of the motion keeps its own timings. */
-.theme-flip,
-.theme-flip *,
-.theme-flip *::before,
-.theme-flip *::after {
-  transition:
-    background-color 420ms cubic-bezier(0.4, 0, 0.2, 1),
-    color 420ms cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 420ms cubic-bezier(0.4, 0, 0.2, 1),
-    fill 420ms cubic-bezier(0.4, 0, 0.2, 1),
-    stroke 420ms cubic-bezier(0.4, 0, 0.2, 1),
-    outline-color 420ms cubic-bezier(0.4, 0, 0.2, 1),
-    translate 420ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+/* The theme travels on the two variables, not on the elements: one animation
+   on the root carries every color of the page at once. Under reduced motion
+   the pair swaps instantly. */
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    transition:
+      --surface var(--theme-duration) var(--theme-ease),
+      --ink var(--theme-duration) var(--theme-ease);
+  }
 }
 
 /* A visible focus ring on every interactive element, in the current color so
@@ -142,8 +158,8 @@ label {
 .theme-switch {
   translate: -100% 0;
   transition:
-    translate 450ms cubic-bezier(0.65, 0, 0.35, 1),
-    background-color 200ms ease;
+    translate var(--roll-duration) var(--roll-ease),
+    background-color var(--roll-duration) var(--roll-ease);
 }
 
 :root[data-theme="dark"] .theme-label__out::after {
@@ -173,8 +189,20 @@ label {
      content box, so the rolling copy starts outside the frame and the two
      copies travel the same distance and stay in phase: the text is never cut
      in half and never loses contrast. */
+  /* The cell and its two copies share one motion: the background, the text and
+     the roll start together and settle on the same curve. */
   .cta {
-    @apply relative inline-block border border-rule-strong px-4 py-2 text-lg leading-[1.3] tracking-[0.06em] uppercase transition-colors duration-300 hover:bg-ink hover:text-surface md:text-xl;
+    @apply relative inline-block border border-rule-strong px-4 py-2 text-lg leading-[1.3] tracking-[0.06em] uppercase hover:bg-ink hover:text-surface md:text-xl;
+    transition:
+      background-color var(--roll-duration) var(--roll-ease),
+      color var(--roll-duration) var(--roll-ease),
+      border-color var(--roll-duration) var(--roll-ease);
+  }
+
+  .roll {
+    transition:
+      background-color var(--roll-duration) var(--roll-ease),
+      color var(--roll-duration) var(--roll-ease);
   }
 
   .cta-clip {
@@ -186,12 +214,14 @@ label {
   }
 
   .cta-label {
-    @apply block transition-transform duration-450 ease-[cubic-bezier(0.65,0,0.35,1)];
+    @apply block;
+    transition: translate var(--roll-duration) var(--roll-ease);
   }
 
   .cta-label-next {
-    @apply absolute inset-x-0 top-0 block transition-transform duration-450 ease-[cubic-bezier(0.65,0,0.35,1)];
+    @apply absolute inset-x-0 top-0 block;
     translate: 0 -100%;
+    transition: translate var(--roll-duration) var(--roll-ease);
   }
 
   .cta:hover .cta-label {
@@ -199,6 +229,20 @@ label {
   }
 
   .cta:hover .cta-label-next {
+    translate: 0 0;
+  }
+
+  /* The strip of the footer rolls its label the way the buttons do: the
+     hovered cell lifts its word out through the top edge while the copy comes
+     in from below. The two copies are the ones the CTA draws, so they travel
+     together and the word is never cut in half. */
+  .roll:hover .cta-label,
+  .roll:focus-visible .cta-label {
+    translate: 0 100%;
+  }
+
+  .roll:hover .cta-label-next,
+  .roll:focus-visible .cta-label-next {
     translate: 0 0;
   }
 }
@@ -550,6 +594,10 @@ label {
    into a slight tilt, so the row of works never reads as a flat line of
    rectangles. */
 .work-frame {
+  /* The frame is a product screen: its interior keeps the dark palette of
+     the drawn screen in both themes, so it does not borrow the page tokens. */
+  --frame-line: #303639;
+  --frame-muted: #8b9390;
   border: 1px solid var(--rule-strong);
   background: #141618;
   box-shadow: 0 24px 60px -28px rgb(0 0 0 / 0.6);
@@ -563,7 +611,7 @@ label {
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--frame-line);
   background: #1e2226;
 }
 
@@ -579,26 +627,28 @@ label {
      corner: the square rule of the design system would not read as a
      window. */
   border-radius: 999px !important;
-  background: var(--ink);
+  background: #ef6f5c;
   opacity: 0.85;
 }
 
 .work-frame__lights span:nth-child(2) {
+  background: #f0a63c;
   opacity: 0.5;
 }
 
 .work-frame__lights span:nth-child(3) {
+  background: #7bc96f;
   opacity: 0.25;
 }
 
 .work-frame__url {
   flex: 1;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--frame-line);
   padding: 0.125rem 0.625rem;
   font-family: var(--font-mono);
   font-size: 0.6rem;
   letter-spacing: 0.06em;
-  color: var(--muted);
+  color: var(--frame-muted);
 }
 
 .work-frame__screen {
@@ -616,6 +666,30 @@ label {
   .work-frame {
     transform: none;
     translate: none;
+  }
+}
+
+/* Without the script the header is still fixed, so the section navigation
+   sits under it in the flow and the page clears it instead of hiding the
+   first section. */
+@media (scripting: none) {
+  .noscript-nav {
+    margin-top: calc(3.5rem + env(safe-area-inset-top));
+  }
+
+  main {
+    padding-top: 0 !important;
+  }
+
+  [aria-controls="site-menu"],
+  button[aria-pressed] {
+    display: none;
+  }
+}
+
+@media (scripting: none) and (min-width: 768px) {
+  .noscript-nav {
+    margin-top: calc(4rem + env(safe-area-inset-top));
   }
 }
 
@@ -731,10 +805,12 @@ label {
     animation: none !important;
   }
 
-  .theme-flip,
-  .theme-flip *,
-  .theme-flip *::before,
-  .theme-flip *::after {
-    transition: none !important;
+  /* The two copies carry the same word, so swapping them in place is
+     invisible; nothing needs to travel for the hover to read. */
+  .cta-label,
+  .cta-label-next,
+  .theme-label > span,
+  .theme-switch {
+    transition: none;
   }
 }
