@@ -1,6 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import { easeOutQuart, getLenis, setWheelOwned } from "@/lib/smooth-scroll";
 
 /** Wheel distance that buys the next work. */
 const SCROLL_THRESHOLD = 120;
@@ -45,10 +47,10 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const pending = useRef(false);
   const accumulated = useRef(0);
+  const [activeWork, setActiveWork] = useState(0);
   /** When the last wheel event came, and whether it already bought a work. */
   const lastWheel = useRef(0);
   const moved = useRef(false);
-
   /** Where the section stands in the page and how far it travels. */
   const geometry = useCallback(() => {
     const runway = runwayRef.current;
@@ -146,7 +148,8 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
         : 0;
 
     track.style.setProperty("--p", progress.toFixed(5));
-
+    const currentActive = Math.min(Math.max(Math.round(progress * (count - 1)), 0), count - 1);
+    setActiveWork((prev: number) => (prev !== currentActive ? currentActive : prev));
     const bounds = stage.getBoundingClientRect();
     const half = bounds.width / 2;
     const middle = bounds.left + half;
@@ -198,10 +201,18 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
         return;
       }
 
+      const top = geo.top + geo.reveal + index * geo.perWork;
+      const lenis = getLenis();
+
+      if (lenis) {
+        lenis.scrollTo(top, { duration: 0.9, easing: easeOutQuart });
+        return;
+      }
+
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       window.scrollTo({
-        top: geo.top + geo.reveal + index * geo.perWork,
+        top,
         behavior: reduced ? "instant" : "smooth",
       });
     },
@@ -229,6 +240,8 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
   // The wheel walks the works one at a time while they are on screen.
   useEffect(() => {
     const onWheel = (event: WheelEvent) => {
+      setWheelOwned(false);
+
       if (event.deltaY === 0) return;
 
       // A pinch to zoom is not a navigation gesture.
@@ -261,6 +274,9 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
         return;
       }
 
+      // From here on the works answer the wheel and Lenis keeps its hands off.
+      setWheelOwned(true);
+
       // A gesture is a burst of wheel events. A new one starts the count
       // again, and it is the one that buys the next work.
       const now = Date.now();
@@ -277,6 +293,7 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
       // At the ends the page takes the wheel back, and it takes it whole: a
       // gesture under the threshold must not be swallowed there.
       if (target >= count || target < 0) {
+        setWheelOwned(false);
         accumulated.current = 0;
         return;
       }
@@ -309,9 +326,9 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
       goTo(target);
     };
 
-    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("wheel", onWheel, { passive: false, capture: true });
 
-    return () => window.removeEventListener("wheel", onWheel);
+    return () => window.removeEventListener("wheel", onWheel, { capture: true });
   }, [count, currentIndex, geometry, goTo]);
 
   // The keyboard walks the works the same way.
@@ -373,6 +390,29 @@ export function WorksCarousel({ count, children }: WorksCarouselProps) {
         <div ref={trackRef} className="works-track">
           {children}
         </div>
+
+        {/* Interactive slide indicator and quick-jump rail */}
+        <nav
+          aria-label="Works navigation"
+          className="absolute bottom-5 right-6 z-20 hidden md:flex items-center gap-1 border border-rule-strong bg-surface px-2.5 py-1 text-xs select-none"
+        >
+          {Array.from({ length: count }).map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => goTo(i)}
+              className={`px-2 py-0.5 font-mono text-[0.7rem] transition-colors cursor-pointer ${
+                activeWork === i
+                  ? "bg-ink text-surface font-bold"
+                  : "text-muted hover:text-ink hover:bg-ink/10"
+              }`}
+              aria-label={`Jump to work ${i + 1}`}
+              aria-current={activeWork === i ? "true" : undefined}
+            >
+              0{i + 1}
+            </button>
+          ))}
+        </nav>
       </div>
     </div>
   );

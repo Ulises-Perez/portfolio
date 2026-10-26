@@ -1,5 +1,7 @@
-import type { WorkScreen } from "@/data/site.config";
+"use client";
 
+import { useRef, useState, useCallback } from "react";
+import type { WorkScreen } from "@/data/site.config";
 /**
  * The screen of a work, drawn.
  *
@@ -420,11 +422,64 @@ function PlayerScreen({ accent, screen, name }: ScreenProps) {
 
 /**
  * The window that frames the screen: a title bar with three traffic lights
- * and an address bar, the way a product is shown in a portfolio.
+ * and an address bar, featuring interactive 3D perspective tilt and specular reflection.
  */
 export function ProjectScreen({ accent, screen, name }: ScreenProps) {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const [transform, setTransform] = useState<string>("perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
+  const [glare, setGlare] = useState<{ x: number; y: number; opacity: number }>({
+    x: 50,
+    y: 50,
+    opacity: 0,
+  });
+
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const el = frameRef.current;
+    if (!el) return;
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const rect = el.getBoundingClientRect();
+    const nx = (e.clientX - rect.left) / rect.width;
+    const ny = (e.clientY - rect.top) / rect.height;
+
+    const rotX = -(ny - 0.5) * 12;
+    const rotY = (nx - 0.5) * 12;
+
+    setTransform(
+      `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale3d(1.025, 1.025, 1.025)`,
+    );
+    setGlare({ x: nx * 100, y: ny * 100, opacity: 0.28 });
+  }, []);
+
+  const onMouseLeave = useCallback(() => {
+    setTransform("perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
+    setGlare((prev) => ({ ...prev, opacity: 0 }));
+  }, []);
+
   return (
-    <div className="work-frame">
+    <div
+      ref={frameRef}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      className="work-frame relative transition-transform duration-300 ease-out will-change-transform select-none"
+      style={{
+        transform,
+        transformStyle: "preserve-3d",
+        boxShadow: glare.opacity > 0 ? `0 24px 48px -12px ${accent}33` : undefined,
+      }}
+    >
+      {/* Specular glare sheen */}
+      <div
+        className="pointer-events-none absolute inset-0 z-30 transition-opacity duration-300"
+        style={{
+          opacity: glare.opacity,
+          background: `radial-gradient(circle 420px at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.22) 0%, transparent 80%)`,
+        }}
+        aria-hidden="true"
+      />
+
       <div className="work-frame__bar">
         <span className="work-frame__lights" aria-hidden="true">
           <span />
