@@ -84,10 +84,12 @@ The whole page transitions smoothly when the theme changes.
 
 > "Quiero que tenga una animacion suave para que se cambie el theme la pagina completa"
 
-Resolved: the theme still flips a single pair of CSS variables, but the flip runs
-under a temporary class that transitions `background-color`, `color`,
-`border-color`, `fill` and `stroke` for every element for ~420ms. The class is
-removed afterwards so the rest of the motion system keeps its own timings.
+Resolved: the theme flips a single pair of CSS variables. `--surface` and
+`--ink` are registered with `@property`, so the pair itself travels over 500ms
+and every color derived from it changes on the same frame. Under
+`prefers-reduced-motion` the pair swaps instantly. The earlier per-element
+`theme-flip` class was replaced because it stalled the renderer for ~600ms
+(see L39).
 
 ### S10 — Hero without the rule noise
 The hero bottom band carries fewer lines so the display type reads clean.
@@ -122,9 +124,10 @@ The section stops repeating the projects and states what the visitor can hire.
 > realmente no muestra nada y estas mostrandolos nuevamente al igual que en
 > works, es preferible algo como services que tipos de servicio puedo ofrecer"
 
-Resolved: the section becomes "my services." with the three service groups and
-the repositories that prove each one. The full public inventory is not listed
-on the page (L29).
+Resolved: the section becomes "my services." with three groups. Each row carries
+a plain-language title, its deliverables, a short promise and a drawn product
+panel; the repositories are not repeated (L30). The current layout follows the
+reference's full-width numbered rows and is logged in L42.
 
 ### S13 — Contact beyond GitHub
 Email and Discord join GitHub as ways to start a conversation.
@@ -670,3 +673,239 @@ públicos en la grilla]."
   already carries, so the server does not have to know it.
 - The page always opens at the top: the browser no longer brings back the place it was
   left at.
+
+### L34 — Design polish pass (2026-10-22)
+- The footer's secondary labels and copyright use a new inverse-muted token
+  (`color-mix(surface 80%, ink)`) instead of opacity: 4.9:1 on the light theme
+  and 7.3:1 on the dark one, which clears WCAG AA for the small copy.
+- The contact email is set at `md:text-2xl` and wraps with `[text-wrap:wrap]`;
+  at 1440 it now fits one line instead of leaving `.com` alone.
+- The frame of the works keeps its own dark palette (`--frame-line`,
+  `--frame-muted`) and fixed traffic-light colors, so the product screen no
+  longer changes its internal colors with the page theme.
+- Without JavaScript the section navigation now sits in the flow under the
+  fixed header, uses hash-only links, and the JS-only menu/theme controls are
+  hidden. The mobile nav measured 64px tall and the main starts at 120px, so
+  the nav no longer covers the h1.
+- Evidence: `npm run typecheck` clean; `npm test` 10/10; `npm run build` 8/8;
+  `npm run verify` 56 checks; `impeccable detect` returned `[]`; browser
+  checks in ego lite at 1440x900 and 390x844, both themes and no-JS.
+
+### L35 — Seventh request (verbatim)
+"Tenemos que configurar correctamente el bg y los colores del footer para que
+combine correctamente con la pagina, quita los contactos de arriba del footer
+ya que se duplica, tanto el gmail, github y el discord.
+
+Pero siempre siempre usa la skill de ego lite siempre, para que visualices
+cprrectamente todo, siempre que use la skill de ego lite via ego-browser"
+
+### L36 — Decisions taken for the seventh request
+- The footer stops inverting to the ink slab and keeps the surface and the ink
+  of the page in both themes, with its rules on `rule-strong`. The strip cells
+  invert only on hover, the same move as the CTA, so the close reads as the
+  last section.
+- `--inverse-muted` only existed for the inverted slab, so the token and its
+  Tailwind mapping are gone.
+- The contact section no longer repeats GitHub, email and Discord. The ways to
+  reach me stay in the footer strip and in the menu; the section keeps the
+  invitation and the availability/location row.
+- The last row of the contact section loses its bottom border, so the section
+  closes with one rule instead of two.
+- `CopyButton` only served the copy action of that block, so the component is
+  gone instead of staying as dead code.
+
+### L37 — Verification of the seventh request
+- `npm run typecheck` clean, `impeccable` lint diagnostics with no findings,
+  `npm test` 10/10, `npm run build` and `npm run verify` 56 checks.
+- Ego lite (space 36), computed colors: the footer background and color match
+  the body in both themes — dark `rgb(12, 13, 13)` / `rgb(178, 199, 171)`,
+  light `rgb(178, 199, 171)` / `rgb(106, 12, 6)`.
+- `#contact` carries no GitHub, no Discord handle and no email; the footer
+  strip still carries the GitHub profile and the mail link.
+- Captured in ego lite at the desktop viewport (dark and light) and at
+  390x844: the footer closes on the page surface, the strip stays whole and
+  the contact section ends with a single rule.
+
+### L38 — Eighth request (verbatim)
+"Mejora la animacion que sea mas suave en aspecto de algun tipo como, que este
+sea suavemente y de forma natural, ademas de forma simultanea.
+https://mijobello.com/"
+
+Asked which animation, the answer was: "Todas las opciones" — the hover roll,
+the theme change, the page scroll and the works.
+
+### L39 — Decisions taken for the eighth request
+- The page scroll uses Lenis 1.3.27, the library the reference ships
+  (`window.lenis` and `html.lenis` were measured there). It runs with
+  `lerp: 0.09`, `autoRaf` and `stopInertiaOnNavigate`; touch keeps its native
+  scroll and `respectReducedMotion` (the default) disables smoothing for
+  anyone who asks for it.
+- The works keep the wheel. Their handler runs in the capture phase and
+  decides ownership per event; Lenis's `virtualScroll` yields while the works
+  own it. A gesture under the threshold stays in the section, a hard fling and
+  the ends of the section hand the wheel back to the page, now glided.
+- A work step goes through `lenis.scrollTo` with a 0.9 s `easeOutQuart` glide
+  instead of the browser's native smooth scroll, so the track, the card
+  pieces and the page travel on one animation.
+- The menu overlay is `data-lenis-prevent`: its wheel scrolls the overlay and
+  never the page behind it. Anchor links keep the native smooth scroll and
+  Lenis yields to it.
+- The section links of the menu do not jump: each one closes the overlay and
+  rides the same Lenis glide to its section. Lenis reads the `scroll-margin-top`
+  of the section, so the heading stops under the header without a manual
+  offset.
+- The hover motion is one pair of tokens: `--roll-duration: 450ms` and
+  `--roll-ease: cubic-bezier(0.22, 1, 0.36, 1)`. The cell background and text,
+  the CTA, the theme toggle and the two copies of a label start together and
+  settle on the same curve; the copies travel 0→100% and -100%→0 at once.
+- The theme change is one pair too: `--theme-duration: 500ms` and
+  `--theme-ease: cubic-bezier(0.33, 1, 0.68, 1)`. `--surface` and `--ink` are
+  registered with `@property`, so the pair itself travels and every color that
+  derives from them changes on the same frame. The per-element `theme-flip`
+  class and its transition list are gone.
+- The old 420 ms theme curve and the 450 ms ease-in-out roll are gone.
+- Under `prefers-reduced-motion` the theme pair swaps instantly and the label
+  copies and the theme switch swap in place instead of travelling. The color
+  fades stay, because a fade is not motion.
+
+### L40 — Verification of the eighth request
+- `npm run typecheck` clean, `impeccable` lint diagnostics with no findings,
+  `npm test` 10/10, `npm run build` 8/8 and `npm run verify`: 56 checks. The
+  build reports 107 kB first load for the page, the same as before Lenis.
+- Ego lite (space 37): `html` carries `lenis` and `window.lenis.version` is
+  1.3.27; every measured transition is 450 ms with the roll curve, and the
+  hover `CSSTransition` keyframes are translate 0→100% and -100%→0 on the two
+  copies plus background and color on the cell, all at 450 ms.
+- The theme flip is one animation on the registered pair: ego lite logged
+  `--surface` and `--ink` (and body/footer with them) interpolating every
+  60–80 ms and settling at 500 ms. The earlier per-element flip stalled the
+  renderer for ~600 ms before the colors arrived; the pair has no such gap
+  (58 frames in 402 ms).
+- Wheel coordination, by synthetic events: a 50 px wheel at the top moves the
+  page; a 50 px wheel inside the works stays there (Lenis does not steal it);
+  a 300 px fling hands the wheel back and the page moves 300 px; a 140 px
+  gesture lands exactly on the next work (4437 px).
+- The menu overlay takes the wheel without Lenis classes, and the anchor link
+  updates the hash and starts the native scroll.
+- With the browser window restored, ego lite ran at ~60 fps and the curves
+  were measured frame by frame: the hover copies move together (0→47.7→73.4→
+  85.8→94.8→99.4 % at 0/40/80/120/180/260 ms), the page wheel glides
+  (0→79→134→177→218→253→283→303→313 px, target 320), a works step glides
+  from 3211 to 4437 px over 900 ms and lands on the next work, and the back
+  to top anchor travels 11583→393 px over 900 ms.
+- The menu link to the works glided 0→2235 px over ~900 ms and left the
+  section top at 64 px, with the overlay closed and the focus back on the menu
+  button. The first attempt passed the header offset by hand and landed 64 px
+  too low: Lenis already subtracts the `scroll-margin-top` of the section.
+- During the theme, the derived `color-mix` values travelled too: the muted
+  text and the header rule interpolated with `--surface`/`--ink` and settled
+  at 500 ms.
+- At 390x844 the theme interpolates over 500 ms, the menu link glides
+  0→1982 px and leaves the section at 65 px, the overlay closes, and there is
+  no horizontal overflow (390/390).
+- With emulated `prefers-reduced-motion: reduce`, the marquee is off, the root
+  has no transition, the theme lands instantly, and the footer labels swap in
+  place (the two copies are the same word).
+
+### L41 — Ninth request (verbatim)
+"Quiero mejorar el diseño actual y como se muestran los servicios, de una forma
+mas profesional que siga combinando con la estructura actual, busca todos los
+ejemplos, referencias y demas de diseños parecidos sobre lo mejor para un
+portafolio, puedes usar ego lite para visualizar cualquier diseño y asi mejorar
+drasticamente en todo aspecto."
+
+### L42 — Research and decisions for the services redesign
+- The reference site (mijobello.com) was measured with ego lite. Its services
+  section is a set of full-width rows: a small index, the service title, an
+  uppercase list of deliverables and a media panel (video or image) that settles
+  on hover. The header stays in the inset column while the rows break out to
+  the full 12-column page.
+- Basement Studio names its capabilities as offers ("Websites & Features",
+  "Visual Branding", "IRL Experience Design", "Marketing Execution") and keeps
+  project proof next to them. Current portfolio roundups repeat the same
+  lessons: a clear niche, plain-language service names, proof near the offer
+  and one obvious contact path.
+- Decisions:
+  - The section keeps the inset header and breaks the three service rows out to
+    the full width, the way the reference does.
+  - Each row carries: the index, a plain-language title ("web development",
+    "automation & tooling", "integrations & data"), the existing short promise,
+    the deliverables as an uppercase list, and a drawn product panel.
+  - The panels are a browser wireframe, a pipeline and an API response, drawn
+    with the page tokens (`bg-ink`, `text-surface`, rules at 20–25%) instead of
+    stock media. They read as part of the site in both themes.
+  - The header gains a one-line intro and a "start a project" link; on mobile
+    the intro and the link sit under the title, on desktop in the third column
+    of the header grid.
+  - The panel rests at scale 1.04 and settles to 1 on hover; the index goes from
+    60% to 100%. `motion-reduce` turns both off.
+  - `Service` gains `title` and `visual`; the items and notes stay. No new
+    dependency and no external image or video is added.
+
+### L43 — Verification of the services redesign
+- `npm run typecheck` clean, lint diagnostics with no findings, the impeccable
+  detector returned `[]` on `src/components/services.tsx`, `npm test` 10/10,
+  `npm run build` 8/8 and `npm run verify`: 56 checks.
+- Ego lite at 1440x900: the section is 1322 px tall, the header 302 px, the
+  three rows 340 px each; titles are 60 px and the panels 356×338 px. The rows
+  run from 0 to the full content width (1425 px with the scrollbar) and there
+  is no horizontal overflow.
+- At 390x844: the section is 1630 px tall, the header 181 px, the rows
+  474/502/473 px, the panels 390×224 px, the mobile intro and the link visible,
+  the desktop intro hidden; scroll width 390, so no overflow.
+- No text is clipped in any panel: every box stays inside the frame and the
+  footer line sits 12–14 px from the edge. The 4% rest zoom only clips the
+  panel padding.
+- Hover: the panel scale goes 1.04→1 and the index opacity 0.6→1. Under
+  reduced motion both stay at rest.
+- Dark theme: the panel inverts to the surface green with the near-black text;
+  the light theme keeps the ink panel on the surface.
+
+### L44 — Tenth request (verbatim)
+"Procede ademas de corregir esto
+http://localhost:3000/portfolio/
+
+Procede ademas de corregir esto: Runtime Error
+NotAllowedError: Failed to execute 'writeText' on 'Clipboard': Write permission
+denied.
+
+Cannot find module './897.js'
+Require stack:
+- ...\.next\server\webpack-runtime.js
+- ...\.next\server\pages\_document.js
+..."
+
+### L45 — The dev server fix
+- `Cannot find module './897.js'` was the known `.next` collision: `next build`
+  and `next dev` share the folder, and the production build replaced the dev
+  chunks. The dev process on port 3000 was stopped (PIDs 6092 and 20024),
+  `.next` was removed and `npm run dev` was started again.
+- The clipboard error had no source left: `writeText` and `navigator.clipboard`
+  do not appear in `src/` or in the production `out/`. It came from the stale
+  dev bundle that still carried the deleted copy button; the fresh build does
+  not.
+- Verified with ego lite at `http://localhost:3000/portfolio/`: title "Deus —
+  Web Developer", no Runtime Error, NotAllowedError or Cannot find module text,
+  no "copy handle", the three service rows render and the page returns 200. The
+  dev server is left running for the visitor.
+
+### L46 — Product and design records
+- Followed the impeccable init/document references from the existing evidence
+  (README, ODD and code) instead of a new interview: the user said to proceed
+  and the project already records the product truth.
+- Wrote `PRODUCT.md` at the project root: platform, users, purpose,
+  positioning, operating context, capabilities and constraints, brand
+  commitments, evidence, principles and accessibility.
+- Wrote `DESIGN.md` with the frontmatter tokens and the eight canonical
+  sections: the ink/surface pair, Space Grotesk hierarchy, 4/12 grid, the
+  inset frame and full-bleed rows, the flat elevation, square shapes, the
+  component rules (CTA, footer strip, theme toggle, works, services) and the
+  do's and don'ts.
+- Wrote `.impeccable/design.json` (schema 2) with color metadata and ramps,
+  typography metadata, the roll/theme/work-step motion tokens, the 768px
+  breakpoint, the work-frame shadow, seven real components and the narrative
+  rules.
+- The impeccable detector returned `[]` on `src/components/services.tsx` after
+  the redesign. Node parsed the sidecar: schema 2, 7 components, 5 colors.
+  This step records the incumbent system; it does not change visual tokens or
+  behavior.
