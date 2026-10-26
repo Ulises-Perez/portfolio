@@ -1,7 +1,7 @@
-import { Cta } from "@/components/cta";
+import { ThreeHeroGrid } from "@/components/three-hero-grid";
+import { ThreeHeroMonogram } from "@/components/three-hero-monogram";
 import { languages, profile, repoCount } from "@/lib/github";
 import { site } from "@/data/site.config";
-
 export function Hero() {
   const letters = `${site.displayName.toLowerCase()}.`.split("");
   const stack = languages.slice(0, 9);
@@ -10,12 +10,13 @@ export function Hero() {
     <section className="flex flex-col border-b border-rule-strong bg-surface md:min-h-[calc(100svh-4rem)]">
       <div className="order-2 grid grid-cols-4 border-b border-rule-strong md:order-none md:min-h-[40svh] md:flex-1 md:grid-cols-12">
         <div className="relative col-span-4 aspect-[4/3] overflow-hidden border-b border-rule-strong bg-ink text-surface md:col-span-8 md:aspect-auto md:h-full md:border-b-0 md:border-r">
-          <div className="sweep absolute inset-0 overflow-hidden" aria-hidden="true">
+          <ThreeHeroGrid />
+          <div className="sweep relative z-10 h-full overflow-hidden" aria-hidden="true">
             <div className="grid h-full grid-cols-3 grid-rows-3">
               {stack.map((language, index) => (
                 <div
                   key={language.name}
-                  className="flex items-center border-b border-r border-surface/25 p-3 last:border-r-0 md:p-5"
+                  className="group/tile relative flex items-center border-b border-r border-surface/25 p-3 transition-colors duration-300 hover:bg-surface/10 last:border-r-0 md:p-5"
                 >
                   <span
                     className="rise-shift text-xl font-bold tracking-[-0.05em] md:text-3xl"
@@ -67,7 +68,6 @@ export function Hero() {
               </span>
             ))}
           </h1>
-          <Cta href="#works" label="see the work" />
         </div>
 
         <ul className="col-span-3 flex flex-col justify-end gap-1 p-3 text-base leading-[1.15] font-medium tracking-[-0.02em] md:col-span-3 md:border-l md:border-rule-strong md:p-4 md:text-xl lg:text-2xl">
@@ -83,31 +83,7 @@ export function Hero() {
         </ul>
 
         <div className="col-span-1 flex items-center justify-center p-3 md:col-span-2 md:border-l md:border-rule-strong md:p-4">
-          <svg
-            viewBox="0 0 120 120"
-            className="h-20 w-auto md:h-36"
-            role="img"
-            aria-label={`${site.owner} monogram`}
-          >
-            <rect
-              x="2"
-              y="2"
-              width="116"
-              height="116"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            />
-            <text
-              x="60"
-              y="80"
-              textAnchor="middle"
-              className="fill-current font-bold"
-              style={{ fontSize: 64, letterSpacing: "-0.06em" }}
-            >
-              {site.displayName.charAt(0).toLowerCase()}.
-            </text>
-          </svg>
+          <ThreeHeroMonogram />
         </div>
       </div>
     </section>
