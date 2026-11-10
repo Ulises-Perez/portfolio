@@ -23,3 +23,10 @@ yarn-error.log*
 .commandcode/
 .audit-shots/
 .impeccable/critique/
+.impeccable/review/
+.taste-skill/
+/shots/
+/det.json
+
+# the project's own agent config: local permissions stay local
+/.claude/settings.local.json

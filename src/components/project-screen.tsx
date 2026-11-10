@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import type { WorkScreen } from "@/data/site.config";
 /**
  * The screen of a work, drawn.
@@ -426,36 +426,34 @@ function PlayerScreen({ accent, screen, name }: ScreenProps) {
  */
 export function ProjectScreen({ accent, screen, name }: ScreenProps) {
   const frameRef = useRef<HTMLDivElement>(null);
-  const [transform, setTransform] = useState<string>("perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
-  const [glare, setGlare] = useState<{ x: number; y: number; opacity: number }>({
-    x: 50,
-    y: 50,
-    opacity: 0,
-  });
 
+  // The pointer tilt is written to two custom properties and read by the
+  // stylesheet, which composes it with the tilt the scroll already gives the
+  // frame. An inline `transform` used to replace that one outright, so the
+  // frame was flat until the first mouse move, and always flat on touch.
   const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const el = frameRef.current;
     if (!el) return;
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const rect = el.getBoundingClientRect();
     const nx = (e.clientX - rect.left) / rect.width;
     const ny = (e.clientY - rect.top) / rect.height;
 
-    const rotX = -(ny - 0.5) * 12;
-    const rotY = (nx - 0.5) * 12;
-
-    setTransform(
-      `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale3d(1.025, 1.025, 1.025)`,
-    );
-    setGlare({ x: nx * 100, y: ny * 100, opacity: 0.28 });
+    el.style.setProperty("--tilt-x", `${(-(ny - 0.5) * 12).toFixed(2)}deg`);
+    el.style.setProperty("--tilt-y", `${((nx - 0.5) * 12).toFixed(2)}deg`);
+    el.style.setProperty("--glare-x", `${(nx * 100).toFixed(1)}%`);
+    el.style.setProperty("--glare-y", `${(ny * 100).toFixed(1)}%`);
+    el.dataset.tilting = "";
   }, []);
 
   const onMouseLeave = useCallback(() => {
-    setTransform("perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
-    setGlare((prev) => ({ ...prev, opacity: 0 }));
+    const el = frameRef.current;
+    if (!el) return;
+
+    el.style.setProperty("--tilt-x", "0deg");
+    el.style.setProperty("--tilt-y", "0deg");
+    delete el.dataset.tilting;
   }, []);
 
   return (
@@ -463,20 +461,11 @@ export function ProjectScreen({ accent, screen, name }: ScreenProps) {
       ref={frameRef}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
-      className="work-frame relative transition-transform duration-300 ease-out will-change-transform select-none"
-      style={{
-        transform,
-        transformStyle: "preserve-3d",
-        boxShadow: glare.opacity > 0 ? `0 24px 48px -12px ${accent}33` : undefined,
-      }}
+      className="work-frame relative select-none"
     >
       {/* Specular glare sheen */}
       <div
-        className="pointer-events-none absolute inset-0 z-30 transition-opacity duration-300"
-        style={{
-          opacity: glare.opacity,
-          background: `radial-gradient(circle 420px at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.22) 0%, transparent 80%)`,
-        }}
+        className="work-frame__glare pointer-events-none absolute inset-0 z-30"
         aria-hidden="true"
       />
 

@@ -27,6 +27,22 @@ export type WorkScreen = {
   items: { label: string; meta: string }[];
 };
 
+/**
+ * The glyph a project wears on its icon.
+ *
+ * One shape per kind of product, drawn once in `src/components/orbi/glyphs.tsx`
+ * and chosen here from the data, so the icon of a project says what the project
+ * is instead of repeating its initial. A project with no line written for it
+ * falls back to its initial.
+ */
+export type Glyph =
+  | "orbit"   // a service with parts in orbit: api, cloud, client
+  | "screen"  // a streaming catalogue
+  | "wave"    // a player
+  | "layers"  // a catalogue of films
+  | "grid"    // a scraped index
+  | "page";   // a plain document site
+
 export type Work = {
   /** One line, written for this site, in the voice of the site. */
   blurb: string;
@@ -34,6 +50,8 @@ export type Work = {
   stack: string[];
   /** The color the product wears in its own screen. */
   accent: string;
+  /** The shape its icon wears on the desktop. */
+  glyph: Glyph;
   screen: WorkScreen;
 };
 
@@ -66,6 +84,7 @@ export const works: Record<string, Work> = {
       "Cloudflare Workers",
     ],
     accent: "#3ec9b6",
+    glyph: "orbit",
     screen: {
       kind: "app",
       url: "nexo.app",
@@ -93,6 +112,7 @@ export const works: Record<string, Work> = {
       "Rust",
     ],
     accent: "#8b7cf6",
+    glyph: "screen",
     screen: {
       kind: "site",
       url: "vumies.app",
@@ -123,6 +143,7 @@ export const works: Record<string, Work> = {
       "Playwright",
     ],
     accent: "#f0a63c",
+    glyph: "wave",
     screen: {
       kind: "player",
       url: "ritup2.app",
@@ -151,6 +172,7 @@ export const works: Record<string, Work> = {
       "PHPUnit",
     ],
     accent: "#ef6f5c",
+    glyph: "layers",
     screen: {
       kind: "site",
       url: "larovies.app",
@@ -171,6 +193,7 @@ export const works: Record<string, Work> = {
       "Movies and series pulled from TMDB, with scraping where the API falls short.",
     stack: ["PHP", "Hack", "TMDB API", "Scraping", "CSS"],
     accent: "#5b9cf8",
+    glyph: "grid",
     screen: {
       kind: "site",
       url: "autonomies.app",
@@ -191,6 +214,7 @@ export const works: Record<string, Work> = {
       "The portfolio site of a hostel: the rooms, the photos and a way to write.",
     stack: ["HTML", "CSS", "JavaScript"],
     accent: "#7bc96f",
+    glyph: "page",
     screen: {
       kind: "site",
       url: "hostal.app",
@@ -263,22 +287,7 @@ export const site = {
     discord: "hdeusking",
     discordUrl: "",
   },
-} satisfies {
-  owner: string;
-  displayName: string;
-  domain: string;
-  repo: string;
-  roles: string[];
-  services: Service[];
-  contact: {
-    github: string;
-    email: string;
-    discord: string;
-    discordUrl: string;
-  };
 };
-
-export type Site = typeof site;
 
 /**
  * The sections of the page, for the navigation of the header and of the
@@ -305,6 +314,7 @@ export function defaultWork(
     blurb: summary || `The ${name} repository.`,
     stack,
     accent: "#8b9390",
+    glyph: "page",
     screen: {
       kind: "app",
       url: `${name.toLowerCase()}.app`,

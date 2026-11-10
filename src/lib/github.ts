@@ -1,40 +1,24 @@
-import snapshotJson from "@/data/github.json";
+import snapshotJson from "../data/github.json" with { type: "json" };
 
+/**
+ * The fields of a repository the page reads. Everything else the GitHub API
+ * returns — topics, licence, forks, the per-repository language map — is
+ * dropped by the sync: it was committed, typed and shipped to the browser
+ * with no reader.
+ */
 export type Repo = {
   name: string;
-  description: string;
   url: string;
-  homepage: string;
   language: string;
-  languages: Record<string, number>;
   bytes: number;
   stars: number;
-  forks: number;
-  topics: string[];
-  fork: boolean;
-  archived: boolean;
-  license: string;
-  createdAt: string;
   pushedAt: string;
   featured: boolean;
   summary: string;
 };
 
-/**
- * What a project panel needs. The client only receives these fields, so the
- * rest of the snapshot never crosses to the browser.
- */
-export type Project = Pick<
-  Repo,
-  | "name"
-  | "url"
-  | "language"
-  | "languages"
-  | "bytes"
-  | "stars"
-  | "pushedAt"
-  | "summary"
->;
+/** The three fields of a repository the terminal prints. */
+export type NamedRepo = Pick<Repo, "name" | "language" | "summary">;
 
 export type Profile = {
   login: string;

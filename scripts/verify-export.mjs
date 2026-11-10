@@ -1,7 +1,8 @@
 /**
  * Smoke test for the static export. Catches the failure modes that break a
- * GitHub Pages deployment: a missing base path, a missing section or a snapshot
- * that no longer matches the repositories it claims to describe.
+ * GitHub Pages deployment: a missing base path, a shell that never reaches the
+ * browser, a snapshot that no longer matches the repositories it claims to
+ * describe, and a project a crawler cannot see.
  *
  *   npm run build && npm run verify
  */
@@ -10,6 +11,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { works } from "../src/data/site.config.ts";
+import { PROJECT_APPS } from "../src/lib/orbi.ts";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const exportDir = resolve(root, "out");
@@ -80,16 +82,26 @@ check(
   "found an asset path without the base path",
 );
 
-for (const section of ["developer", "works", "services", "contact"]) {
-  check(
-    `section #${section} is rendered`,
-    html.includes(`id="${section}"`),
-  );
+// The desktop environment is the page: the bar, the wallpaper, the dock and
+// the main region are all rendered by the server, so the shell paints before
+// the script arrives.
+for (const [label, needle] of [
+  ["the wallpaper", 'class="os-field"'],
+  ["the dock", 'class="os-dock"'],
+  ["the desktop", 'class="os-desktop"'],
+  ["the logo of the desktop", 'class="os-wordmark'],
+  ["the skip target", 'id="main"'],
+]) {
+  check(`${label} is rendered`, rendered.includes(needle));
 }
 
+// The boot overlay is a client screen; the portfolio behind it is rendered by
+// the server before the clock starts.
 check(
-  "the page offers a skip link to the main content",
-  html.includes('href="#main"') && html.includes('id="main"'),
+  "the boot screen is not a wall in front of the content",
+  !rendered.includes("os-boot__stage-line") ||
+    rendered.indexOf("noscript") < rendered.indexOf("os-boot"),
+  "the server put the boot screen before the no-script document",
 );
 
 const canonical = html.match(/<link[^>]*rel="canonical"[^>]*href="([^"]+)"/)?.[1] ?? "";
@@ -118,54 +130,47 @@ for (const file of ["robots.txt", "sitemap.xml"]) {
   );
 }
 
-// Only the featured repositories have a card in the works section. The rest
-// of the shelf is not listed on the page.
+// The projects are inside an application, so the server payload must carry
+// them: the ItemList in the head is what a crawler reads without running the
+// shell, and the dock is what a visitor reads with it.
 const featured = snapshot.repos.filter((repo) => repo.featured);
 
-for (const repo of featured) {
-  check(
-    `featured repository ${repo.name} is listed`,
-    html.includes(repo.name),
-    "the repository is featured in the snapshot but missing from the page",
-  );
+check(
+  "the projects are declared in the structured data",
+  html.includes('"@type":"ItemList"') &&
+    featured.every((repo) => html.includes(`#/projects/${repo.name}`)),
+  "a project has no address in the ItemList",
+);
+
+for (const app of [
+  "Orbital Explorer",
+  "Code Studio",
+  "System Monitor",
+  "Orbital Terminal",
+  "Playground",
+  "Connect",
+]) {
+  check(`the dock offers ${app}`, rendered.includes(app));
 }
 
-// The works are read sideways: one card per work inside a horizontal track,
-// and the panels that used to stack down the page are gone.
-const cards = rendered.match(/data-card/g) ?? [];
+check(
+  "the Project Hub is no longer an application",
+  !rendered.includes("Project Hub"),
+  "the old single-project app is still in the shell",
+);
+
+// Every featured project is a tile on the desktop, generated from the data.
+const icons = (rendered.match(/os-icons__item/g) ?? []).length;
 
 check(
-  "every featured work has a card in the carousel",
-  cards.length === featured.length,
-  `the page has ${cards.length} cards for ${featured.length} featured works`,
+  "every featured project has an icon on the desktop",
+  icons === PROJECT_APPS.length,
+  `the page has ${icons} icons for ${PROJECT_APPS.length} featured projects`,
 );
+
 check(
-  "the works are a horizontal track",
-  rendered.includes("works-runway") &&
-    rendered.includes("works-stage") &&
-    rendered.includes("works-track"),
-);
-check(
-  "the vertical project panels are gone",
-  !rendered.includes("data-panel"),
-  "the page still carries the old project panels",
-);
-check(
-  "every work shows the frame of its product",
+  "every work shows the drawn frame of its product",
   rendered.includes("work-frame__url"),
-);
-
-// Every featured work carries a line written for this site and the
-// technologies it is built with, and both reach the page.
-const expectedChips = featured.reduce(
-  (total, repo) => total + (works[repo.name]?.stack?.length ?? 0),
-  0,
-);
-
-check(
-  "every technology of every work is rendered",
-  (rendered.match(/work-card__chip/g) ?? []).length === expectedChips,
-  `the page renders ${(rendered.match(/work-card__chip/g) ?? []).length} chips for ${expectedChips} technologies`,
 );
 
 for (const repo of featured) {
@@ -176,31 +181,18 @@ for (const repo of featured) {
     Boolean(work?.blurb),
     "the work has no description in the site configuration",
   );
-  check(
-    `the description of ${repo.name} is on the page`,
-    Boolean(work?.blurb) && rendered.includes(work.blurb),
-  );
 
-  const missing = (work?.stack ?? []).filter((item) => !rendered.includes(item));
+  const missing = (work?.stack ?? []).filter((item) => !html.includes(item));
 
   check(
-    `the technologies of ${repo.name} are on the page`,
-    missing.length > 0 ? false : (work?.stack?.length ?? 0) > 0,
-    `missing from the page: ${missing.join(", ")}`,
+    `the technologies of ${repo.name} are in the payload`,
+    missing.length === 0 && (work?.stack?.length ?? 0) > 0,
+    `missing: ${missing.join(", ")}`,
   );
 }
 
-check(
-  "the archive section is not rendered",
-  !html.includes("the archive"),
-  "the archive section is still part of the page",
-);
-
 for (const language of snapshot.languages.slice(0, 6)) {
-  check(
-    `language ${language.name} is shown`,
-    html.includes(language.name),
-  );
+  check(`language ${language.name} is in the payload`, html.includes(language.name));
 }
 
 check(
@@ -213,17 +205,8 @@ check(
 // them from there instead of keeping a second copy of the values.
 const configSource = readFileSync(resolve(root, "src/data/site.config.ts"), "utf8");
 const email = configSource.match(/email:\s*"([^"]+)"/)?.[1] ?? "";
-const discord = configSource.match(/discord:\s*"([^"]+)"/)?.[1] ?? "";
 
-check("the contact email is published", email.length > 0 && html.includes(email));
-check(
-  "the discord handle is published",
-  discord.length > 0 && html.includes(discord),
-);
-check(
-  "the mail link is published",
-  html.includes(`mailto:${email}`),
-);
+check("the contact email is in the payload", email.length > 0 && html.includes(email));
 check(
   "the snapshot holds every public repository that is not excluded",
   snapshot.repos.length ===
@@ -231,19 +214,29 @@ check(
   `snapshot has ${snapshot.repos.length} of ${snapshot.profile.publicRepos} public repos, ${syncConfig.exclude.length} excluded`,
 );
 
-// The palette is part of what the site promises: the dark theme fills with the
-// near black and the light theme keeps the surface it had.
+// The palette: the shell is graphite on obsidian, and the light theme keeps
+// its cloud.
 const css = stylesheets(resolve(exportDir, "_next", "static")).toLowerCase().replace(/\s+/g, "");
 
 check(
-  "the dark theme fills with the near black",
-  css.includes("--surface:#0c0d0d"),
-  "the dark theme still fills with the red",
+  "the shell fills with the obsidian",
+  css.includes("--surface:#101216"),
+  "the system background moved",
 );
 check(
-  "the light theme keeps its surface",
-  css.includes("--surface:#b2c7ab"),
+  "the graphite surface is declared",
+  css.includes("--panel:#191d24"),
+  "the window surface moved",
+);
+check(
+  "the light theme keeps its cloud",
+  css.includes("--surface:#f2f3f5"),
   "the light surface moved",
+);
+check(
+  "the orbital accent is declared",
+  css.includes("--accent:#a9bce5"),
+  "the accent moved",
 );
 
 if (failures.length > 0) {

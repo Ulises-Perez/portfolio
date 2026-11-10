@@ -1,200 +1,805 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-22T16:30:00.000Z",
-  "title": "Design System: Portfolio — Deus",
+  "generatedAt": "2026-11-05T23:32:37.898Z",
+  "title": "Design System: Orbi OS",
   "extensions": {
     "colorMeta": {
-      "surface": {
+      "obsidian": {
         "role": "neutral",
-        "displayName": "Sage Paper",
-        "canonical": "#b2c7ab",
-        "tonalRamp": ["#3f493d", "#536052", "#687767", "#7d8f7b", "#93a691", "#a8bba5", "#bfd0bc", "#d7e2d5"]
+        "displayName": "Obsidian",
+        "canonical": "#101216",
+        "tonalRamp": [
+          "oklch(15.0% 0.009 264.3)",
+          "oklch(26.4% 0.009 264.3)",
+          "oklch(37.9% 0.009 264.3)",
+          "oklch(49.3% 0.009 264.3)",
+          "oklch(60.7% 0.009 264.3)",
+          "oklch(72.1% 0.009 264.3)",
+          "oklch(83.6% 0.009 264.3)",
+          "oklch(95.0% 0.009 264.3)"
+        ]
       },
-      "ink": {
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "#191d24",
+        "tonalRamp": [
+          "oklch(15.0% 0.015 261.6)",
+          "oklch(26.4% 0.015 261.6)",
+          "oklch(37.9% 0.015 261.6)",
+          "oklch(49.3% 0.015 261.6)",
+          "oklch(60.7% 0.015 261.6)",
+          "oklch(72.1% 0.015 261.6)",
+          "oklch(83.6% 0.015 261.6)",
+          "oklch(95.0% 0.015 261.6)"
+        ]
+      },
+      "graphite-raised": {
+        "role": "neutral",
+        "displayName": "Graphite Raised",
+        "canonical": "#1f242c",
+        "tonalRamp": [
+          "oklch(15.0% 0.017 259.8)",
+          "oklch(26.4% 0.017 259.8)",
+          "oklch(37.9% 0.017 259.8)",
+          "oklch(49.3% 0.017 259.8)",
+          "oklch(60.7% 0.017 259.8)",
+          "oklch(72.1% 0.017 259.8)",
+          "oklch(83.6% 0.017 259.8)",
+          "oklch(95.0% 0.017 259.8)"
+        ]
+      },
+      "frost": {
+        "role": "neutral",
+        "displayName": "Frost",
+        "canonical": "#e8eaf0",
+        "tonalRamp": [
+          "oklch(15.0% 0.008 271.3)",
+          "oklch(26.4% 0.008 271.3)",
+          "oklch(37.9% 0.008 271.3)",
+          "oklch(49.3% 0.008 271.3)",
+          "oklch(60.7% 0.008 271.3)",
+          "oklch(72.1% 0.008 271.3)",
+          "oklch(83.6% 0.008 271.3)",
+          "oklch(95.0% 0.008 271.3)"
+        ]
+      },
+      "silver": {
+        "role": "neutral",
+        "displayName": "Silver",
+        "canonical": "#a5abb5",
+        "tonalRamp": [
+          "oklch(15.0% 0.016 260.7)",
+          "oklch(26.4% 0.016 260.7)",
+          "oklch(37.9% 0.016 260.7)",
+          "oklch(49.3% 0.016 260.7)",
+          "oklch(60.7% 0.016 260.7)",
+          "oklch(72.1% 0.016 260.7)",
+          "oklch(83.6% 0.016 260.7)",
+          "oklch(95.0% 0.016 260.7)"
+        ]
+      },
+      "cloud": {
+        "role": "neutral",
+        "displayName": "Cloud",
+        "canonical": "#f2f3f5",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 264.5)",
+          "oklch(26.4% 0.003 264.5)",
+          "oklch(37.9% 0.003 264.5)",
+          "oklch(49.3% 0.003 264.5)",
+          "oklch(60.7% 0.003 264.5)",
+          "oklch(72.1% 0.003 264.5)",
+          "oklch(83.6% 0.003 264.5)",
+          "oklch(95.0% 0.003 264.5)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0.0)",
+          "oklch(26.4% 0.000 0.0)",
+          "oklch(37.9% 0.000 0.0)",
+          "oklch(49.3% 0.000 0.0)",
+          "oklch(60.7% 0.000 0.0)",
+          "oklch(72.1% 0.000 0.0)",
+          "oklch(83.6% 0.000 0.0)",
+          "oklch(95.0% 0.000 0.0)"
+        ]
+      },
+      "cloud-raised": {
+        "role": "neutral",
+        "displayName": "Cloud Raised",
+        "canonical": "#f7f8fa",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 264.5)",
+          "oklch(26.4% 0.003 264.5)",
+          "oklch(37.9% 0.003 264.5)",
+          "oklch(49.3% 0.003 264.5)",
+          "oklch(60.7% 0.003 264.5)",
+          "oklch(72.1% 0.003 264.5)",
+          "oklch(83.6% 0.003 264.5)",
+          "oklch(95.0% 0.003 264.5)"
+        ]
+      },
+      "slate": {
+        "role": "neutral",
+        "displayName": "Slate",
+        "canonical": "#5b6270",
+        "tonalRamp": [
+          "oklch(15.0% 0.024 264.3)",
+          "oklch(26.4% 0.024 264.3)",
+          "oklch(37.9% 0.024 264.3)",
+          "oklch(49.3% 0.024 264.3)",
+          "oklch(60.7% 0.024 264.3)",
+          "oklch(72.1% 0.024 264.3)",
+          "oklch(83.6% 0.024 264.3)",
+          "oklch(95.0% 0.024 264.3)"
+        ]
+      },
+      "orbital-blue": {
         "role": "primary",
-        "displayName": "Oxblood Ink",
-        "canonical": "#6a0c06",
-        "tonalRamp": ["#260502", "#3a0704", "#4f0905", "#640b06", "#7a1009", "#99271e", "#b84b42", "#d47f78"]
+        "displayName": "Orbital Blue",
+        "canonical": "#a9bce5",
+        "tonalRamp": [
+          "oklch(15.0% 0.062 265.5)",
+          "oklch(26.4% 0.062 265.5)",
+          "oklch(37.9% 0.062 265.5)",
+          "oklch(49.3% 0.062 265.5)",
+          "oklch(60.7% 0.062 265.5)",
+          "oklch(72.1% 0.062 265.5)",
+          "oklch(83.6% 0.062 265.5)",
+          "oklch(95.0% 0.062 265.5)"
+        ]
       },
-      "surface-dark": {
-        "role": "neutral",
-        "displayName": "Near Black",
-        "canonical": "#0c0d0d",
-        "tonalRamp": ["#000000", "#0c0d0d", "#171918", "#232625", "#303332", "#3e4241", "#4d5250", "#5d6361"]
-      },
-      "ink-dark": {
+      "orbital-ink": {
         "role": "primary",
-        "displayName": "Sage Ink",
-        "canonical": "#b2c7ab",
-        "tonalRamp": ["#3f493d", "#536052", "#687767", "#7d8f7b", "#93a691", "#a8bba5", "#bfd0bc", "#d7e2d5"]
+        "displayName": "Orbital Ink",
+        "canonical": "#4e639f",
+        "tonalRamp": [
+          "oklch(15.0% 0.099 268.2)",
+          "oklch(26.4% 0.099 268.2)",
+          "oklch(37.9% 0.099 268.2)",
+          "oklch(49.3% 0.099 268.2)",
+          "oklch(60.7% 0.099 268.2)",
+          "oklch(72.1% 0.099 268.2)",
+          "oklch(83.6% 0.099 268.2)",
+          "oklch(95.0% 0.099 268.2)"
+        ]
       },
-      "muted": {
+      "on-orbital": {
         "role": "neutral",
-        "displayName": "Muted Ink",
-        "canonical": "color-mix(in srgb, #6a0c06 80%, #b2c7ab)",
-        "tonalRamp": ["#3f4139", "#55584e", "#6b6f63", "#828679", "#999d90", "#b0b4a8", "#c8cbc1", "#e0e2db"]
+        "displayName": "On Orbital",
+        "canonical": "#101216",
+        "tonalRamp": [
+          "oklch(15.0% 0.009 264.3)",
+          "oklch(26.4% 0.009 264.3)",
+          "oklch(37.9% 0.009 264.3)",
+          "oklch(49.3% 0.009 264.3)",
+          "oklch(60.7% 0.009 264.3)",
+          "oklch(72.1% 0.009 264.3)",
+          "oklch(83.6% 0.009 264.3)",
+          "oklch(95.0% 0.009 264.3)"
+        ]
+      },
+      "on-orbital-day": {
+        "role": "neutral",
+        "displayName": "On Orbital Day",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0.0)",
+          "oklch(26.4% 0.000 0.0)",
+          "oklch(37.9% 0.000 0.0)",
+          "oklch(49.3% 0.000 0.0)",
+          "oklch(60.7% 0.000 0.0)",
+          "oklch(72.1% 0.000 0.0)",
+          "oklch(83.6% 0.000 0.0)",
+          "oklch(95.0% 0.000 0.0)"
+        ]
+      },
+      "signal": {
+        "role": "state",
+        "displayName": "Signal",
+        "canonical": "#75b99a",
+        "tonalRamp": [
+          "oklch(15.0% 0.083 163.8)",
+          "oklch(26.4% 0.083 163.8)",
+          "oklch(37.9% 0.083 163.8)",
+          "oklch(49.3% 0.083 163.8)",
+          "oklch(60.7% 0.083 163.8)",
+          "oklch(72.1% 0.083 163.8)",
+          "oklch(83.6% 0.083 163.8)",
+          "oklch(95.0% 0.083 163.8)"
+        ]
+      },
+      "signal-deep": {
+        "role": "state",
+        "displayName": "Signal Deep",
+        "canonical": "#2f7d5f",
+        "tonalRamp": [
+          "oklch(15.0% 0.090 164.6)",
+          "oklch(26.4% 0.090 164.6)",
+          "oklch(37.9% 0.090 164.6)",
+          "oklch(49.3% 0.090 164.6)",
+          "oklch(60.7% 0.090 164.6)",
+          "oklch(72.1% 0.090 164.6)",
+          "oklch(83.6% 0.090 164.6)",
+          "oklch(95.0% 0.090 164.6)"
+        ]
+      },
+      "emblem-halo": {
+        "role": "emblem",
+        "displayName": "Emblem Halo",
+        "canonical": "#a9bce5",
+        "tonalRamp": [
+          "oklch(15.0% 0.062 265.5)",
+          "oklch(26.4% 0.062 265.5)",
+          "oklch(37.9% 0.062 265.5)",
+          "oklch(49.3% 0.062 265.5)",
+          "oklch(60.7% 0.062 265.5)",
+          "oklch(72.1% 0.062 265.5)",
+          "oklch(83.6% 0.062 265.5)",
+          "oklch(95.0% 0.062 265.5)"
+        ]
+      },
+      "emblem-body": {
+        "role": "emblem",
+        "displayName": "Emblem Body",
+        "canonical": "#12161e",
+        "tonalRamp": [
+          "oklch(15.0% 0.017 264.1)",
+          "oklch(26.4% 0.017 264.1)",
+          "oklch(37.9% 0.017 264.1)",
+          "oklch(49.3% 0.017 264.1)",
+          "oklch(60.7% 0.017 264.1)",
+          "oklch(72.1% 0.017 264.1)",
+          "oklch(83.6% 0.017 264.1)",
+          "oklch(95.0% 0.017 264.1)"
+        ]
+      },
+      "emblem-deep": {
+        "role": "emblem",
+        "displayName": "Emblem Deep",
+        "canonical": "#0a0d13",
+        "tonalRamp": [
+          "oklch(15.0% 0.014 264.1)",
+          "oklch(26.4% 0.014 264.1)",
+          "oklch(37.9% 0.014 264.1)",
+          "oklch(49.3% 0.014 264.1)",
+          "oklch(60.7% 0.014 264.1)",
+          "oklch(72.1% 0.014 264.1)",
+          "oklch(83.6% 0.014 264.1)",
+          "oklch(95.0% 0.014 264.1)"
+        ]
+      },
+      "emblem-lit": {
+        "role": "emblem",
+        "displayName": "Emblem Lit",
+        "canonical": "#2a3448",
+        "tonalRamp": [
+          "oklch(15.0% 0.038 263.8)",
+          "oklch(26.4% 0.038 263.8)",
+          "oklch(37.9% 0.038 263.8)",
+          "oklch(49.3% 0.038 263.8)",
+          "oklch(60.7% 0.038 263.8)",
+          "oklch(72.1% 0.038 263.8)",
+          "oklch(83.6% 0.038 263.8)",
+          "oklch(95.0% 0.038 263.8)"
+        ]
+      },
+      "emblem-ring": {
+        "role": "emblem",
+        "displayName": "Emblem Ring",
+        "canonical": "#e8eef9",
+        "tonalRamp": [
+          "oklch(15.0% 0.016 262.8)",
+          "oklch(26.4% 0.016 262.8)",
+          "oklch(37.9% 0.016 262.8)",
+          "oklch(49.3% 0.016 262.8)",
+          "oklch(60.7% 0.016 262.8)",
+          "oklch(72.1% 0.016 262.8)",
+          "oklch(83.6% 0.016 262.8)",
+          "oklch(95.0% 0.016 262.8)"
+        ]
+      },
+      "emblem-ring-mid": {
+        "role": "emblem",
+        "displayName": "Emblem Ring Mid",
+        "canonical": "#a9bce5",
+        "tonalRamp": [
+          "oklch(15.0% 0.062 265.5)",
+          "oklch(26.4% 0.062 265.5)",
+          "oklch(37.9% 0.062 265.5)",
+          "oklch(49.3% 0.062 265.5)",
+          "oklch(60.7% 0.062 265.5)",
+          "oklch(72.1% 0.062 265.5)",
+          "oklch(83.6% 0.062 265.5)",
+          "oklch(95.0% 0.062 265.5)"
+        ]
+      },
+      "emblem-ring-dim": {
+        "role": "emblem",
+        "displayName": "Emblem Ring Dim",
+        "canonical": "#4e5f80",
+        "tonalRamp": [
+          "oklch(15.0% 0.057 263.3)",
+          "oklch(26.4% 0.057 263.3)",
+          "oklch(37.9% 0.057 263.3)",
+          "oklch(49.3% 0.057 263.3)",
+          "oklch(60.7% 0.057 263.3)",
+          "oklch(72.1% 0.057 263.3)",
+          "oklch(83.6% 0.057 263.3)",
+          "oklch(95.0% 0.057 263.3)"
+        ]
+      },
+      "emblem-glint": {
+        "role": "emblem",
+        "displayName": "Emblem Glint",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0.0)",
+          "oklch(26.4% 0.000 0.0)",
+          "oklch(37.9% 0.000 0.0)",
+          "oklch(49.3% 0.000 0.0)",
+          "oklch(60.7% 0.000 0.0)",
+          "oklch(72.1% 0.000 0.0)",
+          "oklch(83.6% 0.000 0.0)",
+          "oklch(95.0% 0.000 0.0)"
+        ]
+      },
+      "emblem-star": {
+        "role": "emblem",
+        "displayName": "Emblem Star",
+        "canonical": "#c6d2e8",
+        "tonalRamp": [
+          "oklch(15.0% 0.033 262.7)",
+          "oklch(26.4% 0.033 262.7)",
+          "oklch(37.9% 0.033 262.7)",
+          "oklch(49.3% 0.033 262.7)",
+          "oklch(60.7% 0.033 262.7)",
+          "oklch(72.1% 0.033 262.7)",
+          "oklch(83.6% 0.033 262.7)",
+          "oklch(95.0% 0.033 262.7)"
+        ]
+      },
+      "emblem-halo-day": {
+        "role": "emblem",
+        "displayName": "Emblem Halo Day",
+        "canonical": "#4e639f",
+        "tonalRamp": [
+          "oklch(15.0% 0.099 268.2)",
+          "oklch(26.4% 0.099 268.2)",
+          "oklch(37.9% 0.099 268.2)",
+          "oklch(49.3% 0.099 268.2)",
+          "oklch(60.7% 0.099 268.2)",
+          "oklch(72.1% 0.099 268.2)",
+          "oklch(83.6% 0.099 268.2)",
+          "oklch(95.0% 0.099 268.2)"
+        ]
+      },
+      "emblem-body-day": {
+        "role": "emblem",
+        "displayName": "Emblem Body Day",
+        "canonical": "#dfe4ee",
+        "tonalRamp": [
+          "oklch(15.0% 0.015 264.5)",
+          "oklch(26.4% 0.015 264.5)",
+          "oklch(37.9% 0.015 264.5)",
+          "oklch(49.3% 0.015 264.5)",
+          "oklch(60.7% 0.015 264.5)",
+          "oklch(72.1% 0.015 264.5)",
+          "oklch(83.6% 0.015 264.5)",
+          "oklch(95.0% 0.015 264.5)"
+        ]
+      },
+      "emblem-deep-day": {
+        "role": "emblem",
+        "displayName": "Emblem Deep Day",
+        "canonical": "#aeb9cc",
+        "tonalRamp": [
+          "oklch(15.0% 0.030 261.5)",
+          "oklch(26.4% 0.030 261.5)",
+          "oklch(37.9% 0.030 261.5)",
+          "oklch(49.3% 0.030 261.5)",
+          "oklch(60.7% 0.030 261.5)",
+          "oklch(72.1% 0.030 261.5)",
+          "oklch(83.6% 0.030 261.5)",
+          "oklch(95.0% 0.030 261.5)"
+        ]
+      },
+      "emblem-lit-day": {
+        "role": "emblem",
+        "displayName": "Emblem Lit Day",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0.0)",
+          "oklch(26.4% 0.000 0.0)",
+          "oklch(37.9% 0.000 0.0)",
+          "oklch(49.3% 0.000 0.0)",
+          "oklch(60.7% 0.000 0.0)",
+          "oklch(72.1% 0.000 0.0)",
+          "oklch(83.6% 0.000 0.0)",
+          "oklch(95.0% 0.000 0.0)"
+        ]
+      },
+      "emblem-ring-day": {
+        "role": "emblem",
+        "displayName": "Emblem Ring Day",
+        "canonical": "#4e639f",
+        "tonalRamp": [
+          "oklch(15.0% 0.099 268.2)",
+          "oklch(26.4% 0.099 268.2)",
+          "oklch(37.9% 0.099 268.2)",
+          "oklch(49.3% 0.099 268.2)",
+          "oklch(60.7% 0.099 268.2)",
+          "oklch(72.1% 0.099 268.2)",
+          "oklch(83.6% 0.099 268.2)",
+          "oklch(95.0% 0.099 268.2)"
+        ]
+      },
+      "emblem-ring-mid-day": {
+        "role": "emblem",
+        "displayName": "Emblem Ring Mid Day",
+        "canonical": "#6d80b4",
+        "tonalRamp": [
+          "oklch(15.0% 0.083 268.5)",
+          "oklch(26.4% 0.083 268.5)",
+          "oklch(37.9% 0.083 268.5)",
+          "oklch(49.3% 0.083 268.5)",
+          "oklch(60.7% 0.083 268.5)",
+          "oklch(72.1% 0.083 268.5)",
+          "oklch(83.6% 0.083 268.5)",
+          "oklch(95.0% 0.083 268.5)"
+        ]
+      },
+      "emblem-ring-dim-day": {
+        "role": "emblem",
+        "displayName": "Emblem Ring Dim Day",
+        "canonical": "#9aa8c8",
+        "tonalRamp": [
+          "oklch(15.0% 0.049 266.6)",
+          "oklch(26.4% 0.049 266.6)",
+          "oklch(37.9% 0.049 266.6)",
+          "oklch(49.3% 0.049 266.6)",
+          "oklch(60.7% 0.049 266.6)",
+          "oklch(72.1% 0.049 266.6)",
+          "oklch(83.6% 0.049 266.6)",
+          "oklch(95.0% 0.049 266.6)"
+        ]
+      },
+      "emblem-star-day": {
+        "role": "emblem",
+        "displayName": "Emblem Star Day",
+        "canonical": "#7e8aa3",
+        "tonalRamp": [
+          "oklch(15.0% 0.040 265.0)",
+          "oklch(26.4% 0.040 265.0)",
+          "oklch(37.9% 0.040 265.0)",
+          "oklch(49.3% 0.040 265.0)",
+          "oklch(60.7% 0.040 265.0)",
+          "oklch(72.1% 0.040 265.0)",
+          "oklch(83.6% 0.040 265.0)",
+          "oklch(95.0% 0.040 265.0)"
+        ]
       }
     },
     "typographyMeta": {
-      "display": {
-        "displayName": "Display",
-        "purpose": "The hero name only; the largest word on the page."
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "The system name under the emblem: welcome lockup and boot screen. Tracking tightens 0.62em to 0.32em during the boot only."
       },
-      "headline": {
-        "displayName": "Headline",
-        "purpose": "One display word per section, under the eyebrow."
+      "wordmark-compact": {
+        "displayName": "Wordmark Compact",
+        "purpose": "The brand inside the top-bar pill."
       },
       "title": {
-        "displayName": "Title",
-        "purpose": "Service titles and work names."
+        "displayName": "App Title",
+        "purpose": "Window content heads. Secondary titles run 1–1.35rem at −0.02 to −0.03em."
       },
-      "body": {
-        "displayName": "Body",
-        "purpose": "Descriptions, promises and notes, kept near 34–46ch."
+      "interface": {
+        "displayName": "Interface Body",
+        "purpose": "The 0.82–0.88rem body band: palette items, project panels, chat."
       },
       "label": {
-        "displayName": "Label",
-        "purpose": "Eyebrows, indexes, uppercase lists and meta."
+        "displayName": "Mono Label",
+        "purpose": "Instrument labels, uppercase, 0.56–0.62rem band with 0.04–0.42em tracking by duty."
       },
       "mono": {
-        "displayName": "Mono",
-        "purpose": "Terminal, URL bars, pipeline rows and API rows."
+        "displayName": "Mono Body",
+        "purpose": "Terminal, shell and code at 0.68–0.74rem, 1.75–1.8 line-height."
       }
     },
     "shadows": [
       {
-        "name": "work-frame",
-        "value": "0 24px 60px -28px rgb(0 0 0 / 0.6)",
-        "purpose": "Lifts the framed product screen above the works stage; the only shadow in the system."
+        "name": "window",
+        "value": "0 28px 70px -30px rgb(0 0 0 / 0.65), 0 2px 8px -4px rgb(0 0 0 / 0.35)",
+        "purpose": "A focused window in the dark theme."
+      },
+      {
+        "name": "window-light",
+        "value": "0 24px 60px -34px rgb(16 18 22 / 0.4), 0 2px 6px -4px rgb(16 18 22 / 0.16)",
+        "purpose": "A focused window in the light theme."
+      },
+      {
+        "name": "window-unfocused",
+        "value": "0 14px 40px -30px rgb(0 0 0 / 0.5)",
+        "purpose": "A window that lost focus: depth drops, it never disappears."
+      },
+      {
+        "name": "dock",
+        "value": "0 26px 60px -28px rgb(0 0 0 / 0.75), 0 2px 8px -4px rgb(0 0 0 / 0.35), inset 0 1px 0 0 rgb(255 255 255 / 0.06)",
+        "purpose": "The glass dock, with its 1px inner highlight."
+      },
+      {
+        "name": "menu",
+        "value": "0 24px 60px -30px rgb(0 0 0 / 0.7), inset 0 1px 0 0 rgb(255 255 255 / 0.05)",
+        "purpose": "The desktop context menu."
+      },
+      {
+        "name": "palette",
+        "value": "0 40px 90px -40px rgb(0 0 0 / 0.75)",
+        "purpose": "The command palette and the preferences panel."
+      },
+      {
+        "name": "topbar",
+        "value": "0 10px 30px -20px rgb(0 0 0 / 0.55)",
+        "purpose": "The status pill."
+      },
+      {
+        "name": "tile-highlight",
+        "value": "inset 0 1px 0 0 rgb(255 255 255 / 0.05)",
+        "purpose": "The 1px top highlight on every app tile."
+      },
+      {
+        "name": "glow-signal",
+        "value": "0 0 8px 0 color-mix(in oklab, var(--signal) 55%, transparent)",
+        "purpose": "The live dot in the top bar — a light source, per the Glow Rule."
+      },
+      {
+        "name": "glow-dot",
+        "value": "0 0 6px 0 color-mix(in oklab, currentColor 60%, transparent)",
+        "purpose": "The open-app dot under a dock item."
+      },
+      {
+        "name": "glow-progress",
+        "value": "0 0 10px 0 color-mix(in oklab, var(--accent) 60%, transparent)",
+        "purpose": "The boot progress fill."
       }
     ],
     "motion": [
       {
-        "name": "roll",
-        "value": "450ms cubic-bezier(0.22, 1, 0.36, 1)",
-        "purpose": "CTA and footer labels: the two copies travel together while the colors change on the same curve."
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "--ease: every state transition in the shell."
       },
       {
-        "name": "theme",
-        "value": "500ms cubic-bezier(0.33, 1, 0.68, 1)",
-        "purpose": "The registered --surface/--ink pair travels once on :root; every derived color changes together."
+        "name": "ease-snap",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Terminal line landings and meter bar growth."
       },
       {
-        "name": "work-step",
-        "value": "900ms easeOutQuart",
-        "purpose": "One work step through Lenis, so the track and the card pieces travel on one glide."
+        "name": "fast",
+        "value": "180ms",
+        "purpose": "Controls answering; the palette opening."
+      },
+      {
+        "name": "slow",
+        "value": "320ms",
+        "purpose": "Theme travel on --surface/--ink; larger state changes."
+      },
+      {
+        "name": "boot",
+        "value": "3600ms",
+        "purpose": "BOOT_MS — the whole boot construction, one clock."
+      },
+      {
+        "name": "boot-exit",
+        "value": "420ms",
+        "purpose": "The boot screen fading and scaling to 1.03."
+      },
+      {
+        "name": "project-load",
+        "value": "1000ms",
+        "purpose": "PROJECT_LOAD_MS — the first-open loading screen."
+      },
+      {
+        "name": "project-load-exit",
+        "value": "260ms",
+        "purpose": "The loading screen fading to 1.02."
+      },
+      {
+        "name": "window-in",
+        "value": "220ms",
+        "purpose": "A window opening: scale 0.985 and fade."
+      },
+      {
+        "name": "palette-in",
+        "value": "180ms",
+        "purpose": "The palette and preferences panel dropping in."
+      },
+      {
+        "name": "menu-in",
+        "value": "140ms",
+        "purpose": "The desktop context menu."
+      },
+      {
+        "name": "scrim-in",
+        "value": "160ms",
+        "purpose": "The palette scrim."
+      },
+      {
+        "name": "parallax",
+        "value": "600ms ease-out",
+        "purpose": "The field's three depths easing to the cursor."
+      },
+      {
+        "name": "meter-bar",
+        "value": "400ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The language meter's bar growth."
+      },
+      {
+        "name": "ambient-halo",
+        "value": "9s ease-in-out infinite alternate",
+        "purpose": "The emblem's halo breath (0.85 to 1 opacity)."
+      },
+      {
+        "name": "ambient-catch",
+        "value": "26s linear infinite",
+        "purpose": "The light catch travelling the emblem's ring."
+      },
+      {
+        "name": "ambient-satellite",
+        "value": "14s ease-in-out infinite alternate",
+        "purpose": "The emblem's satellite drift (3px, −2px)."
+      },
+      {
+        "name": "ambient-stars",
+        "value": "6–14s ease-in-out infinite alternate",
+        "purpose": "Field star twinkle; emblem stars at 8/11/13s; 0.35 to 0.85 opacity."
+      },
+      {
+        "name": "ambient-travellers",
+        "value": "84s and 131s linear infinite",
+        "purpose": "The two SMIL field travellers (Orbital wallpaper only)."
+      },
+      {
+        "name": "caret",
+        "value": "1s steps(1) infinite",
+        "purpose": "The terminal caret blink; never drawn under reduced motion."
       }
     ],
     "breakpoints": [
       {
-        "name": "md",
-        "value": "768px"
+        "name": "phone",
+        "value": "767px",
+        "purpose": "Windows take the desktop, drag/resize off, compact dock, the bar drops version/key/clock, trajectories step back."
+      },
+      {
+        "name": "project-stack",
+        "value": "1100px",
+        "purpose": "A project window stacks its screen and panel into one column."
       }
     ]
   },
   "components": [
     {
-      "name": "Primary CTA",
-      "kind": "button",
-      "refersTo": "cta",
-      "description": "The bordered uppercase action used for see the work and start a project.",
-      "html": "<a class=\"ds-cta\" href=\"#\">see the work</a>",
-      "css": ".ds-cta { display: inline-block; border: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); border-radius: 0; padding: 0.5rem 1rem; color: var(--ink); font: 700 1.125rem/1.3 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background-color 450ms cubic-bezier(0.22, 1, 0.36, 1), color 450ms cubic-bezier(0.22, 1, 0.36, 1), border-color 450ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-cta:hover, .ds-cta:focus-visible { background: var(--ink); color: var(--surface); outline: 2px solid currentColor; outline-offset: 2px; }"
+      "name": "Window",
+      "kind": "custom",
+      "refersTo": "window",
+      "description": "An application window: raised title bar, hairline edge, one soft shadow, three controls.",
+      "html": "<div class=\"ds-window\">\n  <div class=\"ds-window__bar\">\n    <span class=\"ds-window__icon\"></span>\n    <span class=\"ds-window__title\">Orbital Explorer</span>\n    <span class=\"ds-window__sub\">ulises-perez</span>\n    <span class=\"ds-controls\"><i></i><i></i><i class=\"ds-control-close\"></i></span>\n  </div>\n  <div class=\"ds-window__body\">The body scrolls on its own.</div>\n</div>",
+      "css": ".ds-window { background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--radius, 14px); box-shadow: 0 28px 70px -30px rgb(0 0 0 / 0.65), 0 2px 8px -4px rgb(0 0 0 / 0.35); overflow: hidden; font-family: var(--font-sans, sans-serif); color: var(--ink); }\n.ds-window__bar { display: flex; align-items: center; gap: 0.6rem; height: 2.35rem; padding-inline: 0.35rem 0.5rem; border-bottom: 1px solid var(--line); background: var(--panel-2); }\n.ds-window__icon { width: 1.35rem; height: 1.35rem; border-radius: 6px; background: color-mix(in oklab, var(--ink) 8%, transparent); }\n.ds-window__title { font-size: 0.76rem; font-weight: 500; letter-spacing: -0.005em; }\n.ds-window__sub { font-family: var(--font-mono, monospace); font-size: 0.6rem; color: var(--muted); }\n.ds-controls { margin-left: auto; display: flex; gap: 0.15rem; }\n.ds-controls i { width: 1.5rem; height: 1.5rem; border-radius: 6px; background: color-mix(in oklab, var(--ink) 9%, transparent); }\n.ds-controls .ds-control-close:hover { background: #c65b52; }\n.ds-window__body { padding: 1.15rem 1.35rem; font-size: 0.84rem; line-height: 1.55; }"
     },
     {
-      "name": "Footer Roll Cell",
+      "name": "Dock Item",
+      "kind": "custom",
+      "refersTo": "dock",
+      "description": "One application in the floating glass dock: tile, hover lift, open dot, tooltip.",
+      "html": "<div class=\"ds-dock\">\n  <button class=\"ds-dock__item\" data-open>\n    <span class=\"ds-dock__tile\"></span>\n    <span class=\"ds-dock__dot\"></span>\n    <span class=\"ds-dock__label\">Explorer</span>\n  </button>\n  <button class=\"ds-dock__item\">\n    <span class=\"ds-dock__tile\"></span>\n    <span class=\"ds-dock__dot\"></span>\n    <span class=\"ds-dock__label\">Terminal</span>\n  </button>\n</div>",
+      "css": ".ds-dock { display: inline-flex; gap: 0.25rem; padding: 0.4rem; border: 1px solid var(--line-strong); border-radius: 18px; background: color-mix(in oklab, var(--panel) 62%, transparent); backdrop-filter: blur(22px) saturate(140%); box-shadow: 0 26px 60px -28px rgb(0 0 0 / 0.75), inset 0 1px 0 0 rgb(255 255 255 / 0.06); }\n.ds-dock__item { position: relative; display: flex; width: 3.1rem; flex-direction: column; align-items: center; gap: 0.2rem; padding: 0.4rem 0.15rem 0.25rem; border: 0; border-radius: 12px; background: transparent; color: var(--muted); cursor: pointer; transition: background-color 180ms cubic-bezier(0.22, 1, 0.36, 1), translate 180ms cubic-bezier(0.22, 1, 0.36, 1); }\n.ds-dock__item:hover { background: color-mix(in oklab, var(--ink) 8%, transparent); color: var(--ink); translate: 0 -3px; }\n.ds-dock__item[data-open] { background: color-mix(in oklab, var(--accent) 12%, transparent); color: var(--accent); }\n.ds-dock__tile { width: 20px; height: 20px; border-radius: 6px; border: 1px solid var(--line-strong); background: linear-gradient(to bottom, color-mix(in oklab, var(--panel-2) 88%, var(--accent)), var(--panel)); }\n.ds-dock__dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0; }\n.ds-dock__item[data-open] .ds-dock__dot { opacity: 0.9; box-shadow: 0 0 6px 0 color-mix(in oklab, currentColor 60%, transparent); }\n.ds-dock__label { position: absolute; bottom: calc(100% + 0.5rem); left: 50%; translate: -50% 0; padding: 0.2rem 0.45rem; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--panel); color: var(--ink); font-family: var(--font-mono, monospace); font-size: 0.6rem; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 180ms cubic-bezier(0.22, 1, 0.36, 1); }\n.ds-dock__item:hover .ds-dock__label { opacity: 1; }"
+    },
+    {
+      "name": "Top Bar Pill",
       "kind": "nav",
-      "refersTo": "roll-cell",
-      "description": "One cell of the footer strip; it inverts on hover while its label rolls.",
-      "html": "<a class=\"ds-roll\" href=\"#\">github</a>",
-      "css": ".ds-roll { display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); padding: 0.75rem 1rem; color: var(--ink); font: 400 1.125rem/1.3 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background-color 450ms cubic-bezier(0.22, 1, 0.36, 1), color 450ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-roll:hover, .ds-roll:focus-visible { background: var(--ink); color: var(--surface); outline: 2px solid currentColor; outline-offset: -2px; }"
+      "refersTo": "topbar",
+      "description": "The status pill at the top right: brand, signal status, controls. The only chrome of the shell.",
+      "html": "<div class=\"ds-bar\">\n  <span class=\"ds-bar__brand\"><span class=\"ds-bar__mark\"></span><b>orbiOS</b><span class=\"ds-bar__ver\">v0.1</span></span>\n  <span class=\"ds-bar__split\"></span>\n  <span class=\"ds-bar__status\"><span class=\"ds-bar__dot\"></span>ONLINE</span>\n  <button class=\"ds-bar__key\">⌘K</button>\n</div>",
+      "css": ".ds-bar { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.36rem 0.66rem; border: 1px solid var(--line); border-radius: 999px; background: color-mix(in oklab, var(--panel) 62%, transparent); backdrop-filter: blur(22px) saturate(140%); box-shadow: 0 10px 30px -20px rgb(0 0 0 / 0.55); font-family: var(--font-mono, monospace); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }\n.ds-bar__brand { display: flex; align-items: center; gap: 0.45rem; color: var(--ink); }\n.ds-bar__mark { width: 15px; height: 15px; border-radius: 50%; background: var(--ink); }\n.ds-bar__brand b { font-family: var(--font-sans, sans-serif); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.02em; text-transform: none; }\n.ds-bar__ver { color: var(--muted); text-transform: none; }\n.ds-bar__split { width: 1px; height: 0.95rem; background: var(--line-strong); }\n.ds-bar__status { display: flex; align-items: center; gap: 0.38rem; color: var(--signal); }\n.ds-bar__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 8px 0 color-mix(in oklab, var(--signal) 55%, transparent); }\n.ds-bar__key { padding: 0.18rem 0.42rem; border: 1px solid var(--line-strong); border-radius: 6px; background: transparent; color: var(--muted); font: inherit; cursor: pointer; transition: background-color 180ms cubic-bezier(0.22, 1, 0.36, 1), color 180ms cubic-bezier(0.22, 1, 0.36, 1); }\n.ds-bar__key:hover { background: color-mix(in oklab, var(--ink) 7%, transparent); color: var(--ink); }"
     },
     {
-      "name": "Eyebrow Label",
+      "name": "App Tile",
+      "kind": "card",
+      "refersTo": "tile",
+      "description": "The square every project app wears: accent-tinted gradient, glyph or initial, accent bar at the foot.",
+      "html": "<div class=\"ds-tile-row\">\n  <span class=\"ds-tile\" style=\"--tile-accent:#3ec9b6\">\n    <svg width=\"23\" height=\"23\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><ellipse cx=\"12\" cy=\"12\" rx=\"10\" ry=\"4.5\" transform=\"rotate(-24 12 12)\"/></svg>\n    <span class=\"ds-tile__bar\"></span>\n  </span>\n  <span class=\"ds-tile ds-tile--letter\" style=\"--tile-accent:#8b7cf6\">S<span class=\"ds-tile__bar\"></span></span>\n</div>",
+      "css": ".ds-tile-row { display: flex; gap: 12px; }\n.ds-tile { position: relative; display: grid; place-items: center; width: 44px; height: 44px; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 12px; background: linear-gradient(to bottom, color-mix(in oklab, var(--panel-2) 88%, var(--tile-accent)), var(--panel)); box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.05); color: var(--tile-accent); }\n.ds-tile--letter { font-family: var(--font-sans, sans-serif); font-size: 52%; font-weight: 500; letter-spacing: -0.02em; }\n.ds-tile__bar { position: absolute; inset-inline: 18%; bottom: 12%; height: 2px; border-radius: 2px; background: var(--tile-accent); opacity: 0.85; }"
+    },
+    {
+      "name": "Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Quiet bordered button; the primary variant is the only filled control in the system.",
+      "html": "<button class=\"ds-btn\">Copy clone URL</button>\n<button class=\"ds-btn ds-btn--primary\">Start a conversation</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.8rem; border: 1px solid var(--line-strong); border-radius: 8px; background: transparent; color: var(--ink); font-family: var(--font-sans, sans-serif); font-size: 0.78rem; cursor: pointer; transition: background-color 180ms cubic-bezier(0.22, 1, 0.36, 1), border-color 180ms cubic-bezier(0.22, 1, 0.36, 1); }\n.ds-btn:hover { background: color-mix(in oklab, var(--ink) 7%, transparent); border-color: var(--accent); }\n.ds-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }\n.ds-btn--primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 500; }\n.ds-btn--primary:hover { background: color-mix(in oklab, var(--accent) 85%, var(--ink)); }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "A pill of metadata — stack, state, language — in tracked mono.",
+      "html": "<span class=\"ds-chip\">typescript</span>\n<span class=\"ds-chip\">active</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.16rem 0.5rem; border: 1px solid var(--line-strong); border-radius: 999px; font-family: var(--font-mono, monospace); font-size: 0.6rem; letter-spacing: 0.04em; color: var(--muted); white-space: nowrap; }"
+    },
+    {
+      "name": "Mono Label",
       "kind": "custom",
       "refersTo": "label",
-      "description": "The small uppercase label that opens every section and labels every list.",
-      "html": "<p class=\"ds-eyebrow\">my</p>",
-      "css": ".ds-eyebrow { margin: 0; color: var(--muted, color-mix(in srgb, var(--ink) 80%, var(--surface))); font: 700 0.7rem/1.4 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; }"
+      "description": "The instrument label: wide-tracked mono uppercase, 0.56–0.62rem, for keys, statuses and subtitles.",
+      "html": "<p class=\"ds-label\">today</p>\n<p class=\"ds-label ds-label--wide\">— Desktop Environment —</p>",
+      "css": ".ds-label { margin: 0; font-family: var(--font-mono, monospace); font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }\n.ds-label--wide { font-size: 0.58rem; letter-spacing: 0.42em; text-indent: 0.42em; color: color-mix(in oklab, var(--ink) 60%, transparent); }"
     },
     {
-      "name": "Section Head",
-      "kind": "custom",
-      "refersTo": "headline",
-      "description": "Eyebrow plus the oversized section word, the page's editorial anchor.",
-      "html": "<div class=\"ds-head\"><p class=\"ds-eyebrow\">my</p><h2 class=\"ds-head-title\">services.</h2></div>",
-      "css": ".ds-head { display: flex; flex-direction: column; gap: 0.5rem; } .ds-head .ds-eyebrow { color: var(--muted, color-mix(in srgb, var(--ink) 80%, var(--surface))); font: 700 0.7rem/1.4 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; } .ds-head-title { margin: 0; color: var(--ink); font: 700 clamp(3rem, 7vw, 6rem)/0.85 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.06em; }"
-    },
-    {
-      "name": "Service Row",
-      "kind": "card",
-      "refersTo": "service-panel",
-      "description": "The full-width service band: index, title and promise, deliverables, and a drawn panel.",
-      "html": "<div class=\"ds-service\"><span class=\"ds-service-index\">01</span><div class=\"ds-service-main\"><h3>web development</h3><p>From the first commit to the deployment, in one stack.</p></div><ul class=\"ds-service-list\"><li>frontend</li><li>backend</li><li>cms integration</li><li>custom sites</li><li>web maintenance</li></ul><div class=\"ds-service-panel\"><span>your-project.com</span><strong>web development</strong><em>frontend · cms · api</em></div></div>",
-      "css": ".ds-service { display: grid; grid-template-columns: 1fr 5fr 3fr 3fr; border-top: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); border-bottom: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); min-height: 300px; color: var(--ink); font-family: \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; } .ds-service-index { padding: 1rem; opacity: 0.6; font: 700 0.65rem/1.4 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; } .ds-service-main { display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; border-left: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); border-right: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); padding: 1rem; } .ds-service-main h3 { margin: 0; font: 700 3rem/0.95 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.06em; } .ds-service-main p { margin: 0; max-width: 34ch; color: var(--muted, color-mix(in srgb, var(--ink) 80%, var(--surface))); font-size: 1rem; line-height: 1.6; } .ds-service-list { display: flex; flex-direction: column; justify-content: center; gap: 0.375rem; margin: 0; border-right: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); padding: 1rem; list-style: none; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; } .ds-service-panel { display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; background: var(--ink); color: var(--surface); padding: 1.25rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.6rem; } .ds-service-panel strong { font: 700 1.5rem/1 \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.04em; } .ds-service-panel em { font-style: normal; opacity: 0.7; letter-spacing: 0.12em; text-transform: uppercase; }"
-    },
-    {
-      "name": "Work Frame",
-      "kind": "card",
-      "refersTo": "work-frame",
-      "description": "The framed product screen that floats inside a work, with its own dark palette.",
-      "html": "<div class=\"ds-work\"><div class=\"ds-work-bar\"><span></span><span></span><span></span><b>nexo.app</b></div><div class=\"ds-work-screen\"><strong>Everything in one place</strong><p>Your files, your devices, one account</p></div></div>",
-      "css": ".ds-work { overflow: hidden; border: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); background: #141618; color: #b2c7ab; box-shadow: 0 24px 60px -28px rgb(0 0 0 / 0.6); font-family: \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; } .ds-work-bar { display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid #303639; background: #1e2226; padding: 0.5rem 0.75rem; } .ds-work-bar span { width: 0.625rem; height: 0.625rem; border-radius: 999px; background: #ef6f5c; opacity: 0.85; } .ds-work-bar span:nth-child(2) { background: #f0a63c; opacity: 0.5; } .ds-work-bar span:nth-child(3) { background: #7bc96f; opacity: 0.25; } .ds-work-bar b { flex: 1; color: #8b9390; font: 400 0.6rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0.06em; } .ds-work-screen { aspect-ratio: 8 / 5; padding: 1.5rem; } .ds-work-screen strong { display: block; font-size: 2rem; line-height: 0.95; letter-spacing: -0.05em; } .ds-work-screen p { margin-top: 0.75rem; color: #8b9390; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }"
-    },
-    {
-      "name": "Stat Cell",
-      "kind": "custom",
-      "refersTo": "label",
-      "description": "One cell of the developer stat strip.",
-      "html": "<div class=\"ds-stat\"><strong>13</strong><span>public repos</span></div>",
-      "css": ".ds-stat { border-right: 1px solid var(--rule-strong, color-mix(in oklab, var(--ink) 60%, transparent)); padding: 1rem; color: var(--ink); font-family: \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif; } .ds-stat strong { display: block; font-size: 2rem; font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; } .ds-stat span { display: block; margin-top: 0.25rem; color: var(--muted, color-mix(in srgb, var(--ink) 80%, var(--surface))); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }"
+      "name": "Project Link Row",
+      "kind": "input",
+      "refersTo": "button",
+      "description": "The link row of a project window: hairline card, accent on hover, mono label inside.",
+      "html": "<a class=\"ds-link-row\" href=\"#\"><span class=\"ds-label\">repository</span>github.com/Ulises-Perez/orbi</a>",
+      "css": ".ds-link-row { display: flex; align-items: center; gap: 0.5rem; border: 1px solid var(--line); border-radius: 10px; padding: 0.55rem 0.75rem; font-family: var(--font-sans, sans-serif); font-size: 0.8rem; text-decoration: none; color: var(--ink); transition: border-color 180ms cubic-bezier(0.22, 1, 0.36, 1); }\n.ds-link-row:hover { border-color: var(--accent); }\n.ds-link-row .ds-label { flex: none; }"
     }
   ],
   "narrative": {
-    "northStar": "The Ink & Sage Ledger",
-    "overview": "An editorial portfolio built like a ledger: one ink on one paper, a 12-column page, and hairline rules that record where every block begins and ends. The type does the loud work while the interface stays quiet. The palette never gains a third color; light and dark are the same pair inverted, and the only other colors live inside the drawn product screens of the works. Square corners, 1px rules and flat surfaces keep the page close to a printed sheet. The work leads: the hero is the name and the portrait, the works take the full screen, the services take the full width, and the contact section and footer close without repeating what has been said.",
+    "northStar": "The Precision Orbital Instrument.",
+    "overview": "Orbi OS is a small desktop environment — a drawn orbital field, an application dock, windows that move — that carries a working developer portfolio inside it. The visitor is not scrolling a page; they are opening applications.\n\nThe thesis the build holds itself to: the desktop is a precision orbital instrument — one luminous body at the focus of one drawn trajectory — refusing the space-UI default of scattered stars and neon gradients. The proportion: 70% professional work, 20% exploration, 10% experiment. The window manager is the stage, never the subject. If an interaction does not help someone read the work, it does not ship.\n\nThe first viewport is the whole thesis in one frame: a full-bleed orbital field; the emblem centred at ~62vw with the orbit crossing the sphere; orbiOS thin and wide under it; \"— Desktop Environment —\" beneath; project apps filed in the left column; the glass dock at the foot; the status pill top right.",
     "keyCharacteristics": [
-      "One ink/surface pair, inverted for dark mode",
-      "4/12 columns on mobile, 12 on desktop, 10-column inset reading frame",
-      "Oversized Space Grotesk display type with tight tracking",
-      "Uppercase micro-labels at 0.65–0.7rem and 0.18em tracking",
-      "Full-bleed works and service rows; hairline rules elsewhere",
-      "Square corners; only the works traffic lights are round",
-      "Drawn product screens instead of stock imagery"
+      "Obsidian field, blue-silver volumetric light, hairline trajectories, a rim-lit sphere, ultra-thin tracked type, one signal-green status.",
+      "Two themes inverted on one set of variables; the emblem carries its own second lighting of the same palette.",
+      "One mark everywhere — \"the apogee\": a core at the orbit's focus, a tilted orbit in two arcs, one accent satellite. Drawn in currentColor so both themes get it for free.",
+      "One distant trajectory crosses the emblem's sphere on purpose: a 1px hairline at 0.22 opacity, rotated 14°, breaking the silhouette so the diagram reads through the body.",
+      "Hairline borders instead of shadows; one soft shadow under a window, the dock, and the menus.",
+      "Radii 6–18px, pills for chips. Motion 180–320ms on interactions; slow ambient clocks from 8s to 131s; nothing at all under prefers-reduced-motion.",
+      "Geist for the interface, Geist Mono for labels, metadata, terminals and code.",
+      "Every number comes from src/data/github.json or src/data/site.config.ts."
     ],
     "rules": [
       {
-        "name": "The Two-Ink Rule",
-        "body": "Every color in the interface is the ink, the surface, or a mix of the two. The only other colors allowed are inside a drawn product screen, where they belong to that product.",
+        "name": "The One Accent Rule",
+        "body": "The accent says \"this is active\". It never fills a large region, and it never competes with the content of an application.",
         "section": "colors"
       },
       {
-        "name": "The One Display Rule",
-        "body": "One oversized display word per section. It names the section; the body copy and labels never compete with it.",
-        "section": "typography"
+        "name": "The Glow Rule",
+        "body": "A glow marks a light source or a live state — the emblem's halo, the signal dot, the open-app dot, the boot bar — never a surface, never text, never a border at rest.",
+        "section": "colors"
       },
       {
-        "name": "The Flat-By-Default Rule",
-        "body": "A surface is flat until it is a product screen. If a block needs to stand out, invert it; do not add a shadow.",
-        "section": "elevation"
+        "name": "The Tracking Rule",
+        "body": "The wordmark is the one sans line allowed wide tracking; every other wide-tracked line is mono. Titles carry negative tracking instead. One element never carries both.",
+        "section": "typography"
       }
     ],
     "dos": [
-      "Do keep the palette to the ink/surface pair and their mixes; the works' product screens are the only exception.",
-      "Do use 1px hairline rules to hold the grid; use strong hairline for controls and section edges.",
-      "Do keep corners square and surfaces flat.",
-      "Do set labels in uppercase at 0.65–0.7rem with 0.18em tracking.",
-      "Do let the works and the service rows break the inset frame to the full width.",
-      "Do respect prefers-reduced-motion: no marquee, no entrance travel, no theme travel, no label roll.",
-      "Do say each thing once; the section list is in the header/menu, the contact links in the footer/menu."
+      "Do keep a window's state in the manager and its content in the app.",
+      "Do seat a new window inside the desktop; never let it open off-screen.",
+      "Do give an address to what a visitor might send: #/projects/<name> opens the system at that project.",
+      "Do keep the accent for active state and the signal for live state.",
+      "Do draw the mark from Mark and the scene from Emblem, never a second SVG or a glyph stand-in.",
+      "Do tune the boot by BOOT_MS and the project load by PROJECT_LOAD_MS, not by editing the beats.",
+      "Do keep the trajectories hairlines (≤12% ink or accent) and the stars few and placed.",
+      "Do keep every sequence cancellable — the boot skips on input, the terminal lands on the first wheel, key or tap.",
+      "Do keep the parallax to a few pixels across its three depths.",
+      "Do keep the no-script document in step with the applications."
     ],
     "donts": [
-      "Don't add a second accent color, gradients or decorative glows to the chrome.",
-      "Don't round cards, buttons or inputs; the traffic lights of the works frame are the only circles.",
-      "Don't put a shadow on a card, a button or a section; invert the block instead.",
-      "Don't repeat contact details in the contact section, the footer and the menu.",
-      "Don't invent clients, testimonials, metrics or case studies; the evidence is the public GitHub account and the site's own copy.",
-      "Don't make the interface the subject; the work, the type and the grid are."
+      "Don't scatter stars, run neon gradients, or take the space-UI default: one luminous body at the focus of one drawn trajectory is the whole thesis.",
+      "Don't put a glow on anything that is not a light source or a live state.",
+      "Don't add a third accent, or let the accent fill a large region.",
+      "Don't animate the wordmark's tracking outside the boot, or move the welcome lockup: windows cover it, never shift it.",
+      "Don't copy Windows, macOS or a Linux desktop: the shell has its own status pill, its own dock and its own orbital field.",
+      "Don't invent metrics, uptime, counters or experience. The numbers are the committed snapshot.",
+      "Don't let the system be the subject: the windows are where the work is.",
+      "Don't ship an interaction that does not help the work be read."
     ]
   }
 }

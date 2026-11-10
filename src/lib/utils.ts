@@ -1,7 +1,3 @@
-export function cn(...classes: Array<string | false | null | undefined>): string {
-  return classes.filter(Boolean).join(" ");
-}
-
 /** Formats an ISO date as "MMM YYYY" without pulling in a date library. */
 export function formatMonth(value: string): string {
   const date = new Date(value);

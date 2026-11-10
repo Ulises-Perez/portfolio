@@ -111,21 +111,13 @@ async function main() {
 
     repos.push({
       name: repo.name,
-      description: repo.description ?? "",
       url: repo.html_url,
-      homepage: repo.homepage ?? "",
       language: repo.language ?? "",
-      languages: Object.fromEntries(
-        Object.entries(keptLanguages).sort((a, b) => b[1] - a[1]),
-      ),
+      // The per-repository map feeds the account-wide aggregate and then has
+      // no reader, so it stays in this run instead of the snapshot.
+      languages: keptLanguages,
       bytes,
       stars: repo.stargazers_count,
-      forks: repo.forks_count,
-      topics: repo.topics ?? [],
-      fork: repo.fork,
-      archived: repo.archived,
-      license: repo.license?.spdx_id ?? "",
-      createdAt: repo.created_at,
       pushedAt: repo.pushed_at,
       featured: config.featured.includes(repo.name),
       // The snapshot carries the one line that describes the project, not the
@@ -137,6 +129,22 @@ async function main() {
 
   const sorted = sortRepos(repos);
   const languages = aggregateLanguages(sorted);
+
+  // The page reads eight fields of a repository. The rest of what the API
+  // returns is aggregated above or never read at all, so it does not travel
+  // to the browser inside the snapshot.
+  const slim = sorted.map(
+    ({ name, url, language, bytes, stars, pushedAt, featured, summary }) => ({
+      name,
+      url,
+      language,
+      bytes,
+      stars,
+      pushedAt,
+      featured,
+      summary,
+    }),
+  );
 
   const snapshot = {
     generatedAt: new Date().toISOString(),
@@ -154,7 +162,7 @@ async function main() {
       createdAt: profile.created_at,
     },
     languages,
-    repos: sorted,
+    repos: slim,
   };
 
   mkdirSync(dirname(outputPath), { recursive: true });

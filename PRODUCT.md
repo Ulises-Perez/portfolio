@@ -42,9 +42,9 @@ The portfolio is generated from the developer's actual GitHub account: a committ
 
 - The name is Deus; the GitHub handle is Ulises-Perez.
 - The voice is English, lowercase in labels and headings, direct and unhyped. It says what can be hired and what was built without marketing inflation.
-- The visual world is inspired by mijobello.com: one ink/surface color pair that inverts with the theme, hairline rules, Space Grotesk, square corners, oversized display type.
+- The visual world is Orbi OS: a precision orbital instrument. Obsidian field, blue-silver volumetric light, hairline trajectories, a rim-lit sphere, ultra-thin tracked type (Geist and Geist Mono), one signal-green status. Dark and light themes re-light the same field without changing the identity.
 - The GitHub account is the source of truth for work and technologies. The site's own copy is the single voice that describes the work; READMEs only fill gaps.
-- The footer carries the ways out (GitHub, email, top); the contact section is an invitation, not a second list of the same details.
+- The ways out are the Connect app, the top bar's GitHub door and the Contact section; the contact section is an invitation, not a second list of the same details.
 
 ## Evidence on Hand
 
@@ -66,5 +66,5 @@ The portfolio is generated from the developer's actual GitHub account: a committ
 
 - Skip link, one `h1`, labelled sections and a visible focus ring on every interactive element.
 - Muted text uses a dedicated color mix instead of opacity, keeping the smallest labels above WCAG AA in both themes.
-- `prefers-reduced-motion` disables the marquee, the entrance animations, the smooth scroll, the theme travel and the label rolls; the works stay in place and the frame drops its tilt.
+- `prefers-reduced-motion` collapses every ambient animation: the orbital travellers and the star twinkle stop, the emblem sits at rest, the cursor parallax releases, and the boot opens on its finished frame.
 - The works are reachable and navigable with the keyboard; the menu takes focus when it opens and returns it on `Escape`.
