@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://ulises-perez.github.io/portfolio/sitemap.xml
